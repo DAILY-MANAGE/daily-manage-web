@@ -1,9 +1,18 @@
-import { Button } from "./components/button/button";
+
+"use client"
+import { useState } from 'react'
+import LoginHandler from './hooks/LoginHandler';
+import { Login } from './pages/login/page';
+import { Home } from './pages/home/page';
 
 export default function Page() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Página Default
-    </main>
-  );
+  const [userLogged, setUserLogged] = useState<boolean>(() => getIsLogged())
+
+  // Pegar o valor de login do serviço de login e autenticação.
+  function getIsLogged() : boolean {
+    const loggedIn = LoginHandler.hasUserTokenInCache();
+    return loggedIn;
+  }
+
+  return (!userLogged ? <Login /> : <Home />);
 }
