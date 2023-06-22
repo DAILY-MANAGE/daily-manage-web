@@ -1,7 +1,10 @@
 import './globals.scss';
 import { Inter } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin']
+});
 
 export const metadata = {
   title: 'Daily Manage',
@@ -15,9 +18,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <header>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </header>
       <body
         className={`${inter.className} bg-background dark:bg-background-dark`}
       >

@@ -41,27 +41,27 @@ module.exports = {
       current: 'currentColor',
       'dark': {
         DEFAULT: '#5B5B5B',
-        text: '#F3F3F3',
+        text: '#ffffff',
         border: '#8F8F8F',
         hover: '#ffffff',
         100: {
           DEFAULT: '#C5C5C5',
-          text: '#F3F3F3',
+          text: '#ffffff',
           hover: '#ffffff',
         },
         300: {
           DEFAULT: '#8F8F8F',
-          text: '#F3F3F3',
+          text: '#ffffff',
           hover: '#ffffff',
         },
         700: {
           DEFAULT: '#242424',
-          text: '#F3F3F3',
+          text: '#ffffff',
           hover: '#ffffff',
         },
         900: {
           DEFAULT: '#121212',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
       },
       'light': {
@@ -107,67 +107,67 @@ module.exports = {
       },
       'secondary': {
         DEFAULT: '#00D4FF',
-        text: '#F3F3F3',
+        text: '#ffffff',
         100: {
           DEFAULT: '#AAF0FF',
           text: '#121212'
         },
         300: {
           DEFAULT: '#55E2FF',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         700: {
           DEFAULT: '#008DAA',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         900: {
           DEFAULT: '#004655',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
       },
       'primary': {
         DEFAULT: '#07C9CA',
-        text: '#F3F3F3',
+        text: '#ffffff',
         100: {
           DEFAULT: '#ACEDED',
           text: '#121212'
         },
         300: {
           DEFAULT: '#59DBDB',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         700: {
           DEFAULT: '#048686',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         900: {
           DEFAULT: '#024343',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
       },
       'success': {
         DEFAULT: '#0EDD9A',
-        text: '#F3F3F3',
+        text: '#ffffff',
         100: {
           DEFAULT: '#AEF3DD',
           text: '#121212'
         },
         300: {
           DEFAULT: '#5EE8BB',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         700: {
           DEFAULT: '#099366',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         900: {
           DEFAULT: '#044933',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
       },
       'danger': {
         DEFAULT: '#F14444',
-        text: '#F3F3F3',
+        text: '#ffffff',
         100: {
           DEFAULT: '#FAC0C0',
           text: '#121212'
@@ -178,11 +178,11 @@ module.exports = {
         },
         700: {
           DEFAULT: '#A02D2D',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         900: {
           DEFAULT: '#501616',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
       },
       'warning': {
@@ -198,11 +198,11 @@ module.exports = {
         },
         700: {
           DEFAULT: '#AA9C28',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
         900: {
           DEFAULT: '#554E14',
-          text: '#F3F3F3'
+          text: '#ffffff'
         },
       },
     },
@@ -221,4 +221,9 @@ module.exports = {
     },
   },
   plugins: [],
+  safelist: [
+    {
+      pattern: /(bg|text|border)-(dark|light|secondary|primary|success|danger|warning|disabled)(|-(100|300|700|900)|text|hover)(|text|hover)/,
+    }
+  ]
 };
