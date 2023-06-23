@@ -218,6 +218,9 @@ module.exports = {
       borderRadius: {
         '4xl': '2rem',
       },
+      backgroundImage: {
+        login: "url('/images/logo_bg_transp_light.png')",
+      }
     },
   },
   plugins: [],
