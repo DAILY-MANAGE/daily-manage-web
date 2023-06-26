@@ -32,7 +32,7 @@ export class authHandler {
 
   async saveTokenInCookies(token: string) {
     // validate token first...
-    const tokenCookie = cookieStore.get(tokenCookieKey);
+    cookieStore.set(tokenCookieKey, token);
   }
 
 }
