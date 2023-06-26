@@ -1,3 +1,4 @@
+"use server"
 import { cookies } from 'next/headers'
 
 const axios = require('axios');
@@ -7,7 +8,7 @@ const requestDomain = 'localhost:8080';
 
 const cookieStore = cookies()
 
-export class authHandler {
+export class AuthHandler {
 
   async hasAuthTokenInCookies(): Promise<boolean> {
     return await cookieStore.has(tokenCookieKey);
@@ -32,7 +33,7 @@ export class authHandler {
 
   async saveTokenInCookies(token: string) {
     // validate token first...
-    cookieStore.set(tokenCookieKey, token);
+    await cookieStore.set(tokenCookieKey, token);
   }
 
 }

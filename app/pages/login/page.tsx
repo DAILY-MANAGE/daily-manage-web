@@ -27,7 +27,7 @@ export function Login() {
             >
               <Link href="/cadastro">Registrar</Link>
             </Button>
-            <p className="font-normal w-full text-center mt-6">Esqueceu a senha? <Link href="/recover"><span className="font-medium underline underline-offset-2">Recuperar Senha</span></Link></p>
+            <p className="font-normal w-full text-center mt-6">Esqueceu a senha? <Link href="/recuperar-senha"><span className="font-medium underline underline-offset-2">Recuperar Senha</span></Link></p>
           </div>
         </div>
         <div className="w-[50vw] md:hidden sm:hidden bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
