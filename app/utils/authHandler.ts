@@ -1,37 +1,38 @@
-import { NextRequest } from 'next/server';
+import { cookies } from 'next/headers'
+
 const axios = require('axios');
 
 const tokenCookieKey = 'login_token';
-const requestDomain = 'localhost://';
+const requestDomain = 'localhost:8080';
+
+const cookieStore = cookies()
 
 export class authHandler {
-  request: NextRequest;
 
-  constructor(request: NextRequest) {
-    this.request = request;
+  async hasAuthTokenInCookies(): Promise<boolean> {
+    return await cookieStore.has(tokenCookieKey);
   }
 
-  async hasAuthTokenInCookies() {
-    let hasAuthToken = false;
-
-    if (!this.request.cookies.has(tokenCookieKey)) {
-      return false;
+  async validateTokenInCookies() {
+    const hasAuthTokenInCookies = await this.hasAuthTokenInCookies();
+    if (!hasAuthTokenInCookies) {
+      return;
     }
 
-    let tokenCookie = this.request.cookies.get(tokenCookieKey);
-    try {
-      const response = await axios.get(
-        requestDomain + '/login/authKeyIsValid',
-        {
-          params: {
-            token: tokenCookie,
-          },
-        });
-      return response.code == 200;
-    } catch (error) {
-      console.error(error);
-    }
-
-    return false;
+    const tokenCookie = cookieStore.get(tokenCookieKey);
+    return await axios.get(
+      requestDomain + '/login/authKeyIsValid',
+      {
+        params: {
+          token: tokenCookie,
+        },
+      }
+    );
   }
+
+  async saveTokenInCookies(token: string) {
+    // validate token first...
+    const tokenCookie = cookieStore.get(tokenCookieKey);
+  }
+
 }

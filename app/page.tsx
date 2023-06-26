@@ -1,18 +1,14 @@
+import { Inicio } from "./pages/inicio/page";
+import { Login } from "./pages/login/page";
+import { authHandler } from "./utils/authHandler";
 
-"use client"
-import { useState } from 'react'
-import LoginHandler from './hooks/LoginHandler';
-import { Login } from './pages/login/page';
-import { Home } from './pages/home/page';
+export default async function Page() {
+  // Route will be handled automatically by the middleware.
 
-export default function Page() {
-  const [userLogged, setUserLogged] = useState<boolean>(() => getIsLogged())
+  async function isLoggedIn() {
+    const auth = new authHandler();
+    return await auth.validateTokenInCookies
 
-  // Pegar o valor de login do serviço de login e autenticação.
-  function getIsLogged() : boolean {
-    const loggedIn = LoginHandler.hasUserTokenInCache();
-    return loggedIn;
   }
-
-  return (!userLogged ? <Login /> : <Home />);
+  return (await isLoggedIn() ? <Inicio /> : <Login />);
 }

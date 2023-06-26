@@ -219,7 +219,7 @@ module.exports = {
         '4xl': '2rem',
       },
       backgroundImage: {
-        login: "url('/images/logo_bg_transp_light.png')",
+        login: "url('https://source.unsplash.com/featured')" //"url('/images/logo_bg_transp_light.png')",
       }
     },
   },
