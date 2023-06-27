@@ -2,8 +2,12 @@ import { Button } from '@/app/components/button';
 import LoginValidation from '@/app/components/login/loginValidation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation'
 
 export function Login() {
+  function redirectTo(route: string) {
+
+  }
   return (
     <>
       <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
@@ -24,8 +28,9 @@ export function Login() {
             <Button
               theme="dark-900"
               size="sm"
+              onClick={() => redirectTo('/registrar')}
             >
-              <Link href="/cadastro">Registrar</Link>
+              Registrar
             </Button>
             <p className="font-normal w-full text-center mt-6">Esqueceu a senha? <Link href="/recuperar-senha"><span className="font-medium underline underline-offset-2">Recuperar Senha</span></Link></p>
           </div>
