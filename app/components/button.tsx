@@ -16,7 +16,7 @@ function getClassesFromTheme(theme: string) {
   return `bg-${theme} text-${theme}-text hover:bg-${theme}-hover`
 }
 
-export function Button({ children, size = 'md', theme = 'primary', customStyle, ...props}: any) {
+export default function Button({ children, size = 'md', theme = 'primary', customStyle, ...props}: any) {
   return (
     <button
       className={`rounded-lg font-medium my-[0.2rem] ${getClassesFromSize(size)} ${getClassesFromTheme(theme)} ${customStyle}`}

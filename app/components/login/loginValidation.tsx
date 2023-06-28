@@ -1,6 +1,7 @@
-import { Input } from '@/app/components/input';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Button } from '@/app/components/button';
+
+import Input from '@/app/components/input';
+import Button from '@/app/components/button';
 import LoginValidationError from './loginValidationError';
 
 export default function LoginValidation() {

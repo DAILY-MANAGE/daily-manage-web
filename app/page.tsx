@@ -1,6 +1,11 @@
 "use client";
-import { Login } from "./pages/login/page";
+import Dashboard from "./(pages)/dashboard/page";
+import Login from "./(pages)/login/page";
 
-export default async function Page() {
-  return <Login />;
+export default function Page() {
+  function getIsLoggedIn(): boolean {
+    return false;
+  }
+
+  return (getIsLoggedIn() ? <Dashboard /> : <Login />);
 }
