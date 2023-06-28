@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './(pages)/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
@@ -16,7 +16,7 @@ module.exports = {
       'lg': {'max': '1023px'},
       // => @media (max-width: 1023px) { ... }
 
-      'md': {'max': '767px'},
+      'md': {'max': '936px'},
       // => @media (max-width: 767px) { ... }
 
       'sm': {'max': '639px'},
@@ -219,7 +219,7 @@ module.exports = {
         '4xl': '2rem',
       },
       backgroundImage: {
-        login: "url('https://source.unsplash.com/featured')" //"url('/images/logo_bg_transp_light.png')",
+        login: "url('https://source.unsplash.com/featured')" //"url('/logo_bg_transp_light.png')",
       }
     },
   },

@@ -1,7 +1,7 @@
-import { Button } from '@/app/components/button';
-import LoginValidation from '@/app/components/login/loginValidation';
-import Image from 'next/image';
 import Link from 'next/link';
+
+import Button from '@/app/components/button';
+import LoginValidation from '@/app/components/login/loginValidation';
 
 export default function RecuperarSenha() {
     return (
