@@ -1,4 +1,4 @@
-export function Inicio() {
+export function Dashboard() {
     return (
         <div>
             Logado.

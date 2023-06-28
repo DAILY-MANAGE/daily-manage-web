@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 
 export function Login() {
   function redirectTo(route: string) {
-
+    redirect(route);
   }
   return (
     <>
@@ -16,8 +16,17 @@ export function Login() {
             <Image
               width={50}
               height={100}
+              src="/images/logo_bg_transp_light.png"
+              alt="Daily Manage Logo"
+              className='inline dark:hidden'
+              style={{ objectFit: "contain" }}
+            />
+            <Image
+              width={50}
+              height={100}
               src="/images/logo_bg_transp_dark.png"
               alt="Daily Manage Logo"
+              className='hidden dark:inline'
               style={{ objectFit: "contain" }}
             />
           </div>

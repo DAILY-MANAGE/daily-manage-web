@@ -8,7 +8,7 @@ const inter = Inter({
 
 export const metadata = {
   title: 'Daily Manage',
-  description: 'Aplicação que auxilia na criação de formulários rotineiros',
+  description: 'Aplicação que auxilia na criação de formulários rotineiros'
 };
 
 export default function RootLayout({
