@@ -1,3 +1,4 @@
+"use client"
 import { Button } from '@/app/components/button';
 import LoginValidation from '@/app/components/login/loginValidation';
 import Image from 'next/image';
@@ -5,9 +6,6 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation'
 
 export function Login() {
-  function redirectTo(route: string) {
-    redirect(route);
-  }
   return (
     <>
       <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
@@ -37,7 +35,7 @@ export function Login() {
             <Button
               theme="dark-900"
               size="sm"
-              onClick={() => redirectTo('/registrar')}
+              onClick={() => redirect('/registrar')}
             >
               Registrar
             </Button>
