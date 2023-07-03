@@ -1,98 +1,137 @@
-"use client";
-import Input from '@/app/components/input';
+'use client';
+
+import Link from 'next/link';
+
+import Button from '@/app/components/Button';
+import Logo from '@/app/components/Logo';
+import { Form } from '@/app/components/Form';
+
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
-export default function Cadastro() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        mode: 'onChange',
-        defaultValues: {
-            username: "",
-            email: "",
-            isAdmin: true,
-            createdAt: "",
-        },
-    });
+interface Login {
+  email: string;
+  password: string;
+  confirmpassword: string;
+}
 
-    return (
-        <form
-            className="flex flex-col mt-10 bg-white px-4 py-5 shadow rounded-lg sm:m-6 sm:p-6 w-full lg:w-3/6 text-gray-600"
-            onSubmit={handleSubmit((d) => console.log(d))}
-        >
-            <div className="flex flex-col mt-4">
-                <label htmlFor="username">Username</label>
-                <Input
-                    id="username"
-                    {...register('username', {
-                        required: 'Username is required',
-                        validate: {
-                            minLength: (v) => v.length >= 5 || 'The username should have at least 5 characters',
-                            matchPattern: (v) => /^[a-zA-Z0-9_]+$/.test(v) || 'Username must contain only letters, numbers and _',
-                        },
-                    })}
-                />
-                {errors.username?.message && (
-                    <small className="block text-danger-600">
-                        {errors.username.message}
-                    </small>
-                )}
-            </div>
+export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmpassword: ''
+    },
+  });
 
-            <div className="flex flex-col mt-4">
-                <label htmlFor="email">Email</label>
-                <Input
-                    id="email"
-                    {...register('email', {
-                        required: 'Email is required',
-                        validate: {
-                            maxLength: (v) => v.length <= 50 || 'The email should have at most 50 characters',
-                            matchPattern: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email address must be a valid address',
-                        },
-                    })}
-                />
-                {errors.email?.message && (
-                    <small className="block text-danger-700">
-                        {errors.email.message}
-                    </small>
-                )}
-            </div>
+  const onSubmit = (data: Login) => {
+    // Fazer request para conferir se já existe, se existir, avisar com toast, se não, avisar sucesso e logar.
+    console.log(data);
+  };
 
-            <div className="mt-4">
-                <label htmlFor="isAdmin">IsAdmin</label>
-                <input
-                    className="ml-2"
-                    id="isAdmin"
-                    type="checkbox"
-                    {...register('isAdmin')}
-                />
-            </div>
+  const router = useRouter();
 
-            <div className="flex flex-col mt-4">
-                <label htmlFor="createdAt">Creation Date</label>
-                <input
-                    className="mt-2 border-solid border-gray-300 border py-2 px-4 w-full rounded focus:outline-none focus:ring focus:ring-purple-500"
-                    id="createdAt"
-                    type="date"
-                    {...register('createdAt', {
-                        required: 'Date is required',
-                    })}
-                />
-                {errors.createdAt?.message && (
-                    <small className="block text-danger-700">
-                        {errors.createdAt.message}
-                    </small>
-                )}
-            </div>
+  return (
+    <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
+              <div className="w-[60vw] md:hidden sm:hidden bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
+      <div className="w-[40vw] h-[100vh] flex flex-col align-center justify-center sm:px-0 md:w-[100vw] sm:w-[80vw] md:px-16 px-32">
+        <div className="w-full flex flex-row align-center justify-start h-[5%]">
+          <Logo width={50} height={100} />
+        </div>
+        <div className="flex flex-col align-center justify-center h-[90%] w-[90%] mx-auto">
+          <h1 className="font-bold text-lg mb-1">Crie sua conta</h1>
+          <p className="text-sm mb-2 text-gray-200">Tenha acesso a plataforma <b>Daily Manage</b> e torne o gerenciamento de formulários mais ágil e prático.</p>
+          <Form.Root onSubmit={handleSubmit(onSubmit)}>
+            <Form.Label label="E-mail" />
+            <Form.Input
+              autoComplete="email"
+              htmlFor="email"
+              error={errors.email}
+              placeholder="Entre com seu e-mail"
+              aria-invalid={errors.email ? 'true' : 'false'}
+              onInvalid={(e: any) => {
+                e.preventDefault();
+              }}
+              {...register('email', {
+                required: 'E-mail é obrigatório',
+                validate: {
+                  matchPattern: (v) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+                    'O endereço de e-mail deve ser válido',
+                },
+              })}
+              type="email"
+              id="email"
+            />
+            <Form.Error message={errors.email?.message} />
 
-            <button
-                className="bg-purple-600 p-3 mt-12 rounded-lg text-white font-medium m-auto w-3/6 hover:opacity-75"
-                type="submit"
-            >
-                Submit
-            </button>
-        </form>
-    );
+            <Form.Label label="Senha" className="mt-2" />
+            <Form.Input
+              htmlFor="password"
+              error={errors.password}
+              placeholder="Entre com sua senha"
+              aria-invalid={errors.password ? 'true' : 'false'}
+              onInvalid={(e: any) => {
+                e.preventDefault();
+              }}
+              {...register('password', {
+                required: 'Senha é obrigatória',
+                maxLength: {
+                  value: 30,
+                  message: 'Número máximo de caractéres é 30',
+                },
+                minLength: {
+                  value: 5,
+                  message: 'Número mínimo de caractéres é 5',
+                },
+              })}
+              type="password"
+              id="password"
+            />
+            <Form.Error message={errors.password?.message} />
+
+            <Form.Label label="Confirmar Senha" className="mt-2" />
+            <Form.Input
+              htmlFor="confirmpassword"
+              error={errors.confirmpassword}
+              placeholder="Confirme a sua senha"
+              aria-invalid={errors.confirmpassword ? 'true' : 'false'}
+              onInvalid={(e: any) => {
+                e.preventDefault();
+              }}
+              {...register('confirmpassword', {
+                required: 'Confirmar Senha é obrigatório',
+                validate: (val: string) => {
+                  if (watch('password') != val) {
+                    return "As senhas não são iguais";
+                  }
+                },
+              })}
+              type="password"
+              id="confirmpassword"
+            />
+            <Form.Error message={errors.confirmpassword?.message} />
+
+            <Button theme="dark-900" size="full" type="submit" className="mt-4">
+              Cadastrar
+            </Button>
+          </Form.Root>
+          <div className="font-normal w-full text-center mt-6 flex justify-center">
+            <p className="mr-1">Já possui uma conta? </p>
+            <Link href="/login">
+              <span className="font-medium underline underline-offset-2">
+                Fazer Login
+              </span>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

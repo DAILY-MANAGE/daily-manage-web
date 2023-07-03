@@ -1,3 +1,4 @@
+import { ToastContainer } from 'react-toastify';
 import './globals.scss';
 import { Inter } from 'next/font/google';
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-light-100 dark:bg-dark-900`}
       >
+        <ToastContainer icon={true} />
         {children}
       </body>
     </html>
