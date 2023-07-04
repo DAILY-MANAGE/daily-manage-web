@@ -4,7 +4,7 @@ import Link from 'next/link';
 interface LogoProps {
   width: number;
   height: number;
-  specific: string | null;
+  specific?: string | null;
 }
 
 export default function Logo({

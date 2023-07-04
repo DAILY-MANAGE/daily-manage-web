@@ -32,7 +32,7 @@ export default function Button({
   }
 
   const buttonClasses = twMerge(
-    'rounded-lg font-medium my-[0.2rem]',
+    'rounded-lg font-medium my-[0.2rem] text-center',
     getClassesFromSize(size),
     getClassesFromTheme(theme),
     className

@@ -1,6 +1,6 @@
-import { ToastContainer } from 'react-toastify';
 import './globals.scss';
 import { Inter } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata = {
   title: 'Daily Manage',
-  description: 'Aplicação que auxilia na criação de formulários rotineiros'
+  description: 'Aplicação que auxilia na criação de formulários rotineiros',
 };
 
 export default function RootLayout({

@@ -84,7 +84,7 @@ export default function Login() {
         </div>
         <div className="flex flex-col align-center justify-center h-[90%] w-[90%] mx-auto">
           <h1 className="font-bold text-lg mb-1">Bem-vindo de volta!</h1>
-          <p className="text-sm mb-2 text-gray-200">Entre na sua conta</p>
+          <p className="text-sm mb-2 text-gray-900">Entre na sua conta</p>
           <Form.Root onSubmit={handleSubmit(onSubmit)}>
             <Form.Label label="E-mail" />
             <Form.Input

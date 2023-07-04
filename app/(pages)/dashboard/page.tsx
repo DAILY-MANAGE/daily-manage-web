@@ -1,4 +1,4 @@
-import Navbar from '@/app/components/Navbar';
+import CustomNavbar from '@/app/components/CustomNavbar';
 import { Metadata, ResolvingMetadata } from 'next'
  
 type Props = {
@@ -15,7 +15,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 export default function Dashboard() {
   return (
     <div>
-      <Navbar />
+      <CustomNavbar />
     </div>
   );
 }

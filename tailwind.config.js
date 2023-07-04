@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./node_modules/flowbite-react/**/*.js",
     './(pages)/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -17,11 +18,12 @@ module.exports = {
       'lg': {'max': '1023px'},
       // => @media (max-width: 1023px) { ... }
 
-      'md': {'max': '936px'},
+      'md': {'max': '767px'}, //936
       // => @media (max-width: 767px) { ... }
 
       'sm': {'max': '639px'},
       // => @media (max-width: 639px) { ... }
+      
       '2xli': {'min': '1535px'},
       // => @media (max-width: 1535px) { ... }
 
@@ -824,7 +826,9 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require("flowbite/plugin")
+  ],
   safelist: [
     {
       // Temas Custom: 100|300|700|900
