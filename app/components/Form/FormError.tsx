@@ -12,6 +12,6 @@ export default function PreFormError({ message }: LoginValidationErrorProps) {
       <small className="block font-medium p-1 px-0 text-danger-700">
         {message}
       </small>
-    )
+    ) || <></>
   );
 }

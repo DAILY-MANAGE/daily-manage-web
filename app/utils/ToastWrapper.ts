@@ -19,7 +19,18 @@ runColorMode((isDarkMode: boolean) => {
   isCurrentlyDarkMode = isDarkMode;
 });
 
-const createToast = (type: keyof typeof toast) => (message: string, options: ToastOptions) => {
+const defaultToastOptions: ToastOptions = {
+  position: 'top-right',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'light',
+};
+
+const createToast = (type: keyof typeof toast) => (message: string, options: ToastOptions = defaultToastOptions) => {
   options.theme = isCurrentlyDarkMode ? 'dark' : 'light';
   (toast as any)[type](message, options);
 };
