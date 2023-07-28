@@ -1,33 +1,35 @@
-import { Metadata } from "next"
-import Image from "next/image"
+import { Metadata } from 'next';
+import Image from 'next/image';
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CalendarDateRangePicker } from '../../components/Dashboard/date-range-picker';
+import { MainNav } from '../../components/Dashboard/main-nav';
+import { Overview } from '../../components/Dashboard/overview';
+import { RecentFills } from '../../components/Dashboard/recent-fills';
+import { Search } from '../../components/Dashboard/search';
+import TeamSwitcher from '../../components/Dashboard/team-switcher';
+import { UserNav } from '../../components/Dashboard/user-nav';
+import { RxDownload } from 'react-icons/rx';
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { CalendarDateRangePicker } from "../../components/Dashboard/date-range-picker"
-import { MainNav } from "../../components/Dashboard/main-nav"
-import { Overview } from "../../components/Dashboard/overview"
-import { RecentFills } from "../../components/Dashboard/recent-fills"
-import { Search } from "../../components/Dashboard/search"
-import TeamSwitcher from "../../components/Dashboard/team-switcher"
-import { UserNav } from "../../components/Dashboard/user-nav"
-import { RxDownload } from "react-icons/rx"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Example dashboard app using the components.",
-}
+  title: 'Dashboard',
+  description: 'Example dashboard app using the components.',
+};
 
 export default function DashboardPage() {
   return (
@@ -64,7 +66,9 @@ export default function DashboardPage() {
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
               <CalendarDateRangePicker />
-              <Button className="border flex items-center justify-center gap-2">Baixar CSV <RxDownload className="w-4 h-4"/></Button>
+              <Button className="border flex items-center justify-center gap-2">
+                Baixar CSV <RxDownload className="w-4 h-4" />
+              </Button>
             </div>
           </div>
           <Tabs defaultValue="overview" className="space-y-4">
@@ -110,8 +114,19 @@ export default function DashboardPage() {
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Geral</CardTitle>
+                  <CardHeader className="flex justify-between flex-row">
+                    <CardTitle className='leading-none my-auto'>Geral</CardTitle>
+                    <div className="w-1/2 h-full flex justify-end">
+                      <Select>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Todos" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Todos" className='bg-white'>Todos</SelectItem>
+                          <SelectItem value="dark" className='bg-white'>Turbina</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </CardHeader>
                   <CardContent className="pl-2">
                     <Overview />
@@ -134,5 +149,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

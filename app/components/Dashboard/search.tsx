@@ -1,13 +1,9 @@
-import { Input } from "@/components/ui/input"
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator } from '@/components/ui/command';
 
 export function Search() {
   return (
     <div>
-      <Input
-        type="search"
-        placeholder="Search..."
-        className="md:w-[100px] lg:w-[300px]"
-      />
+
     </div>
-  )
+  );
 }
