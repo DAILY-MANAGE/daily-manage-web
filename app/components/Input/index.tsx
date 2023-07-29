@@ -13,11 +13,9 @@ function PreRefInput({ ...props }: InputProps, ref: any) {
     <input
       ref={ref}
       {...props}
-      className={
-        `border-2 rounded-lg p-2 px-3 w-full focus:outline-none focus:ring focus:ring-primary-300 ${
-          props.error ? 'border-pink-800 focus:ring-red-300' : 'border-stone-200'
-        } ${props.className}`
-      }
+      className={`border-2 rounded-lg p-2 px-3 w-full focus:outline-none focus:ring focus:ring-primary-300 ${
+        props.error ? 'border-pink-800 focus:ring-red-300' : 'border-stone-200'
+      } ${props.className}`}
     />
   );
 }

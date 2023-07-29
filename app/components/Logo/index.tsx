@@ -21,7 +21,7 @@ export default function Logo({
             height={height}
             src="/logo_bg_transp_dark.png"
             alt="Daily Manage Logo"
-            className={specific == null ? "inline dark:hidden" : ''}
+            className={specific == null ? 'inline dark:hidden' : ''}
             style={{ objectFit: 'contain' }}
           />
         ) : (
@@ -33,7 +33,7 @@ export default function Logo({
             height={height}
             src="/logo_bg_transp_light.png"
             alt="Daily Manage Logo"
-            className={specific == null ? "hidden dark:inline" : ''}
+            className={specific == null ? 'hidden dark:inline' : ''}
             style={{ objectFit: 'contain' }}
           />
         ) : (

@@ -1,14 +1,13 @@
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers';
 
 const axios = require('axios');
 
 const tokenCookieKey = 'login_token';
 const requestDomain = 'localhost:8080';
 
-const cookieStore = cookies()
+const cookieStore = cookies();
 
 export class AuthHandler {
-
   async hasAuthTokenInCookies(): Promise<boolean> {
     return await cookieStore.has(tokenCookieKey);
   }
@@ -20,19 +19,15 @@ export class AuthHandler {
     }
 
     const tokenCookie = cookieStore.get(tokenCookieKey);
-    return await axios.get(
-      requestDomain + '/login/authKeyIsValid',
-      {
-        params: {
-          token: tokenCookie,
-        },
-      }
-    );
+    return await axios.get(requestDomain + '/login/authKeyIsValid', {
+      params: {
+        token: tokenCookie,
+      },
+    });
   }
 
   async saveTokenInCookies(token: string) {
     // validate token first...
     await cookieStore.set(tokenCookieKey, token);
   }
-
 }

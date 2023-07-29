@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { ButtonHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -16,13 +16,12 @@ export default function Button({
   className,
   ...rest
 }: ButtonProps) {
-  
   const getClassesFromSize = (size: string) => {
     const sizeMap: Record<string, string> = {
-      sm: "h-[2.5rem]",
-      md: "h-[3rem]",
-      lg: "h-[6rem]",
-      full: "w-full h-[2.5rem]",
+      sm: 'h-[2.5rem]',
+      md: 'h-[3rem]',
+      lg: 'h-[6rem]',
+      full: 'w-full h-[2.5rem]',
     };
     return sizeMap[size] || sizeMap.md;
   };
