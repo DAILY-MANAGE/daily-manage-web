@@ -16,12 +16,11 @@ module.exports = {
       },
     },
   },
-
   plugins: [require('tailwindcss-animate')],
-  /*safelist: [
+  safelist: [
     {
       // Temas Custom: 100|300|700|900
       pattern: /(bg|text|border)-(dark|light|secondary|primary|success|danger|warning|disabled|red|pink|purple|indigo|blue|light-blue|cyan|teal|emerald|green|lime|yellow|amber|orange|red|rose)(|-(100|200|300|400|500|600|700|800|900)|text|hover)(|text|hover)/,
     }
-  ]*/
+  ]
 };

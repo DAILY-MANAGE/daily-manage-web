@@ -10,11 +10,10 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
-  return {
-    title: 'Formulários | Daily Manage',
-  };
-}
+export const metadata: Metadata = {
+  title: 'Formulários | Daily Manage',
+  description: 'Lista de formulários criados.',
+};
 
 export default function Formularios() {
   const [ id, setId ] = useState(1);
