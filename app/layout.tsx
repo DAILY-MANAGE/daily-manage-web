@@ -1,6 +1,7 @@
 import './globals.scss';
 import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
+import { ToastWrapper } from './utils/ToastWrapper';
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
@@ -17,6 +18,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  if (typeof window !== "undefined") {
+    ToastWrapper.setupWindow(window);
+  }
   return (
     <html lang="pt-br">
       <body className={`${inter.className} bg-light-100 dark:bg-dark-900`}>

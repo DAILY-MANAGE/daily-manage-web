@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
+import NavLink from "./nav-link"
 
 export function MainNav({
   className,
@@ -11,18 +12,16 @@ export function MainNav({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      <Link
+      <NavLink
         href="/dashboard"
-        className="text-sm font-medium transition-colors hover:text-primary rounded bg-zinc-50 p-2"
       >
         Dashboard
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         href="/formularios"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Formulários
-      </Link>
+      </NavLink>
     </nav>
   )
 }
