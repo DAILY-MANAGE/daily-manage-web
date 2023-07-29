@@ -1,48 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./node_modules/flowbite-react/**/*.js",
+    './node_modules/flowbite-react/**/*.js',
     './(pages)/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   darkMode: 'class',
   theme: {
-    screens: {
-      '2xl': {'max': '1535px'},
-      // => @media (max-width: 1535px) { ... }
-
-      'xl': {'max': '1279px'},
-      // => @media (max-width: 1279px) { ... }
-
-      'lg': {'max': '1023px'},
-      // => @media (max-width: 1023px) { ... }
-
-      'md': {'max': '767px'}, //936
-      // => @media (max-width: 767px) { ... }
-
-      'sm': {'max': '639px'},
-      // => @media (max-width: 639px) { ... }
-      
-      '2xli': {'min': '1535px'},
-      // => @media (max-width: 1535px) { ... }
-
-      'xli': {'min': '1279px'},
-      // => @media (max-width: 1279px) { ... }
-
-      'lgi': {'min': '1023px'},
-      // => @media (max-width: 1023px) { ... }
-
-      'mdi': {'min': '767px'},
-      // => @media (max-width: 767px) { ... }
-
-      'smi': {'min': '639px'},
-      // => @media (max-width: 639px) { ... }
-    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      'dark': {
+      dark: {
         DEFAULT: '#5B5B5B',
         text: '#ffffff',
         border: '#8F8F8F',
@@ -64,15 +33,15 @@ module.exports = {
         },
         900: {
           DEFAULT: '#121212',
-          text: '#ffffff'
+          text: '#ffffff',
         },
       },
-      'light': {
+      light: {
         DEFAULT: '#F3F3F3',
         text: '#121212',
         100: {
           DEFAULT: '#FFFFFF',
-          text: '#121212'
+          text: '#121212',
         },
         300: {
           DEFAULT: '#FAFAFA',
@@ -81,131 +50,131 @@ module.exports = {
         },
         700: {
           DEFAULT: '#EBEBEB',
-          text: '#121212'
+          text: '#121212',
         },
         900: {
           DEFAULT: '#DBDBDB',
-          text: '#121212'
+          text: '#121212',
         },
       },
-      'disabled': {
+      disabled: {
         DEFAULT: '#8F8F8F',
         text: '#5B5B5B',
         100: {
           DEFAULT: '#8F8F8F',
-          text: '#5B5B5B'
+          text: '#5B5B5B',
         },
         300: {
           DEFAULT: '#8F8F8F',
-          text: '#5B5B5B'
+          text: '#5B5B5B',
         },
         700: {
           DEFAULT: '#8F8F8F',
-          text: '#5B5B5B'
+          text: '#5B5B5B',
         },
         900: {
           DEFAULT: '#8F8F8F',
-          text: '#5B5B5B'
+          text: '#5B5B5B',
         },
       },
-      'secondary': {
+      secondary: {
         DEFAULT: '#00D4FF',
         text: '#ffffff',
         100: {
           DEFAULT: '#AAF0FF',
-          text: '#121212'
+          text: '#121212',
         },
         300: {
           DEFAULT: '#55E2FF',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         700: {
           DEFAULT: '#008DAA',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         900: {
           DEFAULT: '#004655',
-          text: '#ffffff'
+          text: '#ffffff',
         },
       },
-      'primary': {
+      primary: {
         DEFAULT: '#07C9CA',
         text: '#ffffff',
         100: {
           DEFAULT: '#ACEDED',
-          text: '#121212'
+          text: '#121212',
         },
         300: {
           DEFAULT: '#59DBDB',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         700: {
           DEFAULT: '#048686',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         900: {
           DEFAULT: '#024343',
-          text: '#ffffff'
+          text: '#ffffff',
         },
       },
-      'success': {
+      success: {
         DEFAULT: '#0EDD9A',
         text: '#ffffff',
         100: {
           DEFAULT: '#AEF3DD',
-          text: '#121212'
+          text: '#121212',
         },
         300: {
           DEFAULT: '#5EE8BB',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         700: {
           DEFAULT: '#099366',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         900: {
           DEFAULT: '#044933',
-          text: '#ffffff'
+          text: '#ffffff',
         },
       },
-      'danger': {
+      danger: {
         DEFAULT: '#F14444',
         text: '#ffffff',
         100: {
           DEFAULT: '#FAC0C0',
-          text: '#121212'
+          text: '#121212',
         },
         300: {
           DEFAULT: '#F58282',
-          text: '#121212'
+          text: '#121212',
         },
         700: {
           DEFAULT: '#A02D2D',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         900: {
           DEFAULT: '#501616',
-          text: '#ffffff'
+          text: '#ffffff',
         },
       },
-      'warning': {
+      warning: {
         DEFAULT: '#FFEB3C',
         text: '#353535',
         100: {
           DEFAULT: '#FFF8BE',
-          text: '#353535'
+          text: '#353535',
         },
         300: {
           DEFAULT: '#FFF17D',
-          text: '#000000'
+          text: '#000000',
         },
         700: {
           DEFAULT: '#AA9C28',
-          text: '#ffffff'
+          text: '#ffffff',
         },
         900: {
           DEFAULT: '#554E14',
-          text: '#ffffff'
+          text: '#ffffff',
         },
       },
       red: {
@@ -603,7 +572,7 @@ module.exports = {
           DEFAULT: '#166534',
           text: '#ffffff',
         },
-         900: {
+        900: {
           DEFAULT: '#14532D',
           text: '#ffffff',
         },
@@ -822,17 +791,17 @@ module.exports = {
         '4xl': '2rem',
       },
       backgroundImage: {
-        login: "url('https://source.unsplash.com/featured')" //"url('/logo_bg_transp_light.png')",
-      }
+        login: "url('https://source.unsplash.com/featured')", //"url('/logo_bg_transp_light.png')",
+        recoverPass: "url('https://images.unsplash.com/photo-1663789669038-ba180c8c155a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1228&q=80')",
+      },
     },
   },
-  plugins: [
-    require("flowbite/plugin")
-  ],
+  plugins: [require('flowbite/plugin')],
   safelist: [
     {
       // Temas Custom: 100|300|700|900
-      pattern: /(bg|text|border)-(dark|light|secondary|primary|success|danger|warning|disabled|red|pink|purple|indigo|blue|light-blue|cyan|teal|emerald|green|lime|yellow|amber|orange|red|rose)(|-(100|200|300|400|500|600|700|800|900)|text|hover)(|text|hover)/,
-    }
-  ]
+      pattern:
+        /(bg|text|border)-(dark|light|secondary|primary|success|danger|warning|disabled|red|pink|purple|indigo|blue|light-blue|cyan|teal|emerald|green|lime|yellow|amber|orange|red|rose)(|-(100|200|300|400|500|600|700|800|900)|text|hover)(|text|hover)/,
+    },
+  ],
 };
