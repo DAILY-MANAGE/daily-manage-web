@@ -19,8 +19,8 @@ interface Login {
 }
 
 interface NewPass {
-  password: string,
-  confirmpassword: string
+  password: string;
+  confirmpassword: string;
 }
 
 type Stage = {
@@ -76,7 +76,7 @@ export default function RecuperarSenha() {
     1: () => (
       <>
         <h1 className="font-bold text-lg mb-1">Esqueceu sua senha?</h1>
-        <p className="text-sm mb-2 text-gray-200">
+        <p className="text-sm mb-2 text-gray-900">
           Sem problemas, iremos te enviar instruções.
         </p>
         <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -112,7 +112,7 @@ export default function RecuperarSenha() {
     2: () => (
       <>
         <h1 className="font-bold text-lg mb-1">Redefinir senha</h1>
-        <p className="text-sm mb-2 text-gray-200">
+        <p className="text-sm mb-2 text-gray-900">
           Enviamos um e-mail para <b>{email}</b>, preencha os campos abaixo com
           o código:
         </p>
@@ -150,7 +150,7 @@ export default function RecuperarSenha() {
     3: () => (
       <>
         <h1 className="font-bold text-lg mb-1">Criar nova senha</h1>
-        <p className="text-sm mb-2 text-gray-200">
+        <p className="text-sm mb-2 text-gray-900">
           A senha deve ter no mínimo 5 caracteres.
         </p>
         <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -181,27 +181,27 @@ export default function RecuperarSenha() {
           <Form.Error message={errors.password?.message} />
 
           <Form.Label label="Confirmar Senha" className="mt-2" />
-            <Form.Input
-              autoComplete="false"
-              htmlFor="confirmpassword"
-              error={errors.confirmpassword}
-              placeholder="Confirme a sua senha"
-              aria-invalid={errors.confirmpassword ? 'true' : 'false'}
-              onInvalid={(e: any) => {
-                e.preventDefault();
-              }}
-              {...register('confirmpassword', {
-                required: true,
-                validate: (val: string) => {
-                  if (watch('password') != val) {
-                    return "As senhas não são iguais";
-                  }
-                },
-              })}
-              type="password"
-              id="confirmpassword"
-            />
-            <Form.Error message={errors.confirmpassword?.message} />
+          <Form.Input
+            autoComplete="false"
+            htmlFor="confirmpassword"
+            error={errors.confirmpassword}
+            placeholder="Confirme a sua senha"
+            aria-invalid={errors.confirmpassword ? 'true' : 'false'}
+            onInvalid={(e: any) => {
+              e.preventDefault();
+            }}
+            {...register('confirmpassword', {
+              required: true,
+              validate: (val: string) => {
+                if (watch('password') != val) {
+                  return 'As senhas não são iguais';
+                }
+              },
+            })}
+            type="password"
+            id="confirmpassword"
+          />
+          <Form.Error message={errors.confirmpassword?.message} />
 
           <Button theme="dark-900" size="full" type="submit" className="mt-4">
             Continuar
@@ -211,9 +211,11 @@ export default function RecuperarSenha() {
     ),
     4: () => (
       <>
-        <h1 className="font-bold text-lg mb-1 w-full text-center">Sua senha foi redefinida com successo!</h1>
+        <h1 className="font-bold text-lg mb-1 w-full text-center">
+          Sua senha foi redefinida com successo!
+        </h1>
         <div className="h-fit flex justify-center align-center text-center w-full text-primary-300 mt-2 font-large">
-        <FaCheck />
+          <FaCheck />
         </div>
       </>
     ),
@@ -222,12 +224,12 @@ export default function RecuperarSenha() {
   return (
     <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
       <div className="w-[40vw] h-[100vh] flex flex-col align-center justify-center sm:px-0 md:w-[100vw] sm:w-[80vw] md:px-16 px-32">
-        <div className="w-full flex flex-row align-center justify-start h-[5%]">
+        <div className="w-full flex flex-row align-center justify-start h-[5%] mt-4">
           <Logo width={50} height={100} />
         </div>
         <div className="flex flex-col align-center justify-center h-[85%] w-[90%] mx-auto">
           {Stages[stage] && Stages[stage]()}
-          <div className="font-normal w-full text-center mt-6 flex justify-center">
+          <div className="font-normal mx-auto w-full p-1.5 px-4 text-center my-[0.2rem] flex justify-center outline outline-1 rounded-lg">
             <Link href="/login">
               <span className="font-medium">
                 <b>&larr;</b> Voltar para Login
@@ -258,7 +260,7 @@ export default function RecuperarSenha() {
           ></div>
         </div>
       </div>
-      <div className="w-[60vw] md:hidden sm:hidden bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
+      <div className="w-[60vw] md:hidden sm:hidden bg-dark h-[100vh] bg-recoverPass bg-cover bg-no-repeat"></div>
     </div>
   );
 }

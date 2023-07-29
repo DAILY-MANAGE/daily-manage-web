@@ -26,7 +26,7 @@ export default function Login() {
     defaultValues: {
       email: '',
       password: '',
-      confirmpassword: ''
+      confirmpassword: '',
     },
   });
 
@@ -39,14 +39,17 @@ export default function Login() {
 
   return (
     <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
-              <div className="w-[60vw] md:hidden sm:hidden bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
+      <div className="w-[60vw] md:hidden sm:hidden bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
       <div className="w-[40vw] h-[100vh] flex flex-col align-center justify-center sm:px-0 md:w-[100vw] sm:w-[80vw] md:px-16 px-32">
         <div className="w-full flex flex-row align-center justify-start h-[5%]">
           <Logo width={50} height={100} />
         </div>
         <div className="flex flex-col align-center justify-center h-[90%] w-[90%] mx-auto">
           <h1 className="font-bold text-lg mb-1">Crie sua conta</h1>
-          <p className="text-sm mb-2 text-gray-200">Tenha acesso a plataforma <b>Daily Manage</b> e torne o gerenciamento de formulários mais ágil e prático.</p>
+          <p className="text-sm mb-2 text-gray-900">
+            Tenha acesso a plataforma <b>Daily Manage</b> e torne o
+            gerenciamento de formulários mais ágil e prático.
+          </p>
           <Form.Root onSubmit={handleSubmit(onSubmit)}>
             <Form.Label label="E-mail" />
             <Form.Input
@@ -75,6 +78,7 @@ export default function Login() {
             <Form.Input
               htmlFor="password"
               error={errors.password}
+              autoComplete='password'
               placeholder="Entre com sua senha"
               aria-invalid={errors.password ? 'true' : 'false'}
               onInvalid={(e: any) => {
@@ -100,6 +104,7 @@ export default function Login() {
             <Form.Input
               htmlFor="confirmpassword"
               error={errors.confirmpassword}
+              autoComplete='confirmpassword'
               placeholder="Confirme a sua senha"
               aria-invalid={errors.confirmpassword ? 'true' : 'false'}
               onInvalid={(e: any) => {
@@ -109,7 +114,7 @@ export default function Login() {
                 required: 'Confirmar Senha é obrigatório',
                 validate: (val: string) => {
                   if (watch('password') != val) {
-                    return "As senhas não são iguais";
+                    return 'As senhas não são iguais';
                   }
                 },
               })}

@@ -32,47 +32,59 @@ export default function Login() {
 
   let loginAttemps = 0;
   const onSubmit = (data: Login) => {
-    console.log(data)
-    loginAttemps += 1
+    console.log(data);
+    loginAttemps += 1;
     if (loginAttemps > 5) {
-      ToastWrapper.warn('Você tentou fazer login muitas vezes! Espere alguns segundos...', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      ToastWrapper.warn(
+        'Você tentou fazer login muitas vezes! Espere alguns segundos...',
+        {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        },
+        window
+      );
       setTimeout(() => {
         loginAttemps = 0;
-      }, 5000)
+      }, 5000);
       return;
     }
     if (data.email == 'admin@admin.com' && data.password == '12345') {
-      ToastWrapper.success('Login realizado com sucesso!', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      ToastWrapper.success(
+        'Login realizado com sucesso!',
+        {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        },
+        window
+      );
       return router.push('/dashboard');
     } else {
-      ToastWrapper.error('Senha ou e-mail incorreto!', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      ToastWrapper.error(
+        'Senha ou e-mail incorreto!',
+        {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        },
+        window
+      );
     }
   };
 

@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
-  subsets: ['latin']
+  subsets: ['latin'],
 });
 
 export const metadata = {
@@ -19,9 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body
-        className={`${inter.className} bg-light-100 dark:bg-dark-900`}
-      >
+      <body className={`${inter.className} bg-light-100 dark:bg-dark-900`}>
         <ToastContainer icon={true} />
         {children}
       </body>
