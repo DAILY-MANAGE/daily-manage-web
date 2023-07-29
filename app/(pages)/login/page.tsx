@@ -7,13 +7,23 @@ import Logo from '@/app/components/Logo';
 import { Form } from '@/app/components/Form';
 
 import { useForm } from 'react-hook-form';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ToastWrapper } from '@/app/utils/ToastWrapper';
+
+import { RxReload } from "react-icons/rx";
+import { useState } from 'react';
 
 interface Login {
   email: string;
   password: string;
-}
+};
+
+const loginFormValues : Login = {
+  email: '',
+  password: '',
+};
+
+const delayTillSubmit = 1000;
 
 export default function Login() {
   const {
@@ -22,70 +32,55 @@ export default function Login() {
     formState: { errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    defaultValues: loginFormValues
   });
+
+  const [loginLoadingDelay, setLoginLoadingDelay] = useState(false)
+  const [cadastroLoadingDelay, setCadastroLoadingDelay] = useState(false)
+
+  const [loginAttempts, setLoginAttempts] = useState(0)
+  const [submitQueue, setSubmitQueue] = useState(0)
 
   const router = useRouter();
 
-  let loginAttemps = 0;
-  const onSubmit = (data: Login) => {
-    console.log(data);
-    loginAttemps += 1;
-    if (loginAttemps > 5) {
-      ToastWrapper.warn(
-        'Você tentou fazer login muitas vezes! Espere alguns segundos...',
-        {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        },
-        window
-      );
-      setTimeout(() => {
-        loginAttemps = 0;
-      }, 5000);
+  function goToCadastro() {
+    setCadastroLoadingDelay(true);
+    router.push('/cadastro');
+    setTimeout(() => {
+      setCadastroLoadingDelay(false);
+    }, 1000)
+  }
+
+  function handleLoginAttemptsQueue() {
+    setSubmitQueue(state => state + 1)
+    const savedQueue = submitQueue;
+    setTimeout(() => {
+      if (submitQueue == savedQueue) {
+        setLoginAttempts(0);
+      }
+    }, 5000)
+  }
+
+  function handleLogin(data: Login) {
+    if (loginAttempts > 5) {
+      ToastWrapper.warn('Você tentou fazer login muitas vezes! Espere alguns segundos...');
       return;
     }
     if (data.email == 'admin@admin.com' && data.password == '12345') {
-      ToastWrapper.success(
-        'Login realizado com sucesso!',
-        {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        },
-        window
-      );
+      ToastWrapper.success('Login realizado com sucesso!');
       return router.push('/dashboard');
-    } else {
-      ToastWrapper.error(
-        'Senha ou e-mail incorreto!',
-        {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        },
-        window
-      );
     }
+    ToastWrapper.error('Senha ou e-mail incorreto!');
+  }
+
+  const onSubmit = (data: Login) => {
+    setLoginAttempts(state => state + 1)
+    setLoginLoadingDelay(true)
+    handleLoginAttemptsQueue();
+    setTimeout(() => {
+      setLoginLoadingDelay(false)
+      handleLogin(data)
+    }, delayTillSubmit);
   };
 
   return (
@@ -125,6 +120,8 @@ export default function Login() {
             <Form.Input
               autoComplete="current-password"
               htmlFor="password"
+              type="password"
+              id="password"
               error={errors.password}
               placeholder="Entre com sua senha"
               aria-invalid={errors.password ? 'true' : 'false'}
@@ -134,23 +131,21 @@ export default function Login() {
               {...register('password', {
                 required: 'Senha é obrigatória',
               })}
-              type="password"
-              id="password"
             />
             <Form.Error message={errors.password?.message} />
 
-            <Button theme="dark-900" size="full" type="submit" className="mt-4">
-              Entrar
+            <Button theme="dark-900" size="full" type="submit" data-loginLoadingDelay={loginLoadingDelay} className="mt-4 flex items-center justify-center gap-2 data-[loginLoadingDelay=true]:opacity-50">
+               { loginLoadingDelay && (<RxReload className='w-4 h-4 animate-spin'/>) } <span>Entrar com E-mail</span>
             </Button>
           </Form.Root>
           <Button
             theme="dark-900"
             size="sm"
-            onClick={() => {
-              router.push('/cadastro');
-            }}
+            data-cadastroLoadingDelay={cadastroLoadingDelay}
+            onClick={goToCadastro}
+            className="flex items-center justify-center gap-2 data-[cadastroLoadingDelay=true]:opacity-50"
           >
-            Cadastrar
+               { cadastroLoadingDelay && (<RxReload className='w-4 h-4 animate-spin'/>) } <span>Cadastrar</span>
           </Button>
           <div className="font-normal w-full text-center mt-6 flex justify-center">
             <p className="mr-1">Esqueceu a senha? </p>
