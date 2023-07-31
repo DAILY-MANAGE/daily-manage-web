@@ -39,8 +39,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
-      <div className="w-[60vw] md:hidden sm:hidden bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
-      <div className="w-[40vw] h-[100vh] flex flex-col align-center justify-center sm:px-0 md:w-[100vw] sm:w-[80vw] md:px-16 px-32">
+      <div className="hidden w-[100vw] h-[100vh] md:flex flex-col align-center justify-center sm:px-0 md:w-[40vw] lg:w-[40vw] md:px-16 px-32">
         <div className="w-full flex flex-row align-center justify-start h-[5%]">
           <Logo width={50} height={100} />
         </div>
@@ -137,6 +136,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <div className="md:w-[60vw] lg:w-[60vw] hidden md:flex lg:flex bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
     </div>
   );
 }

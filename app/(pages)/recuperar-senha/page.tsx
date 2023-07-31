@@ -211,11 +211,10 @@ export default function RecuperarSenha() {
     ),
     4: () => (
       <>
-        <h1 className="font-bold text-lg mb-1 w-full text-center">
-          Sua senha foi redefinida com successo!
+        <h1 className="font-bold text-md mb-1 w-full text-center flex items-center justify-center gap-2">
+          <span>Sua senha foi redefinida com successo!</span> <FaCheck className='text-success w-4 h-4'/>
         </h1>
-        <div className="h-fit flex justify-center align-center text-center w-full text-primary-300 mt-2 font-large">
-          <FaCheck />
+        <div className="h-fit flex justify-center align-center text-center w-full text-primary-300 my-2 font-large">
         </div>
       </>
     ),
@@ -223,7 +222,7 @@ export default function RecuperarSenha() {
 
   return (
     <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
-      <div className="w-[40vw] h-[100vh] flex flex-col align-center justify-center sm:px-0 md:w-[100vw] sm:w-[80vw] md:px-16 px-32">
+      <div className="h-[100vh] flex flex-col align-center justify-center md:w-[40vw] lg:w-[40w] w-[80vw] px-0 lg:px-32 md:px-16">
         <div className="w-full flex flex-row align-center justify-start h-[5%] mt-4">
           <Logo width={50} height={100} />
         </div>
@@ -240,27 +239,27 @@ export default function RecuperarSenha() {
         <div className="w-full flex flex-row h-[5%] justify-center mt-6">
           <div
             className={`rounded-lg ${
-              stage >= 1 ? 'bg-secondary-300' : 'bg-dark-300'
+              stage >= 1 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
           <div
             className={`rounded-lg ${
-              stage >= 2 ? 'bg-secondary-300' : 'bg-dark-300'
+              stage >= 2 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
           <div
             className={`rounded-lg ${
-              stage >= 3 ? 'bg-secondary-300' : 'bg-dark-300'
+              stage >= 3 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
           <div
             className={`rounded-lg ${
-              stage >= 4 ? 'bg-secondary-300' : 'bg-dark-300'
+              stage >= 4 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
         </div>
       </div>
-      <div className="w-[60vw] md:hidden sm:hidden bg-dark h-[100vh] bg-recoverPass bg-cover bg-no-repeat"></div>
+      <div className="w-[60vw] hidden md:flex lg:flex bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
     </div>
   );
 }
