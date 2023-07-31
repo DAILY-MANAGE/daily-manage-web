@@ -13,18 +13,27 @@ import { ToastWrapper } from '@/app/utils/ToastWrapper';
 import { RxReload } from 'react-icons/rx';
 import { useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Metadata } from 'next';
+import { Input } from '@/components/ui/input';
 
 interface Login {
   email: string;
   password: string;
+  rememberSession: boolean;
 }
 
 const loginFormValues: Login = {
   email: '',
   password: '',
+  rememberSession: false,
 };
 
 const delayTillSubmit = 1000;
+
+export const metadata: Metadata = {
+  title: 'Login | Daily Manage',
+  description: 'Faça login para ter acesso ao seus formulários.',
+};
 
 export default function Login() {
   const {
@@ -120,13 +129,14 @@ export default function Login() {
             <Form.Error message={errors.email?.message} />
 
             <Form.Label label="Senha" className="mt-2" />
-            <Form.Input
+            <Input
               autoComplete="current-password"
               htmlFor="password"
               type="password"
               id="password"
               error={errors.password}
               placeholder="Entre com sua senha"
+              className="border-black/90"
               aria-invalid={errors.password ? 'true' : 'false'}
               onInvalid={(e: any) => {
                 e.preventDefault();
@@ -138,7 +148,7 @@ export default function Login() {
             <Form.Error message={errors.password?.message} />
             <div className="flex w-full h-4 flex mt-2 mb-4">
               <div className="w-1/2 h-full flex justify-start items-center gap-2">
-                <Checkbox className="border-2 border-black/20 m-0 rounded my-auto" />
+                <Checkbox className="border border-black/20 m-0 rounded my-auto" />
                 <span className="text-sm my-auto h-full">Lembrar senha</span>
               </div>
               <div className="md:w-1/2 md:flex h-full justify-end items-center gap-2 block">
