@@ -12,6 +12,7 @@ import Button from '@/app/components/Button';
 import Logo from '@/app/components/Logo';
 import { Form } from '@/app/components/Form';
 import ReactCodeInput from 'react-code-input';
+import { Input } from '@/components/ui/input';
 
 interface Login {
   email: string;
@@ -81,12 +82,13 @@ export default function RecuperarSenha() {
         </p>
         <Form.Root onSubmit={handleSubmit(onSubmit)}>
           <Form.Label label="E-mail" />
-          <Form.Input
+          <Input
             autoComplete="email"
             htmlFor="email"
             placeholder="Entre com seu e-mail"
             aria-invalid={errors.email ? 'true' : 'false'}
             error={errors.email}
+            className="shadow"
             onInvalid={(e: any) => {
               e.preventDefault();
             }}
@@ -155,12 +157,13 @@ export default function RecuperarSenha() {
         </p>
         <Form.Root onSubmit={handleSubmit(onSubmit)}>
           <Form.Label label="Senha" className="mt-2" />
-          <Form.Input
+          <Input
             autoComplete="current-password"
             htmlFor="password"
             error={errors.password}
             placeholder="Entre com a nova senha"
             aria-invalid={errors.password ? 'true' : 'false'}
+            className="shadow"
             onInvalid={(e: any) => {
               e.preventDefault();
             }}
@@ -181,12 +184,13 @@ export default function RecuperarSenha() {
           <Form.Error message={errors.password?.message} />
 
           <Form.Label label="Confirmar Senha" className="mt-2" />
-          <Form.Input
+          <Input
             autoComplete="false"
             htmlFor="confirmpassword"
             error={errors.confirmpassword}
             placeholder="Confirme a sua senha"
             aria-invalid={errors.confirmpassword ? 'true' : 'false'}
+            className="shadow"
             onInvalid={(e: any) => {
               e.preventDefault();
             }}
@@ -222,7 +226,7 @@ export default function RecuperarSenha() {
 
   return (
     <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
-      <div className="h-[100vh] flex flex-col align-center justify-center md:w-[40vw] lg:w-[40w] w-[80vw] px-0 lg:px-32 md:px-16">
+      <div className="h-[100vh] flex flex-col align-center justify-center md:w-[30vw] lg:w-[30w] w-[80vw] px-0 lg:px-16 md:px-10">
         <div className="w-full flex flex-row align-center justify-start h-[5%] mt-4">
           <Logo width={50} height={100} />
         </div>
@@ -238,28 +242,28 @@ export default function RecuperarSenha() {
         </div>
         <div className="w-full flex flex-row h-[5%] justify-center mt-6">
           <div
-            className={`rounded-lg ${
+            className={`rounded-lg border border-dark-700/20 ${
               stage >= 1 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
           <div
-            className={`rounded-lg ${
+            className={`rounded-lg border border-dark-700/20 ${
               stage >= 2 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
           <div
-            className={`rounded-lg ${
+            className={`rounded-lg border border-dark-700/20 ${
               stage >= 3 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
           <div
-            className={`rounded-lg ${
+            className={`rounded-lg border border-dark-700/20 ${
               stage >= 4 ? 'bg-success' : 'bg-dark-300'
             } w-[25%] transition-colors h-full pr-2 mr-2 max-h-2`}
           ></div>
         </div>
       </div>
-      <div className="w-[60vw] hidden md:flex lg:flex bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
+      <div className="w-[70vw] hidden bg-light-100 md:flex lg:flex bg-dark h-[100vh] bg-recover bg-cover bg-no-repeat"></div>
     </div>
   );
 }

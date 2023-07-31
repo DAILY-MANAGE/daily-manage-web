@@ -29,6 +29,7 @@ const loginFormValues: Login = {
 };
 
 const delayTillSubmit = 1000;
+const delayTillResetDebounce = 5000;
 
 export const metadata: Metadata = {
   title: 'Login | Daily Manage',
@@ -45,33 +46,28 @@ export default function Login() {
     defaultValues: loginFormValues,
   });
 
-  const [loginLoadingDelay, setLoginLoadingDelay] = useState(false);
-  const [cadastroLoadingDelay, setCadastroLoadingDelay] = useState(false);
-
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [submitQueue, setSubmitQueue] = useState(0);
 
   const router = useRouter();
 
-  function goToCadastro() {
-    setCadastroLoadingDelay(true);
-    router.push('/cadastro');
+  const goToCadastro = () => {
     setTimeout(() => {
-      setCadastroLoadingDelay(false);
-    }, 1000);
+      router.push('/cadastro');
+    }, delayTillSubmit)
   }
 
-  function handleLoginAttemptsQueue() {
+  const handleLoginAttemptsQueue = ()  => {
     setSubmitQueue((state) => state + 1);
     const savedQueue = submitQueue;
     setTimeout(() => {
       if (submitQueue == savedQueue) {
         setLoginAttempts(0);
       }
-    }, 5000);
+    }, delayTillResetDebounce);
   }
 
-  function handleLogin(data: Login) {
+  const handleLogin = (data: Login) => {
     if (loginAttempts > 5) {
       ToastWrapper.warn(
         'Você tentou fazer login muitas vezes! Espere alguns segundos...'
@@ -87,10 +83,8 @@ export default function Login() {
 
   const onSubmit = (data: Login) => {
     setLoginAttempts((state) => state + 1);
-    setLoginLoadingDelay(true);
     handleLoginAttemptsQueue();
     setTimeout(() => {
-      setLoginLoadingDelay(false);
       handleLogin(data);
     }, delayTillSubmit);
   };
@@ -106,12 +100,13 @@ export default function Login() {
           <p className="text-sm mb-2 text-gray-900">Entre na sua conta</p>
           <Form.Root onSubmit={handleSubmit(onSubmit)}>
             <Form.Label label="E-mail" />
-            <Form.Input
+            <Input
               autoComplete="email"
               htmlFor="email"
               error={errors.email}
               placeholder="Entre com seu e-mail"
               aria-invalid={errors.email ? 'true' : 'false'}
+              className="shadow"
               onInvalid={(e: any) => {
                 e.preventDefault();
               }}
@@ -136,7 +131,7 @@ export default function Login() {
               id="password"
               error={errors.password}
               placeholder="Entre com sua senha"
-              className="border-black/90"
+              className="shadow"
               aria-invalid={errors.password ? 'true' : 'false'}
               onInvalid={(e: any) => {
                 e.preventDefault();
@@ -148,8 +143,8 @@ export default function Login() {
             <Form.Error message={errors.password?.message} />
             <div className="flex w-full h-4 flex mt-2 mb-4">
               <div className="w-1/2 h-full flex justify-start items-center gap-2">
-                <Checkbox className="border border-black/20 m-0 rounded my-auto" />
-                <span className="text-sm my-auto h-full">Lembrar senha</span>
+                <Checkbox className="border border-black/20 m-0 rounded my-auto shadow" />
+                <span className="text-sm my-auto h-full leading-[1.1rem]">Lembrar senha</span>
               </div>
               <div className="md:w-1/2 md:flex h-full justify-end items-center gap-2 block">
                 {' '}
@@ -165,30 +160,22 @@ export default function Login() {
               theme="dark-900"
               size="full"
               type="submit"
-              data-loginloadingdelay={loginLoadingDelay}
               className="mt-4 flex items-center justify-center gap-2 data-[loginloadingdelay=true]:opacity-50"
             >
-              {loginLoadingDelay && (
-                <RxReload className="w-4 h-4 animate-spin" />
-              )}{' '}
               <span>Entrar</span>
             </Button>
           </Form.Root>
           <Button
             theme="dark-900"
             size="sm"
-            data-cadastroloadingdelay={cadastroLoadingDelay}
             onClick={goToCadastro}
             className="flex items-center justify-center gap-2 data-[cadastroloadingdelay=true]:opacity-50"
           >
-            {cadastroLoadingDelay && (
-              <RxReload className="w-4 h-4 animate-spin" />
-            )}{' '}
             <span>Cadastrar</span>
           </Button>
         </div>
       </div>
-      <div className="w-[70vw] hidden md:flex lg:flex bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
+      <div className="w-[70vw] hidden bg-light-100 md:flex lg:flex bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
     </div>
   );
 }

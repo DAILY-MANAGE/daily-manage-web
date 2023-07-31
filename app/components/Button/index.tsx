@@ -1,9 +1,10 @@
 'use client'
 
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, useState } from 'react';
 
 import { tv } from "tailwind-variants";
 import { twMerge } from 'tailwind-merge';
+import { RxReload } from 'react-icons/rx';
 
 const button = tv({
   base: 'rounded-lg font-medium my-[0.2rem] text-center',
@@ -35,13 +36,25 @@ export default function Button({
   ...props
 }: ButtonProps) {
 
-  function getClassesFromTheme(theme: string) {
+  const [loadingAnimation, setLoadingAnimation] = useState(false);
+
+  const loadAnimation = (callback: any) => {
+    if (!callback) return;
+    callback(true);
+    setTimeout(() => {
+      callback(false);
+    }, 1000);
+  };
+
+  const getClassesFromTheme = (theme: string) => {
     return `bg-${theme} text-${theme}-text hover:bg-${theme}-hover`;
   }
 
   return (
-    <button className={twMerge(button({size: size}), getClassesFromTheme(theme), className)} {...props}>
-      {children}
+    <button data-loadingdelay={loadingAnimation} className={twMerge(button({size: size}), getClassesFromTheme(theme), className, 'shadow flex align-center justify-center items-center text-center transition-all data-[loadingdelay=true]:opacity-50 gap-2')} onClick={() => {
+      loadAnimation(setLoadingAnimation)
+    }} {...props}>
+      {loadingAnimation && <RxReload className="w-4 h-4 animate-spin" />}{' '}{children}
     </button>
   );
 }

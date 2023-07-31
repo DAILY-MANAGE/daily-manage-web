@@ -186,7 +186,9 @@ module.exports = {
       },
     },
     backgroundImage: {
-      login: "url('https://source.unsplash.com/featured')" //"url('/logo_bg_transp_light.png')",
+      login: "url('../public/images/login-art.jpg')",
+      recover: "url('../public/images/recover-pass-art.jpg')",
+      cadastro: "url('../public/images/cadastro-art.jpg')",
     }
   },
   plugins: [require('tailwindcss-animate')],
