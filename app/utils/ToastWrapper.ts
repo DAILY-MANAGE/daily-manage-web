@@ -11,11 +11,8 @@ const runColorMode = (fn: (isDarkMode: boolean) => void) => {
   if (!globalWindow.matchMedia) {
     return;
   }
-
   const query = globalWindow.matchMedia('(prefers-color-scheme: dark)');
-
   fn(query.matches);
-
   query.addEventListener('change', (event) => fn(event.matches));
 };
 

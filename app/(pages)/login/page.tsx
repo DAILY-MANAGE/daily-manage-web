@@ -141,7 +141,7 @@ export default function Login() {
               })}
             />
             <Form.Error message={errors.password?.message} />
-            <div className="flex w-full h-4 flex mt-2 mb-4">
+            <div className="flex w-full h-4 mt-3 mb-8">
               <div className="w-1/2 h-full flex justify-start items-center gap-2">
                 <Checkbox className="border border-black/20 m-0 rounded my-auto shadow" />
                 <span className="text-sm my-auto h-full leading-[1.1rem]">Lembrar senha</span>
@@ -175,7 +175,7 @@ export default function Login() {
           </Button>
         </div>
       </div>
-      <div className="w-[70vw] hidden bg-light-100 md:flex lg:flex bg-dark h-[100vh] bg-login bg-cover bg-no-repeat"></div>
+      <div className="w-[70vw] hidden bg-light-100 md:flex lg:flex h-[100vh] bg-login bg-cover bg-no-repeat"></div>
     </div>
   );
 }

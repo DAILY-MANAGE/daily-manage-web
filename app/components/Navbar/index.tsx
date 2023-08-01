@@ -14,9 +14,9 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const canShowNavbar = () =>
-    pathname.includes('login') &&
-    pathname.includes('cadastro') &&
-    pathname.includes('recuperar-senha');
+    !pathname.includes('login') &&
+    !pathname.includes('cadastro') &&
+    !pathname.includes('recuperar-senha');
 
   return (
     canShowNavbar() && (
