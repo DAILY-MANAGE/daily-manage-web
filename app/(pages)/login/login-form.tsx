@@ -16,13 +16,13 @@ import Button from '@/app/components/Button';
 interface Login {
   email: string;
   password: string;
-  rememberSession: boolean[];
+  rememberSession: boolean;
 }
 
 const loginFormValues: Login = {
   email: '',
   password: '',
-  rememberSession: [true],
+  rememberSession: false,
 };
 
 const delayTillSubmit = 1000;
@@ -32,6 +32,7 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -62,6 +63,7 @@ export default function LoginForm() {
       return;
     }
     console.log(data);
+
     if (data.email == 'admin@admin.com' && data.password == '12345') {
       ToastWrapper.success('Login realizado com sucesso!');
       return router.push('/dashboard');
@@ -108,7 +110,7 @@ export default function LoginForm() {
       <Form.Error message={errors.email?.message} />
 
       <Form.Label label="Senha" className="mt-2" />
-      <div className="w-full h-fit grid grid-cols-[0.99fr_0.01fr] lg:grid-cols-[0.9fr_0.1fr] md:grid-cols-[0.9fr_0.1fr] gap-1">
+      <div className="w-full h-fit grid grid-cols-[0.99fr_0.01fr] lg:grid-cols-[0.9fr_0.1fr] md:grid-cols-[0.95fr_0.05fr] gap-1">
         <Input
           autoComplete="current-password"
           htmlFor="password"
@@ -142,6 +144,9 @@ export default function LoginForm() {
           <Checkbox
             className="border border-black/20 m-0 rounded my-auto shadow"
             {...register("rememberSession")}
+            onCheckedChange={(e: any) => {
+              setValue("rememberSession", e)
+            }}
           />
           <span className="text-sm my-auto h-full leading-[1.1rem]">
             Lembrar senha
