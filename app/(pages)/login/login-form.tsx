@@ -14,15 +14,15 @@ import { useState } from 'react';
 import Button from '@/app/components/Button';
 
 interface Login {
-  email: string;
-  password: string;
-  rememberSession: boolean;
+  usuario: string;
+  senha: string;
+  lembrarSessao: boolean;
 }
 
 const loginFormValues: Login = {
-  email: '',
-  password: '',
-  rememberSession: false,
+  usuario: '',
+  senha: '',
+  lembrarSessao: false,
 };
 
 const delayTillSubmit = 1000;
@@ -62,13 +62,7 @@ export default function LoginForm() {
       );
       return;
     }
-    console.log(data);
-
-    if (data.email == 'admin@admin.com' && data.password == '12345') {
-      ToastWrapper.success('Login realizado com sucesso!');
-      return router.push('/dashboard');
-    }
-    ToastWrapper.error('Senha ou e-mail incorreto!');
+    // auth context
   };
 
   const onSubmit = (data: Login) => {
@@ -89,14 +83,14 @@ export default function LoginForm() {
       <Input
         autoComplete="email"
         htmlFor="email"
-        error={errors.email}
+        error={errors.usuario}
         placeholder="Entre com seu e-mail"
-        aria-invalid={errors.email ? 'true' : 'false'}
+        aria-invalid={errors.usuario ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: any) => {
           e.preventDefault();
         }}
-        {...register('email', {
+        {...register('usuario', {
           required: 'E-mail é obrigatório',
           validate: {
             matchPattern: (v) =>
@@ -107,7 +101,7 @@ export default function LoginForm() {
         type="email"
         id="email"
       />
-      <Form.Error message={errors.email?.message} />
+      <Form.Error message={errors.usuario?.message} />
 
       <Form.Label label="Senha" className="mt-2" />
       <div className="w-full h-fit grid grid-cols-[0.99fr_0.01fr] lg:grid-cols-[0.9fr_0.1fr] md:grid-cols-[0.95fr_0.05fr] gap-1">
@@ -116,14 +110,14 @@ export default function LoginForm() {
           htmlFor="password"
           type={passwordHidden ? 'text' : 'password'}
           id="password"
-          error={errors.password}
+          error={errors.senha}
           placeholder="Entre com sua senha"
           className="shadow"
-          aria-invalid={errors.password ? 'true' : 'false'}
+          aria-invalid={errors.senha ? 'true' : 'false'}
           onInvalid={(e: any) => {
             e.preventDefault();
           }}
-          {...register('password', {
+          {...register('senha', {
             required: 'Senha é obrigatória',
           })}
         />
@@ -138,14 +132,14 @@ export default function LoginForm() {
           )}
         </button>
       </div>
-      <Form.Error message={errors.password?.message} />
+      <Form.Error message={errors.senha?.message} />
       <div className="flex w-full h-4 mt-3 mb-8">
         <div className="w-1/2 h-full flex justify-start items-center gap-2">
           <Checkbox
             className="border border-black/20 m-0 rounded my-auto shadow"
-            {...register("rememberSession")}
+            {...register("lembrarSessao")}
             onCheckedChange={(e: any) => {
-              setValue("rememberSession", e)
+              setValue("lembrarSessao", e)
             }}
           />
           <span className="text-sm my-auto h-full leading-[1.1rem]">
