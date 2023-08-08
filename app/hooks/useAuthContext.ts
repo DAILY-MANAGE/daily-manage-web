@@ -34,6 +34,10 @@ const useAuthHandler = () => {
       return router.push('/dashboard');
     }
 
+    const unsuccesfullyAuthenticated = (message: string = 'Não foi possível realizar o login.') => {
+      ToastWrapper.error(message);
+    }
+
     const withCookie = () => {
       const B64EncryptObject = B64Encrypt()
 
@@ -61,12 +65,12 @@ const useAuthHandler = () => {
             succesfullyAuthenticated();
           } else {
             // checar mensagem de erro
-            ToastWrapper.error('Senha ou e-mail incorreto!');
+            unsuccesfullyAuthenticated();
           }
         })
         .catch((error) => {
-          console.log(error);
-          ToastWrapper.error('Senha ou e-mail incorreto!');
+          // tratar erro
+          unsuccesfullyAuthenticated("Ocorreu um erro na autenticação, tente novamente em breve...")
         });
     }
 

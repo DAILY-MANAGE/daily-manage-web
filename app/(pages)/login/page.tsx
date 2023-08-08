@@ -26,7 +26,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
-      <div className="h-[100vh] flex flex-col align-center justify-center md:w-[50vw] lg:w-[30w] w-[80vw] px-0 lg:px-16 md:px-10">
+      <div className="h-[100vh] flex flex-col align-center justify-center w-[80vw] md:w-[30vw] lg:w-[30w] px-0 lg:px-16 md:px-10">
         <div className="w-full flex flex-row align-center justify-start h-[5%]">
           <Logo width={50} height={100} />
         </div>
@@ -35,10 +35,9 @@ export default function Login() {
           <p className="text-sm mb-2 text-gray-900">Entre na sua conta</p>
           <LoginForm />
           <Button
-            theme="dark-900"
             size="sm"
             onClick={goToCadastro}
-            className="flex items-center justify-center gap-2 data-[cadastroloadingdelay=true]:opacity-50"
+            className="flex items-center justify-center gap-2 data-[cadastroloadingdelay=true]:opacity-50 bg-zinc-950 text-white"
           >
             <span>Cadastrar</span>
           </Button>

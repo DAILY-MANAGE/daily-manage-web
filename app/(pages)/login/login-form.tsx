@@ -123,7 +123,7 @@ export default function LoginForm() {
         />
         <button
           id="password-eye"
-          className="w-full h-full px-2 border border-black/20 rounded flex items-center justify-center shadow"
+          className="w-full h-full px-2 border border-black/50 rounded flex items-center justify-center shadow"
           type="button"
           onClick={hideShowPassword}
         >
@@ -136,7 +136,7 @@ export default function LoginForm() {
       <div className="flex w-full h-4 mt-3 mb-8">
         <div className="w-1/2 h-full flex justify-start items-center gap-2">
           <Checkbox
-            className="border border-black/20 m-0 rounded my-auto shadow"
+            className="border border-black/50 m-0 rounded my-auto shadow"
             {...register("lembrarSessao")}
             onCheckedChange={(e: any) => {
               setValue("lembrarSessao", e)
@@ -157,10 +157,9 @@ export default function LoginForm() {
       </div>
 
       <Button
-        theme="dark-900"
         size="full"
         type="submit"
-        className="mt-4 flex items-center justify-center gap-2 data-[loginloadingdelay=true]:opacity-50"
+        className="mt-4 flex items-center justify-center gap-2 data-[loginloadingdelay=true]:opacity-50 bg-zinc-950 text-white"
       >
         <span>Entrar</span>
       </Button>

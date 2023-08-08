@@ -46,12 +46,8 @@ export default function Button({
     }, 1000);
   };
 
-  const getClassesFromTheme = (theme: string) => {
-    return `bg-${theme} text-${theme}-text hover:bg-${theme}-hover`;
-  }
-
   return (
-    <button data-loadingdelay={loadingAnimation} className={twMerge(button({size: size}), getClassesFromTheme(theme), className, 'shadow flex align-center justify-center items-center text-center transition-all data-[loadingdelay=true]:opacity-50 gap-2')} onClick={() => {
+    <button data-loadingdelay={loadingAnimation} className={twMerge(button({size: size}), className, 'shadow flex align-center justify-center items-center text-center transition-all data-[loadingdelay=true]:opacity-50 gap-2')} onClick={() => {
       loadAnimation(setLoadingAnimation)
     }} {...props}>
       {loadingAnimation && <RxReload className="w-4 h-4 animate-spin" />}{' '}{children}
