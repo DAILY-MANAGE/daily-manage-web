@@ -2,16 +2,19 @@
 import Link from 'next/link';
 
 import { ToastWrapper } from '@/app/utils/ToastWrapper';
+
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+
 import { Form } from '@/app/components/Form';
+import Button from '@/app/components/Button';
 
 import { FiEyeOff, FiEye } from 'react-icons/fi';
 
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Button from '@/app/components/Button';
+
+import useAuthHandler from '@/app/hooks/useAuthContext';
 
 interface Login {
   usuario: string;
@@ -39,11 +42,11 @@ export default function LoginForm() {
     defaultValues: loginFormValues,
   });
 
-  const router = useRouter();
-
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [submitQueue, setSubmitQueue] = useState(0);
   const [passwordHidden, setPasswordHidden] = useState(false);
+
+  const authHandler = useAuthHandler()
 
   const handleLoginAttemptsQueue = () => {
     setSubmitQueue((state) => state + 1);
@@ -62,7 +65,7 @@ export default function LoginForm() {
       );
       return;
     }
-    // auth context
+    return authHandler.login(data);
   };
 
   const onSubmit = (data: Login) => {
