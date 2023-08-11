@@ -1,22 +1,19 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/app/components/Shadcn/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CalendarDateRangePicker } from '../../components/Dashboard/date-range-picker';
-import { MainNav } from '../../components/Dashboard/main-nav';
-import { Overview } from '../../components/Dashboard/overview';
-import { RecentFills } from '../../components/Dashboard/recent-fills';
-import { Search } from '../../components/Dashboard/search';
-import TeamSwitcher from '../../components/Dashboard/team-switcher';
-import { UserNav } from '../../components/Dashboard/user-nav';
+} from '@/app/components/Shadcn/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/Shadcn/tabs';
+
+import { CalendarDateRangePicker } from './components/date-range-picker';
+import { Overview } from './components/overview';
+import { RecentFills } from './components/recent-fills';
+
 import { RxDownload } from 'react-icons/rx';
 import {
   Select,
@@ -24,7 +21,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/app/components/Shadcn/select"
 
 export const metadata: Metadata = {
   title: 'Dashboard | Daily Manage',

@@ -5,8 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useFieldArray, useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/app/utils/utils"
+import { Button } from "@/app/components/Shadcn/button"
 import {
   Form,
   FormControl,
@@ -15,17 +15,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/app/components/Shadcn/form"
+import { Input } from "@/app/components/Shadcn/input"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+} from "@/app/components/Shadcn/select"
+import { Textarea } from "@/app/components/Shadcn/textarea"
+import { toast } from "@/app/components/Shadcn/use-toast"
 
 const profileFormSchema = z.object({
   username: z

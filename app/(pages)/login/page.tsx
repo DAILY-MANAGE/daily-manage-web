@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '@/app/components/Button';
-import Logo from '@/app/components/Logo';
+import Button from '@/app/components/Custom/button';
+import Logo from '@/app/components/Custom/logo';
 
 import { useRouter } from 'next/navigation';
 import { Metadata } from 'next';

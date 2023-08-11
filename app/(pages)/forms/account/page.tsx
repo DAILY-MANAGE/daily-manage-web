@@ -1,4 +1,4 @@
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/app/components/Shadcn/separator"
 import { AccountForm } from "./account-form"
 
 export default function SettingsAccountPage() {

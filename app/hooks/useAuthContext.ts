@@ -28,6 +28,7 @@ export interface LoginData {
 export interface RegisterData {
   usuario: string;
   senha: string;
+  confirmarSenha?: string;
 }
 
 const B64EncryptObject = B64Encrypt();
@@ -35,10 +36,33 @@ const B64EncryptObject = B64Encrypt();
 const useAuthHandler = () => {
   const router = useRouter();
 
+  const saveCookie = (data: LoginData | RegisterData) => {
+    if (!data) {
+      console.warn("'data' wasn't sent over to save cookie function.");
+      return;
+    }
+
+    const stringfiedJSON = JSON.stringify(data);
+    if (!stringfiedJSON) {
+      console.warn('Attempt to parse data as a stringfied JSON failed.');
+      return;
+    }
+
+    const encodedHash = B64EncryptObject.decodeText(stringfiedJSON);
+    if (!encodedHash) {
+      console.warn('Attempt to encode stringfied JSON failed.');
+      return;
+    }
+
+    Cookies.set(tokenCookieKey, encodedHash, {
+      expires: 30,
+    });
+  };
+
   const login = (loginData?: LoginData) => {
     const succesfullyAuthenticated = () => {
       ToastWrapper.success('Login realizado com sucesso!');
-      return router.push('/dashboard');
+      router.push('/dashboard');
     };
 
     const unsuccesfullyAuthenticated = (
@@ -56,16 +80,14 @@ const useAuthHandler = () => {
 
       const decodedJSON = JSON.parse(decodedCookie);
       return decodedJSON;
-    }
+    };
 
     const withCookie = () => {
-      const decodedJSON = getDecodedJSON()
+      const decodedJSON = getDecodedJSON();
       if (!decodedJSON) return;
 
       const requestParams = {
-        params: {
-          ...decodedJSON,
-        },
+        params: decodedJSON,
       };
 
       instance
@@ -89,10 +111,10 @@ const useAuthHandler = () => {
     };
 
     const withNewLogin = () => {
+      if (!loginData) return;
+
       const requestParams = {
-        params: {
-          ...loginData,
-        },
+        params: loginData,
       };
       console.log(requestParams);
       instance
@@ -100,9 +122,7 @@ const useAuthHandler = () => {
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
-            Cookies.set(tokenCookieKey, response.headers.login_token, {
-              expires: 30,
-            });
+            saveCookie(loginData);
           }
         })
         .catch((error) => {
@@ -122,18 +142,14 @@ const useAuthHandler = () => {
 
   const register = (registerData: RegisterData) => {
     const registerParams = {
-      params: {
-        ...registerData,
-      },
+      params: registerData,
     };
     instance
       .post(registerPath, registerParams)
       .then((response) => {
         if (response.status == 200) {
           // previously response.headers.login_token
-          Cookies.set(tokenCookieKey, 'o hash do cookie them q ir aqui', {
-            secure: true,
-          });
+          saveCookie(registerData);
         }
       })
       .catch((error) => {

@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 
-import Logo from '@/app/components/Logo';
+import Logo from '../../components/Custom/logo';
 
-import RegisterForm from './register-form';
+import RegisterForm from './components/register-form';
 
 export default function Login() {
 

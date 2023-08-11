@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 import { ToastWrapper } from '@/app/utils/ToastWrapper';
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/app/components/Shadcn/checkbox';
+import { Input } from '@/app/components/Shadcn/input';
 
 import { Form } from '@/app/components/Form';
-import Button from '@/app/components/Button';
+import Button from '@/app/components/Custom/button';
 
 import { FiEyeOff, FiEye } from 'react-icons/fi';
 

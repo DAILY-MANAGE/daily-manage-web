@@ -8,11 +8,11 @@ import { useState } from 'react';
 
 import { FaCheck } from 'react-icons/fa';
 
-import Button from '@/app/components/Button';
-import Logo from '@/app/components/Logo';
+import Button from '@/app/components/Custom/button';
+import Logo from '@/app/components/Custom/logo';
 import { Form } from '@/app/components/Form';
 import ReactCodeInput from 'react-code-input';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/app/components/Shadcn/input';
 
 interface Login {
   email: string;
