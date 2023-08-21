@@ -6,24 +6,26 @@ import B64Encrypt from './useBase64';
 import { ToastWrapper } from '../utils/ToastWrapper';
 import { useRouter } from 'next/navigation';
 
-const tokenCookieKey = 'api_auth_token';
 const loginCookieKey = 'login_token'
 
 const registerPath = `/auth/register`;
 const loginPath = `/auth/login`;
 
+const B64EncryptObject = B64Encrypt();
+let authenticatedToken = null;
+
 const instance = axios.create({
-  baseURL: `http://10.68.20.127:8080`,
+  baseURL: `http://10.68.20.106:8080`,
 });
 
 export interface CustomResponse extends AxiosResponse {
   errors?: string[];
 }
 
-// We create dupes cause they're the same (for now)
 export interface LoginData {
   usuario: string;
   senha: string;
+  lembrarSenha?: boolean;
 }
 
 export interface RegisterData {
@@ -32,42 +34,75 @@ export interface RegisterData {
   confirmarSenha?: string;
 }
 
-const B64EncryptObject = B64Encrypt();
-
 const useAuthHandler = () => {
   const router = useRouter();
 
+  const succesfullyAuthenticated = () => {
+    ToastWrapper.success('Login realizado com sucesso!');
+    router.push('/dashboard');
+  };
+
+  const unsuccesfullyAuthenticated = (
+    message: string = 'Não foi possível realizar o login.'
+  ) => {
+    ToastWrapper.error(message);
+  };
+
+  const encodeArray = (arr: LoginData | RegisterData) => {
+    const stringfiedArray = JSON.stringify(arr);
+    const encodedJSON = B64EncryptObject.encodeText(stringfiedArray);
+    return encodedJSON;
+  }
+
+  const rememberPassword = (data: LoginData | RegisterData) => {
+    const encodedArray = encodeArray(data);
+    if (!encodedArray) {
+      return
+    }
+    Cookies.set(loginCookieKey, encodedArray, {
+      expires: 30,
+    });
+  }
+
   const login = (loginData?: LoginData) => {
-    const succesfullyAuthenticated = () => {
-      ToastWrapper.success('Login realizado com sucesso!');
-      router.push('/dashboard');
-    };
+    if (!loginData) return;
 
-    const unsuccesfullyAuthenticated = (
-      message: string = 'Não foi possível realizar o login.'
-    ) => {
-      ToastWrapper.error(message);
-    };
+    instance
+      .post(loginPath, loginData)
+      .then((response) => {
+        console.log(response);
+        if (response.status == 200) {
+          authenticatedToken = response.data.token;
+          if (loginData.lembrarSenha) {
+            rememberPassword(loginData);
+          }
+        }
+      })
+      .catch((error) => {
+        if (!error.message) return;
+        unsuccesfullyAuthenticated(error.message);
+      });
+  };
 
-    const getDecodedJSON = () => {
-      const tokenCookie = Cookies.get(tokenCookieKey);
-      if (!tokenCookie) {
-        return
-      }
+  const isLoggedIn = async () => {
 
-      console.log(tokenCookie);
-      const decodedCookie = B64EncryptObject.decodeText(tokenCookie);
-      if (!decodedCookie) {
-        return;
-      }
+    const withCookie = async () => {
 
-      console.log(decodedCookie);
+      const getDecodedJSON = () => {
+        const tokenCookie = Cookies.get(loginCookieKey);
+        if (!tokenCookie) {
+          return
+        }
 
-      const decodedJSON = JSON.parse(decodedCookie);
-      return decodedJSON;
-    };
+        const decodedCookie = B64EncryptObject.decodeText(tokenCookie);
+        if (!decodedCookie) {
+          return;
+        }
 
-    const withCookie = () => {
+        const decodedJSON = JSON.parse(decodedCookie);
+        return decodedJSON;
+      };
+
       const decodedJSON = getDecodedJSON();
       if (!decodedJSON) return;
 
@@ -75,18 +110,21 @@ const useAuthHandler = () => {
         params: decodedJSON,
       };
 
-      instance
+      return instance
         .get(loginPath, requestParams)
         .then((response: CustomResponse) => {
           console.log(response);
           if (response.status == 200) {
             succesfullyAuthenticated();
+            return true;
           } else {
             // checar mensagem de erro
             if (!response.errors) {
-              return unsuccesfullyAuthenticated();
+              unsuccesfullyAuthenticated();
+              return;
             }
             unsuccesfullyAuthenticated();
+            return;
           }
         })
         .catch((error) => {
@@ -95,44 +133,13 @@ const useAuthHandler = () => {
         });
     };
 
-    const withNewLogin = () => {
-      if (!loginData) return;
-
-      instance
-        .post(loginPath, loginData)
-        .then((response) => {
-          console.log(response);
-          if (response.status == 200) {
-            Cookies.set(tokenCookieKey, response.data.token, {
-              expires: 30,
-            });
-            Cookies.set(loginCookieKey, response.data.token, {
-              expires: 30,
-            });
-          }
-        })
-        .catch((error) => {
-          if (!error.message) return;
-          unsuccesfullyAuthenticated(error.message);
-        });
-    };
-
-    const loginWhenLoad = () => {
-      const hasAuthTokenInCookies = Cookies.get(tokenCookieKey);
-      if (hasAuthTokenInCookies) {
-        withCookie();
-      }
+    const hasAuthTokenInCookies = Cookies.get(loginCookieKey);
+    if (hasAuthTokenInCookies) {
+      return await withCookie()
     }
 
-    const loginWhenInput = () => {
-      withNewLogin();
-    }
-
-    return {
-      loginWhenLoad,
-      loginWhenInput,
-    }
-  };
+    return false;
+  }
 
   const register = (registerData: RegisterData) => {
     const registerParams = {
@@ -142,8 +149,7 @@ const useAuthHandler = () => {
       .post(registerPath, registerParams)
       .then((response) => {
         if (response.status == 200) {
-          // previously response.headers.login_token
-          saveCookie(response.data.token);
+          rememberPassword(registerData)
         }
       })
       .catch((error) => {
@@ -154,6 +160,7 @@ const useAuthHandler = () => {
   return {
     login,
     register,
+    isLoggedIn
   };
 };
 
