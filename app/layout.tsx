@@ -22,6 +22,7 @@ export default function RootLayout({
   if (typeof window !== "undefined") {
     ToastWrapper.setupWindow(window);
   }
+
   return (
     <html lang="pt-br">
       <body className={`${inter.className} bg-light-100 dark:bg-dark-900`}>
