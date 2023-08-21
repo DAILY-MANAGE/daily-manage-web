@@ -105,7 +105,7 @@ export default function RecuperarSenha() {
           />
           <Form.Error message={errors.email?.message} />
 
-          <Button theme="dark-900" size="full" type="submit" className="mt-4">
+          <Button className="mt-4 flex items-center justify-center gap-2 bg-zinc-950 text-white w-full h-10">
             Redefinir senha
           </Button>
         </Form.Root>
@@ -143,7 +143,7 @@ export default function RecuperarSenha() {
             />
           </div>
 
-          <Button theme="dark-900" size="full" type="submit" className="mt-4">
+          <Button className="mt-4 flex items-center justify-center gap-2 bg-zinc-950 text-white">
             Continuar
           </Button>
         </Form.Root>
@@ -232,7 +232,7 @@ export default function RecuperarSenha() {
         </div>
         <div className="flex flex-col align-center justify-center h-[85%] w-[90%] mx-auto">
           {Stages[stage] && Stages[stage]()}
-          <div className="font-normal mx-auto w-full p-1.5 px-4 text-center my-[0.2rem] flex justify-center outline outline-1 rounded-lg">
+          <div className="font-normal mx-auto w-full p-1.5 px-4 text-center my-[0.2rem] flex justify-center outline outline-1 rounded-lg shadow-sm">
             <Link href="/login">
               <span className="font-medium">
                 <b>&larr;</b> Voltar para Login

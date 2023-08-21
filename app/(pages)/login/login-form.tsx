@@ -149,9 +149,9 @@ export default function LoginForm() {
             Lembrar senha
           </span>
         </div>
-        <div className="md:w-1/2 md:flex h-full justify-end items-center gap-2 block">
+        <div className="w-1/2 md:flex h-full justify-end items-center gap-2 block">
           {' '}
-          <Link href="/recuperar-senha">
+          <Link href="/recuperar-senha" className='leading-none text-end w-full h-full block'>
             <span className="font-medium text-sm underline underline-offset-2">
               Recuperar Senha
             </span>

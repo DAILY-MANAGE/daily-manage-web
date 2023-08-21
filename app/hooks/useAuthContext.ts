@@ -6,7 +6,8 @@ import B64Encrypt from './useBase64';
 import { ToastWrapper } from '../utils/ToastWrapper';
 import { useRouter } from 'next/navigation';
 
-const tokenCookieKey = 'login_token';
+const tokenCookieKey = 'api_auth_token';
+const loginCookieKey = 'login_token'
 
 const registerPath = `/auth/register`;
 const loginPath = `/auth/login`;
@@ -36,29 +37,6 @@ const B64EncryptObject = B64Encrypt();
 const useAuthHandler = () => {
   const router = useRouter();
 
-  const saveCookie = (data: LoginData | RegisterData) => {
-    if (!data) {
-      console.warn("'data' wasn't sent over to save cookie function.");
-      return;
-    }
-
-    const stringfiedJSON = JSON.stringify(data);
-    if (!stringfiedJSON) {
-      console.warn('Attempt to parse data as a stringfied JSON failed.');
-      return;
-    }
-
-    const encodedHash = B64EncryptObject.decodeText(stringfiedJSON);
-    if (!encodedHash) {
-      console.warn('Attempt to encode stringfied JSON failed.');
-      return;
-    }
-
-    Cookies.set(tokenCookieKey, encodedHash, {
-      expires: 30,
-    });
-  };
-
   const login = (loginData?: LoginData) => {
     const succesfullyAuthenticated = () => {
       ToastWrapper.success('Login realizado com sucesso!');
@@ -73,10 +51,17 @@ const useAuthHandler = () => {
 
     const getDecodedJSON = () => {
       const tokenCookie = Cookies.get(tokenCookieKey);
+      if (!tokenCookie) {
+        return
+      }
+
+      console.log(tokenCookie);
       const decodedCookie = B64EncryptObject.decodeText(tokenCookie);
       if (!decodedCookie) {
         return;
       }
+
+      console.log(decodedCookie);
 
       const decodedJSON = JSON.parse(decodedCookie);
       return decodedJSON;
@@ -113,16 +98,17 @@ const useAuthHandler = () => {
     const withNewLogin = () => {
       if (!loginData) return;
 
-      const requestParams = {
-        params: loginData,
-      };
-      console.log(requestParams);
       instance
-        .post(loginPath, requestParams)
+        .post(loginPath, loginData)
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
-            saveCookie(loginData);
+            Cookies.set(tokenCookieKey, response.data.token, {
+              expires: 30,
+            });
+            Cookies.set(loginCookieKey, response.data.token, {
+              expires: 30,
+            });
           }
         })
         .catch((error) => {
@@ -131,12 +117,20 @@ const useAuthHandler = () => {
         });
     };
 
-    const hasAuthTokenInCookies = Cookies.get(tokenCookieKey);
+    const loginWhenLoad = () => {
+      const hasAuthTokenInCookies = Cookies.get(tokenCookieKey);
+      if (hasAuthTokenInCookies) {
+        withCookie();
+      }
+    }
 
-    if (hasAuthTokenInCookies) {
-      withCookie();
-    } else {
+    const loginWhenInput = () => {
       withNewLogin();
+    }
+
+    return {
+      loginWhenLoad,
+      loginWhenInput,
     }
   };
 
@@ -149,7 +143,7 @@ const useAuthHandler = () => {
       .then((response) => {
         if (response.status == 200) {
           // previously response.headers.login_token
-          saveCookie(registerData);
+          saveCookie(response.data.token);
         }
       })
       .catch((error) => {
