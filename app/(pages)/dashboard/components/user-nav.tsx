@@ -35,15 +35,8 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            Profile
+            Configurações
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-          </DropdownMenuItem>
-          <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="group focus:bg-red-200">
