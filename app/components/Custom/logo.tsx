@@ -1,5 +1,7 @@
+'use client'
+
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface LogoProps {
   width: number;
@@ -12,15 +14,22 @@ export default function Logo({
   height = 100,
   specific = null,
 }: LogoProps) {
+  
+  const router = useRouter();
+
+  const reloadPage = () => {
+    router.refresh();
+  }
+
   return (
     <>
-      <Link href="/" className="flex align-center justify-center">
+      <button onClick={reloadPage} className="flex align-center justify-center">
         {specific == 'dark' || specific == null ? (
           <Image
             width={width}
             height={height}
             src="/logos/dark.png"
-            alt="Daily Manage Logo"
+            alt="Logo Daily Manage (Modo Escuro)"
             className={specific == null ? 'inline dark:hidden' : ''}
             style={{ objectFit: 'contain' }}
           />
@@ -32,14 +41,14 @@ export default function Logo({
             width={width}
             height={height}
             src="/logos/light.png"
-            alt="Daily Manage Logo"
+            alt="Logo Daily Manage (Modo Claro)"
             className={specific == null ? 'hidden dark:inline' : ''}
             style={{ objectFit: 'contain' }}
           />
         ) : (
           ''
         )}
-      </Link>
+      </button>
     </>
   );
 }

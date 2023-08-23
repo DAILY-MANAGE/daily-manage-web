@@ -263,7 +263,7 @@ export default function RecuperarSenha() {
           ></div>
         </div>
       </div>
-      <div className="w-[70vw] hidden bg-light-100 md:flex lg:flex bg-dark h-[100vh] bg-recover bg-cover bg-no-repeat"></div>
+      <div className="w-[70vw] hidden bg-light-100 md:flex lg:flex bg-dark h-[100vh] bg-recuperarSenha bg-cover bg-no-repeat"></div>
     </div>
   );
 }

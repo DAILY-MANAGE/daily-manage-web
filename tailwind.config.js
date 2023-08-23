@@ -18,7 +18,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         login: "url('../public/images/login-art.jpg')",
-        recover: "url('../public/images/recover-pass-art.jpg')",
+        recuperarSenha: "url('../public/images/recover-pass-art.jpg')",
         cadastro: "url('../public/images/cadastro-art.jpg')",
       },
       colors: {

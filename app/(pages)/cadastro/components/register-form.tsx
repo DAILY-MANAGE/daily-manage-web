@@ -1,3 +1,5 @@
+'use client'
+
 import { Form } from '../../../components/Form';
 
 import { useForm } from 'react-hook-form';
@@ -5,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { Input } from '@/app/components/Shadcn/input';
 import Button from '@/app/components/Custom/button';
 
-import useAuthHandler, { RegisterData } from '@/app/hooks/useAuthContext';
+import useAuthHandler, { RegisterData } from '@/app/services/auth';
 
 export default function RegisterForm() {
   const {

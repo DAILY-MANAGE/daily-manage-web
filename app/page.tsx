@@ -2,13 +2,13 @@
 
 import Dashboard from './(pages)/dashboard/page';
 import Login from './(pages)/login/page';
-import useAuthHandler from './hooks/useAuthContext';
+import useAuthHandler from './services/auth';
 
-export default async function Page() {
-  const authHandler = useAuthHandler();
-  const isLoggedIn = await authHandler.isLoggedIn();
+export default function Page() {
+  //const authHandler = useAuthHandler();
+  const isLoggedIn = false; //await authHandler.isLoggedIn();
 
-  console.log(isLoggedIn);
+  //console.log(isLoggedIn);
 
   return isLoggedIn ? <Dashboard /> : <Login />;
 }

@@ -14,7 +14,7 @@ import { FiEyeOff, FiEye } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
-import useAuthHandler from '@/app/hooks/useAuthContext';
+import useAuthHandler from '@/app/services/auth';
 
 interface Login {
   usuario: string;

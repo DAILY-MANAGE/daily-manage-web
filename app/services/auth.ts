@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 
 import axios, { AxiosResponse } from 'axios';
 
-import B64Encrypt from './useBase64';
+import B64Encrypt from '../utils/useBase64';
 import { ToastWrapper } from '../utils/ToastWrapper';
 import { useRouter } from 'next/navigation';
 
@@ -15,7 +15,7 @@ const B64EncryptObject = B64Encrypt();
 let authenticatedToken = null;
 
 const instance = axios.create({
-  baseURL: `http://10.68.20.106:8080`,
+  baseURL: process.env.API_ENDPOINT,
 });
 
 export interface CustomResponse extends AxiosResponse {
