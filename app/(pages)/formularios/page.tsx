@@ -1,5 +1,6 @@
+import { Button } from '@/app/components/Shadcn/button';
 import { Metadata } from 'next';
-import Link from 'next/link';
+import { RxClipboard } from 'react-icons/rx';
 
 export const metadata: Metadata = {
   title: 'Formulários | Daily Manage',
@@ -11,8 +12,18 @@ export default function Formularios() {
     <>
       <div className="flex-col flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
-          <div className="flex items-center justify-between space-y-2 flex-col md:flex-row">
-            <h2 className="text-3xl font-bold tracking-tight">Formulários</h2>
+          <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
+            <h2 className="text-3xl font-bold tracking-tight text-white">
+              Formulários
+            </h2>
+            <div className="flex items-center gap-2">
+              <Button
+                className="border flex items-center justify-center gap-2 border-black/20"
+                variant={'outline'}
+              >
+                Criar Formulário <RxClipboard className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>

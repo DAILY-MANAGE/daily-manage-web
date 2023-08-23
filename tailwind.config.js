@@ -20,6 +20,8 @@ module.exports = {
         login: "url('../public/images/login-art.jpg')",
         recuperarSenha: "url('../public/images/recover-pass-art.jpg')",
         cadastro: "url('../public/images/cadastro-art.jpg')",
+        titleHeader: "url('../public/images/title-header.png')",
+        titleHeader2: "url('../public/images/title-header2.png')",
       },
       colors: {
         border: 'hsl(var(--border))',

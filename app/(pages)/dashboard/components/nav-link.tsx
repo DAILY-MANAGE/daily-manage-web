@@ -10,7 +10,7 @@ interface NavLinkProps extends LinkProps {
 
 export default function NavLink({ children, className, ...props }: NavLinkProps) {
     return (
-        <Link {...props} className={twMerge('text-sm font-medium transition-colors hover:text-primary rounded p-2 px-4 data-[active=true]:bg-zinc-50 data-[active=true]:border data-[active=true]:border-black/10', className)}>
+        <Link {...props} className={twMerge('text-sm font-medium transition-colors hover:text-primary rounded p-2 px-4 data-[active=true]:bg-zinc-50 outline outline-0 data-[active=true]:outline-1 outline-offset-1 data-[active=true]:outline-black/10', className)}>
             {children}
         </Link>
     );
