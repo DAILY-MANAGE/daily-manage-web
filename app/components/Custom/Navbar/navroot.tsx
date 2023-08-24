@@ -2,14 +2,15 @@
 
 import React from 'react';
 
-import { MainNav } from '../../(pages)/dashboard/components/main-nav';
-import { Search } from '../../(pages)/dashboard/components/search';
-import { UserNav } from '../../(pages)/dashboard/components/user-nav';
+import { MainNav } from '../../../(pages)/dashboard/components/main-nav';
+import { Search } from '../../../(pages)/dashboard/components/search';
+import { UserNav } from '../../../(pages)/dashboard/components/user-nav';
 
-import Logo from './logo';
+import Logo from '../logo';
 
 import { usePathname } from 'next/navigation';
-import { RxBell } from 'react-icons/rx';
+
+import NavNotification from './navnotification';
 
 export default function NavRoot() {
   const pathname = usePathname();
@@ -25,9 +26,7 @@ export default function NavRoot() {
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             <Search />
-            <button className='hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center'>
-              <RxBell className="aspect-square w-full h-full" />
-            </button>
+            <NavNotification />
             <UserNav />
           </div>
         </div>

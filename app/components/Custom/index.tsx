@@ -1,6 +1,6 @@
 import Button from './button';
 import Logo from './logo';
-import NavRoot from './navroot';
+import NavRoot from './Navbar/navroot';
 
 export const Custom = {
     Button: Button,
