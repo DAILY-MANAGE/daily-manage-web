@@ -129,7 +129,7 @@ export default function NavNotification() {
             <div className="flex flex-row space-x-1 gap-1">
               <p className="text-sm font-medium leading-none">Notificações</p>{' '}
               {unreadMessages > 0 && (
-                <Badge className="aspect-square h-4 w-2 flex items-center justify-center px-2">
+                <Badge className="h-4 flex items-center justify-center px-2">
                 {unreadMessages}
               </Badge>
               )}
