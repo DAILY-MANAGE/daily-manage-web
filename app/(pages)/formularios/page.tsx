@@ -1,4 +1,5 @@
 import { Button } from '@/app/components/Shadcn/button';
+import { Card } from '@/app/components/Shadcn/card';
 import { Metadata } from 'next';
 import { RxClipboard } from 'react-icons/rx';
 
@@ -24,6 +25,11 @@ export default function Formularios() {
                 Criar Formulário <RxClipboard className="w-4 h-4" />
               </Button>
             </div>
+          </div>
+          <div className='flex flex-row gap-2'>
+            <Card>
+
+            </Card>
           </div>
         </div>
       </div>

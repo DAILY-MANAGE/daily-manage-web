@@ -2,8 +2,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/app/components/Shadcn/avatar"
-import { Button } from "@/app/components/Shadcn/button"
+} from '@/app/components/Shadcn/avatar';
+import { Button } from '@/app/components/Shadcn/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +12,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/components/Shadcn/dropdown-menu"
+} from '@/app/components/Shadcn/dropdown-menu';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function UserNav() {
+  const pathname = usePathname();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,14 +32,21 @@ export function UserNav() {
       <DropdownMenuContent className="w-56 bg-white" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">antonio@gmail.com</p>
+            <p className="text-sm font-medium leading-none">
+              antonio@gmail.com
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Configurações
-          </DropdownMenuItem>
+          <Link href="/configuracoes">
+            <DropdownMenuItem
+              data-active={pathname.includes('configuracoes')}
+              className="data-[active=true]:bg-zinc-100 data-[active=true]:text-zinc-600"
+            >
+              Configurações
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="group focus:bg-red-200">
@@ -43,5 +54,5 @@ export function UserNav() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { RxBell, RxEyeOpen } from 'react-icons/rx';
 
 import {
@@ -37,45 +37,58 @@ export default function NavNotification() {
     NotificationData[]
   >([]);
 
-  const notifications: NotificationData[] = [
-    {
-      id: 1,
-      sender: 'Sistema',
-      sentTimestamp: 21512521,
-      message: 'Seu formulário foi revisado.',
-      unread: true,
-    },
-    {
-      id: 2,
-      sender: 'Alguem',
-      sentTimestamp: 22352521,
-      message: 'Seu formulário foi excluido.',
-    },
-    {
-      id: 3,
-      sender: 'Zé',
-      sentTimestamp: 32352521,
-      message: 'Seu formulário foi excluido.',
-    },
-    {
-      id: 4,
-      sender: 'Asadhdha',
-      sentTimestamp: 21512521,
-      message: 'Seu formulário foi revisado.',
-    },
-    {
-      id: 5,
-      sender: 'BAGADGA',
-      sentTimestamp: 32352521,
-      message: 'Seu formulário foi excluido.',
-    },
-    {
-      id: 6,
-      sender: 'asashadhad',
-      sentTimestamp: 12352521,
-      message: 'Seu formulário foi excluido.',
-    },
-  ];
+  const getNotifications = useCallback(() => {
+    console.log('Getting notifications...')
+    let listOfNotifications = [
+      {
+        id: 1,
+        sender: 'Sistema',
+        sentTimestamp: 21512521,
+        message: 'Seu formulário foi revisado.',
+        unread: true,
+      },
+      {
+        id: 2,
+        sender: 'Alguem',
+        sentTimestamp: 22352521,
+        message: 'Seu formulário foi excluido.',
+      },
+      {
+        id: 3,
+        sender: 'Zé',
+        sentTimestamp: 32352521,
+        message: 'Seu formulário foi excluido.',
+      },
+      {
+        id: 4,
+        sender: 'Asadhdha',
+        sentTimestamp: 21512521,
+        message: 'Seu formulário foi revisado.',
+      },
+      {
+        id: 5,
+        sender: 'BAGADGA',
+        sentTimestamp: 32352521,
+        message: 'Seu formulário foi excluido.',
+      },
+      {
+        id: 6,
+        sender: 'asashadhad',
+        sentTimestamp: 12352521,
+        message: 'Seu formulário foi excluido.',
+      },
+    ];
+    listOfNotifications.map((notificationData: NotificationData) => {
+      if (!notificationData.unread) return;
+      setUnreadMessages((state) => state + 1);
+    })
+    return listOfNotifications
+  }, []);
+
+  const notifications: NotificationData[] = useMemo(
+    () => getNotifications(),
+    [getNotifications]
+  );
 
   const registerLocale = () => {
     register('pt_BR', ptbrLocale);
@@ -85,18 +98,19 @@ export default function NavNotification() {
     return format(Date.now() - timeStamp, 'pt_BR');
   };
 
-  const getChunkOfNotifications = (): NotificationData[] => {
+  const getChunkOfNotifications = useCallback((): NotificationData[] => {
     const chunkOfNotifications = notifications.splice(
       notificationChunkIndex,
       notificationChunkIndex + notificationsToLoad
     );
+    console.log(chunkOfNotifications);
     // Caso não tenha mais notificações para carregar, retornaremos o chunk anterior.
     if (chunkOfNotifications.length == 0) {
       return notificationChunk;
     }
 
     return [...chunkOfNotifications];
-  };
+  }, [notifications, notificationChunkIndex, notificationChunk]);
 
   //chunkOfNotifications.map((notificationData: NotificationData) => {
   //  if (!notificationData.unread) return;
@@ -107,15 +121,20 @@ export default function NavNotification() {
   useEffect(() => {
     registerLocale();
     setNotificationChunk(getChunkOfNotifications());
-  });
+  }, [getChunkOfNotifications]);
 
   return (
-    <DropdownMenu onOpenChange={(open: boolean) => {
+    <DropdownMenu
+      onOpenChange={(open: boolean) => {
         if (!open) return;
         setUnreadMessages(0);
-    }}>
+      }}
+    >
       <DropdownMenuTrigger asChild className="group">
-        <button data-unreadMessages={unreadMessages > 0} className="hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 data-[unreadMessages=true]:animate-pulse hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center">
+        <button
+          data-unreadMessages={unreadMessages > 0}
+          className="hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 data-[unreadMessages=true]:animate-pulse hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center"
+        >
           <RxBell className="aspect-square w-full h-full" />
         </button>
       </DropdownMenuTrigger>
@@ -130,8 +149,8 @@ export default function NavNotification() {
               <p className="text-sm font-medium leading-none">Notificações</p>{' '}
               {unreadMessages > 0 && (
                 <Badge className="h-4 flex items-center justify-center px-2">
-                {unreadMessages}
-              </Badge>
+                  {unreadMessages}
+                </Badge>
               )}
             </div>
           </DropdownMenuLabel>
@@ -196,9 +215,17 @@ export default function NavNotification() {
                           <DropdownMenuItem
                             onClick={() => {
                               setNotificationChunkIndex(
-                                (state) => state - notificationsToLoad
+                                (state) => {
+                                  let toSet = state - notificationsToLoad
+                                  if (toSet < 0) {
+                                    toSet = 0;
+                                  }
+                                  return toSet;
+                                }
                               );
+                              console.log(notificationChunkIndex)
                               setNotificationChunk(getChunkOfNotifications());
+                              console.log(notificationChunk);
                             }}
                             onSelect={(event: Event) => {
                               event.preventDefault();
