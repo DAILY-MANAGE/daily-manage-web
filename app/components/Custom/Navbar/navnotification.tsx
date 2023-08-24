@@ -17,6 +17,7 @@ import { format, register } from 'timeago.js';
 import ptbrLocale from 'timeago.js/lib/lang/pt_BR';
 
 import { Button } from '../../Shadcn/button';
+import { Badge } from '../../Shadcn/badge';
 
 const notificationsToLoad = 5;
 
@@ -25,11 +26,13 @@ interface NotificationData {
   sender: string;
   sentTimestamp: number;
   message: string;
+  unread?: boolean;
   callback?: () => unknown;
 }
 
 export default function NavNotification() {
   const [notificationChunkIndex, setNotificationChunkIndex] = useState(0);
+  const [unreadMessages, setUnreadMessages] = useState(0);
   const [notificationChunk, setNotificationChunk] = useState<
     NotificationData[]
   >([]);
@@ -40,6 +43,7 @@ export default function NavNotification() {
       sender: 'Sistema',
       sentTimestamp: 21512521,
       message: 'Seu formulário foi revisado.',
+      unread: true,
     },
     {
       id: 2,
@@ -90,8 +94,15 @@ export default function NavNotification() {
     if (chunkOfNotifications.length == 0) {
       return notificationChunk;
     }
+
     return [...chunkOfNotifications];
   };
+
+  //chunkOfNotifications.map((notificationData: NotificationData) => {
+  //  if (!notificationData.unread) return;
+  //  setUnreadMessages((state) => state + 1);
+  //  return;
+  //})
 
   useEffect(() => {
     registerLocale();
@@ -99,9 +110,12 @@ export default function NavNotification() {
   });
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={(open: boolean) => {
+        if (!open) return;
+        setUnreadMessages(0);
+    }}>
       <DropdownMenuTrigger asChild className="group">
-        <button className="hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center">
+        <button data-unreadMessages={unreadMessages > 0} className="hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 data-[unreadMessages=true]:animate-pulse hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center">
           <RxBell className="aspect-square w-full h-full" />
         </button>
       </DropdownMenuTrigger>
@@ -112,8 +126,13 @@ export default function NavNotification() {
       >
         <DropdownMenuGroup>
           <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-row space-x-1">
+            <div className="flex flex-row space-x-1 gap-1">
               <p className="text-sm font-medium leading-none">Notificações</p>{' '}
+              {unreadMessages > 0 && (
+                <Badge className="aspect-square h-4 w-2 flex items-center justify-center px-2">
+                {unreadMessages}
+              </Badge>
+              )}
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -126,9 +145,9 @@ export default function NavNotification() {
                       className="flex items-center justify-start gap-2"
                       onSelect={(event: Event) => {
                         if (notificationData.callback) {
-                            notificationData.callback();
+                          notificationData.callback();
                         } else {
-                            event.preventDefault();
+                          event.preventDefault();
                         }
                       }}
                     >
@@ -170,6 +189,29 @@ export default function NavNotification() {
                       )) ||
                       (index < notificationChunk.length - 1 && (
                         <DropdownMenuSeparator />
+                      )) ||
+                      (notificationChunk.length - 1 < notificationsToLoad && (
+                        <>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setNotificationChunkIndex(
+                                (state) => state - notificationsToLoad
+                              );
+                              setNotificationChunk(getChunkOfNotifications());
+                            }}
+                            onSelect={(event: Event) => {
+                              event.preventDefault();
+                            }}
+                          >
+                            <Button
+                              variant={'ghost'}
+                              className="h-4 p-0 text-zinc-500 flex items-center justify-start gap-2"
+                            >
+                              <p>Voltar</p>
+                            </Button>
+                          </DropdownMenuItem>
+                        </>
                       ))}
                   </div>
                 </>
