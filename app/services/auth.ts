@@ -14,8 +14,10 @@ const loginPath = `/auth/login`;
 const B64EncryptObject = B64Encrypt();
 let authenticatedToken = null;
 
+require("dotenv").config();
+
 const instance = axios.create({
-  baseURL: process.env.API_ENDPOINT,
+  baseURL: 'http://10.68.21.237:8080',//process.env.API_ENDPOINT,
 });
 
 export interface CustomResponse extends AxiosResponse {
@@ -34,11 +36,15 @@ export interface RegisterData {
   confirmarSenha?: string;
 }
 
+interface RequestType extends AxiosResponse<any, any> {
+  errors?: string[]
+}
+
 const useAuthHandler = () => {
   const router = useRouter();
 
-  const succesfullyAuthenticated = () => {
-    ToastWrapper.success('Login realizado com sucesso!');
+  const succesfullyAuthenticated = (message: string = 'Login realizado com sucesso!') => {
+    ToastWrapper.success(message);
     router.push('/dashboard');
   };
 
@@ -69,18 +75,27 @@ const useAuthHandler = () => {
 
     instance
       .post(loginPath, loginData)
-      .then((response) => {
+      .then((response: RequestType) => {
         console.log(response);
+        if (response.errors) {
+          response.errors.forEach((message: string) => {
+            unsuccesfullyAuthenticated(message);
+          })
+        }
         if (response.status == 200) {
-          authenticatedToken = response.data.token;
+          succesfullyAuthenticated();
           if (loginData.lembrarSenha) {
             rememberPassword(loginData);
           }
         }
       })
       .catch((error) => {
-        if (!error.message) return;
-        unsuccesfullyAuthenticated(error.message);
+        const responseData = error.response.data
+        if (responseData.errors) {
+          responseData.errors.forEach((message: string) => {
+            unsuccesfullyAuthenticated(message);
+          })
+        }
       });
   };
 
@@ -148,7 +163,7 @@ const useAuthHandler = () => {
     instance
       .post(registerPath, registerParams)
       .then((response) => {
-        if (response.status == 200) {
+        if (response.status == 201) {
           rememberPassword(registerData)
         }
       })

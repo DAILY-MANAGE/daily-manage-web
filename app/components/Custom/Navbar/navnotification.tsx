@@ -132,8 +132,8 @@ export default function NavNotification() {
     >
       <DropdownMenuTrigger asChild className="group">
         <button
-          data-unreadMessages={unreadMessages > 0}
-          className="hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 data-[unreadMessages=true]:animate-pulse hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center"
+          data-unreadmessages={unreadMessages > 0}
+          className="hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 data-[unreadmessages=true]:animate-pulse hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center"
         >
           <RxBell className="aspect-square w-full h-full" />
         </button>

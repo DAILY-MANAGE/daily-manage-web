@@ -2,6 +2,7 @@ import { Badge } from '@/app/components/Shadcn/badge';
 import { Card, CardContent } from '@/app/components/Shadcn/card';
 import { Input } from '@/app/components/Shadcn/input';
 import { Label } from '@/app/components/Shadcn/label';
+import { PermittedUsers } from './components/permitted-users';
 
 export default function Criar() {
   return (
@@ -18,9 +19,9 @@ export default function Criar() {
               <Label>Nome do Formulário</Label>
               <Input placeholder="Turbina"></Input>
             </CardContent>
-            <CardContent className="w-full p-3">
-              <Label>Nome do Formulário</Label>
-              <Input placeholder="Turbina"></Input>
+            <CardContent className="w-1/3 p-3 flex flex-col">
+              <Label>Pessoas Permitidas</Label>
+              <PermittedUsers/>
             </CardContent>
           </Card>
           <Card className="w-full h-fit flex items-center justify-center flex-col md:flex-row shadow">

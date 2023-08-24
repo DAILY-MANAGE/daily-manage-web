@@ -146,7 +146,7 @@ export default function LoginForm() {
             }}
           />
           <span className="text-sm my-auto h-full leading-[1.1rem]">
-            Lembrar senha
+            Lembrar sessão
           </span>
         </div>
         <div className="w-1/2 md:flex h-full justify-end items-center gap-2 block">

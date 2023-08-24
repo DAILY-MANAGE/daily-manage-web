@@ -1,6 +1,7 @@
 import { Button } from '@/app/components/Shadcn/button';
 import { Card } from '@/app/components/Shadcn/card';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { RxClipboard } from 'react-icons/rx';
 
 export const metadata: Metadata = {
@@ -18,18 +19,18 @@ export default function Formularios() {
               Formulários
             </h2>
             <div className="flex items-center gap-2">
-              <Button
-                className="border flex items-center justify-center gap-2 border-black/20"
-                variant={'outline'}
-              >
-                Criar Formulário <RxClipboard className="w-4 h-4" />
-              </Button>
+              <Link href="/formularios/criar">
+                <Button
+                  className="border flex items-center justify-center gap-2 border-black/20"
+                  variant={'outline'}
+                >
+                  Criar Formulário <RxClipboard className="w-4 h-4" />
+                </Button>
+              </Link>
             </div>
           </div>
-          <div className='flex flex-row gap-2'>
-            <Card>
-
-            </Card>
+          <div className="flex flex-row gap-2">
+            <Card></Card>
           </div>
         </div>
       </div>

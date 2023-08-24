@@ -14,7 +14,7 @@ export default function Logo({
   height = 100,
   specific = null,
 }: LogoProps) {
-  
+
   const router = useRouter();
 
   const reloadPage = () => {
