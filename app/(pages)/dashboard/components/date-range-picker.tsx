@@ -58,7 +58,6 @@ export function CalendarDateRangePicker({
             selected={date}
             onSelect={setDate}
             numberOfMonths={2}
-            className="bg-white"
           />
         </PopoverContent>
       </Popover>

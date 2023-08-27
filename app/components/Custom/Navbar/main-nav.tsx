@@ -59,7 +59,7 @@ export function MainNav({
         </DropdownMenuTrigger>
         <DropdownMenuContent onPointerDownOutside={() => {
           setDropdownOpen(false);
-        }} className="w-56 bg-white" align="start" forceMount>
+        }} className="w-56" align="start" forceMount>
           <DropdownMenuGroup>
             <Link href="/formularios">
               <DropdownMenuItem className="flex items-center justify-start gap-2">

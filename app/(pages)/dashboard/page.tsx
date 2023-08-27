@@ -38,7 +38,6 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between flex-col md:flex-row bg-recuperarSenha bg-cover bg-no-repeat px-4 py-3 rounded">
             <h2 className="text-3xl font-bold tracking-tight text-white">Dashboard</h2>
             <div className="flex items-center gap-2">
-              <CalendarDateRangePicker />
               <Button className="border flex items-center justify-center gap-2 border-black/20" variant={'outline'}>
                 Baixar CSV <RxDownload className="w-4 h-4" />
               </Button>
@@ -130,14 +129,15 @@ export default function DashboardPage() {
                 <Card className="col-span-4">
                   <CardHeader className="flex justify-between flex-row">
                     <CardTitle className='leading-none my-auto'>Geral</CardTitle>
-                    <div className="w-1/2 h-full flex justify-end">
+                    <div className="w-1/2 h-full flex justify-end gap-2">
+                      <CalendarDateRangePicker />
                       <Select defaultValue="Todos">
                         <SelectTrigger className="w-[180px]">
                           <SelectValue placeholder="Todos" />
                         </SelectTrigger>
-                        <SelectContent className='bg-white'>
-                          <SelectItem value="Todos" className='bg-white'>Todos</SelectItem>
-                          <SelectItem value="Turbina" className='bg-white'>Turbina</SelectItem>
+                        <SelectContent>
+                          <SelectItem value="Todos">Todos</SelectItem>
+                          <SelectItem value="Turbina">Turbina</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

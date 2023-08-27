@@ -139,7 +139,7 @@ export default function NavNotification() {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-[20rem] bg-white"
+        className="w-[20rem]"
         align="end"
         forceMount
       >

@@ -1,8 +1,10 @@
 import { Button } from '@/app/components/Shadcn/button';
-import { Card } from '@/app/components/Shadcn/card';
 import { Metadata } from 'next';
 import Link from 'next/link';
+
 import { RxClipboard } from 'react-icons/rx';
+
+import FormList from './components/form-list';
 
 export const metadata: Metadata = {
   title: 'Formulários | Daily Manage',
@@ -29,9 +31,7 @@ export default function Formularios() {
               </Link>
             </div>
           </div>
-          <div className="flex flex-row gap-2">
-            <Card></Card>
-          </div>
+          <FormList />
         </div>
       </div>
     </>

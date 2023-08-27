@@ -25,7 +25,7 @@ export default function RootLayout({
 
   return (
     <html lang="pt-br">
-      <body className={`${inter.className} bg-light-100 dark:bg-dark-900`}>
+      <body className={`${inter.className} bg-light-100 dark:bg-zinc-900`}>
         <ToastContainer icon={true} />
         <Custom.NavRoot />
         {children}
