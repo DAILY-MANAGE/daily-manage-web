@@ -7,7 +7,7 @@ import { columns } from '../components/columns';
 import { DataTable } from '../components/data-table';
 import { useEffect, useState } from 'react';
 
-export default function formList() {
+export default function FormList() {
     const [tasks, setTasks] = useState([{
         id: 'Formulário 8782',
         title:
@@ -19,7 +19,7 @@ export default function formList() {
 
     useEffect(() => {
         const getTasks = async () => {
-            //setTasks(data)            
+            //setTasks(data)
         };
         getTasks();
         return;
