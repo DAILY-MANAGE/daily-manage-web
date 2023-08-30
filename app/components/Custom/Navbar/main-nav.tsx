@@ -32,16 +32,18 @@ export function MainNav({
 
   return (
     <nav className={cn('flex items-center gap-2', className)} {...props}>
-      <NavLink href="/dashboard" data-active={getIsActiveFor('dashboard')}>
-        Dashboard
-      </NavLink>
+      {false && (
+        <NavLink href="/dashboard" data-active={getIsActiveFor('dashboard')}>
+          Dashboard
+        </NavLink>
+      )}
 
       <DropdownMenu open={dropdownOpen}>
         <DropdownMenuTrigger
           asChild
           className="group"
           onClick={() => {
-            console.log('zapzap')
+            console.log('zapzap');
             router.push('/formularios');
           }}
           onContextMenu={(event: SyntheticEvent) => {
@@ -57,9 +59,14 @@ export function MainNav({
             Formulários
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent onPointerDownOutside={() => {
-          setDropdownOpen(false);
-        }} className="w-56" align="start" forceMount>
+        <DropdownMenuContent
+          onPointerDownOutside={() => {
+            setDropdownOpen(false);
+          }}
+          className="w-56"
+          align="start"
+          forceMount
+        >
           <DropdownMenuGroup>
             <Link href="/formularios">
               <DropdownMenuItem className="flex items-center justify-start gap-2">
@@ -75,6 +82,10 @@ export function MainNav({
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <NavLink href="/empresa" data-active={getIsActiveFor('empresa')}>
+        Empresa
+      </NavLink>
     </nav>
   );
 }

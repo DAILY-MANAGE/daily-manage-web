@@ -46,7 +46,7 @@ export default function LoginForm() {
   const [submitQueue, setSubmitQueue] = useState(0);
   const [passwordHidden, setPasswordHidden] = useState(false);
 
-  const authHandler = useAuthHandler()
+  const authHandler = useAuthHandler();
 
   const handleLoginAttemptsQueue = () => {
     setSubmitQueue((state) => state + 1);
@@ -140,23 +140,28 @@ export default function LoginForm() {
         <div className="w-1/2 h-full flex justify-start items-center gap-2">
           <Checkbox
             className="border border-black/50 m-0 rounded my-auto shadow"
-            {...register("lembrarSessao")}
+            {...register('lembrarSessao')}
             onCheckedChange={(e: any) => {
-              setValue("lembrarSessao", e)
+              setValue('lembrarSessao', e);
             }}
           />
           <span className="text-sm my-auto h-full leading-[1.1rem]">
             Lembrar sessão
           </span>
         </div>
-        <div className="w-1/2 md:flex h-full justify-end items-center gap-2 block">
-          {' '}
-          <Link href="/recuperar-senha" className='leading-none text-end w-full h-full block'>
-            <span className="font-medium text-sm underline underline-offset-2">
-              Recuperar Senha
-            </span>
-          </Link>
-        </div>
+        {false && (
+          <div className="w-1/2 md:flex h-full justify-end items-center gap-2 block">
+            {' '}
+            <Link
+              href="/recuperar-senha"
+              className="leading-none text-end w-full h-full block"
+            >
+              <span className="font-medium text-sm underline underline-offset-2">
+                Recuperar Senha
+              </span>
+            </Link>
+          </div>
+        )}
       </div>
 
       <Button

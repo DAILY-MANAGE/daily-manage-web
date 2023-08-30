@@ -4,6 +4,7 @@ import React from 'react'
 
 import Button from '@/app/components/Custom/button';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function GoToRegister() {
     const router = useRouter();
@@ -11,14 +12,10 @@ export default function GoToRegister() {
     const goToCadastro = () => {
       router.push('/cadastro');
     };
-  
+
     return (
-        <Button
-            size="sm"
-            onClick={goToCadastro}
-            className="flex items-center justify-center gap-2 data-[cadastroloadingdelay=true]:opacity-50 bg-zinc-950 text-white"
-        >
-            <span>Cadastrar</span>
-        </Button>
+      <Link href="/cadastro" className='mt-2 w-full flex items-center justify-center'>
+        <p className='text-zinc-500 underline underline-offset-2'>Deseja cadastrar sua empresa?</p>
+      </Link>
     )
 }

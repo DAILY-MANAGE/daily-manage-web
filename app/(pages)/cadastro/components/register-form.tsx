@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { Form } from '../../../components/Form';
 
@@ -18,43 +18,66 @@ export default function RegisterForm() {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      usuario: '',
+      cnpj: '',
       senha: '',
-      confirmarSenha: '',
+      nomeEmpresa: '',
     },
   });
 
   const onSubmit = (data: RegisterData) => {
-    if (data.senha != data.confirmarSenha) return;
     console.log(data);
-    useAuthHandler().register(data);
+    //useAuthHandler().register(data);
+  };
+
+  const ValidateCNPJ = () => {
+
   };
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <Form.Label label="E-mail" />
+      <Form.Label label="Nome Empresa" />
       <Input
-        autoComplete="email"
-        htmlFor="email"
-        error={errors.usuario}
-        placeholder="Entre com seu e-mail"
-        aria-invalid={errors.usuario ? 'true' : 'false'}
+        autoComplete="nomeEmpresa"
+        htmlFor="nomeEmpresa"
+        error={errors.nomeEmpresa}
+        placeholder="Entre com o Nome da Empresa"
+        aria-invalid={errors.nomeEmpresa ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: any) => {
           e.preventDefault();
         }}
-        {...register('usuario', {
-          required: 'E-mail é obrigatório',
+        {...register('nomeEmpresa', {
+          required: 'Nome da Empresa é obrigatório',
+        })}
+        type="text"
+        id="nomeEmpresa"
+      />
+      <Form.Error message={errors.nomeEmpresa?.message} />
+
+      <Form.Label label="CNPJ" />
+      <Input
+        autoComplete="cnpj"
+        htmlFor="cnpj"
+        error={errors.cnpj}
+        placeholder="Entre com o CNPJ"
+        aria-invalid={errors.cnpj ? 'true' : 'false'}
+        className="shadow"
+        pattern="/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/"
+        onInvalid={(e: any) => {
+          e.preventDefault();
+        }}
+        {...register('cnpj', {
+          required: 'CNPJ é obrigatório',
           validate: {
             matchPattern: (v) =>
-              /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-              'O endereço de e-mail deve ser válido',
+              /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/.test(v) ||
+              'O CPNJ deve ser válido',
           },
         })}
-        type="email"
-        id="email"
+        type="text"
+        id="cnpj"
       />
-      <Form.Error message={errors.usuario?.message} />
+      <Form.Error message={errors.cnpj?.message} />
 
       <Form.Label label="Senha" className="mt-2" />
       <Input
@@ -78,7 +101,7 @@ export default function RegisterForm() {
             message: 'Número mínimo de caractéres é 5',
           },
         })}
-        type="password"
+        type="text"
         id="password"
       />
       <Form.Error message={errors.senha?.message} />
@@ -113,7 +136,7 @@ export default function RegisterForm() {
         type="submit"
         className="mt-4 flex items-center justify-center bg-zinc-900 text-white"
       >
-        Cadastrar
+        Cadastrar Empresa
       </Button>
     </Form.Root>
   );

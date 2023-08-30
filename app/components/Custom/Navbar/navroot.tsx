@@ -16,7 +16,7 @@ export default function NavRoot() {
   const pathname = usePathname();
 
   const canShowNavbar = () =>
-    pathname.includes('dashboard') || pathname.includes('formularios') || pathname.includes('configuracoes');
+    pathname.includes('dashboard') || pathname.includes('formularios') || pathname.includes('configuracoes') || pathname.includes('empresa');
 
   return (
     (canShowNavbar() && (
@@ -25,7 +25,9 @@ export default function NavRoot() {
           <Logo width={35} height={35} />
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
-            <Search />
+            { false && (
+              <Search />
+            )}
             <NavNotification />
             <UserNav />
           </div>

@@ -31,9 +31,8 @@ export interface LoginData {
 }
 
 export interface RegisterData {
-  usuario: string;
+  cnpj: string;
   senha: string;
-  confirmarSenha?: string;
 }
 
 interface RequestType extends AxiosResponse<any, any> {
