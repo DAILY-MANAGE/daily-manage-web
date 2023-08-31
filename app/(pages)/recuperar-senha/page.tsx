@@ -216,10 +216,10 @@ export default function RecuperarSenha() {
     4: () => (
       <>
         <h1 className="font-bold text-md mb-1 w-full text-center flex items-center justify-center gap-2">
-          <span>Sua senha foi redefinida com successo!</span> <FaCheck className='text-success w-4 h-4'/>
+          <span>Sua senha foi redefinida com successo!</span>{' '}
+          <FaCheck className="text-success w-4 h-4" />
         </h1>
-        <div className="h-fit flex justify-center align-center text-center w-full text-primary-300 my-2 font-large">
-        </div>
+        <div className="h-fit flex justify-center align-center text-center w-full text-primary-300 my-2 font-large"></div>
       </>
     ),
   };

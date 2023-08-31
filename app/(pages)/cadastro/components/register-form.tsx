@@ -8,6 +8,7 @@ import { Input } from '@/app/components/Shadcn/input';
 import Button from '@/app/components/Custom/button';
 
 import useAuthHandler, { RegisterData } from '@/app/services/auth';
+import Link from 'next/link';
 
 export default function RegisterForm() {
   const {
@@ -29,13 +30,11 @@ export default function RegisterForm() {
     //useAuthHandler().register(data);
   };
 
-  const ValidateCNPJ = () => {
-
-  };
+  const ValidateCNPJ = () => {};
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <Form.Label label="Nome Empresa" />
+      <Form.Label label="Nome Empresa" className="mt-2" />
       <Input
         autoComplete="nomeEmpresa"
         htmlFor="nomeEmpresa"
@@ -54,7 +53,7 @@ export default function RegisterForm() {
       />
       <Form.Error message={errors.nomeEmpresa?.message} />
 
-      <Form.Label label="CNPJ" />
+      <Form.Label label="CNPJ" className="mt-2" />
       <Input
         autoComplete="cnpj"
         htmlFor="cnpj"
@@ -106,30 +105,6 @@ export default function RegisterForm() {
       />
       <Form.Error message={errors.senha?.message} />
 
-      <Form.Label label="Confirmar Senha" className="mt-2" />
-      <Input
-        htmlFor="confirmpassword"
-        error={errors.confirmarSenha}
-        autoComplete="confirmpassword"
-        placeholder="Confirme a sua senha"
-        aria-invalid={errors.confirmarSenha ? 'true' : 'false'}
-        className="shadow"
-        onInvalid={(e: any) => {
-          e.preventDefault();
-        }}
-        {...register('confirmarSenha', {
-          required: 'Confirmar Senha é obrigatório',
-          validate: (val: string) => {
-            if (watch('senha') != val) {
-              return 'As senhas não são iguais';
-            }
-          },
-        })}
-        type="password"
-        id="confirmpassword"
-      />
-      <Form.Error message={errors.confirmarSenha?.message} />
-
       <Button
         theme="dark-900"
         size="full"
@@ -138,6 +113,15 @@ export default function RegisterForm() {
       >
         Cadastrar Empresa
       </Button>
+
+      <Link
+        href="/login"
+        className="mt-2 w-full flex items-center justify-center"
+      >
+        <p className="text-zinc-500 underline underline-offset-2">
+          Não é empresa?
+        </p>
+      </Link>
     </Form.Root>
   );
 }

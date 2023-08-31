@@ -19,7 +19,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     ToastWrapper.setupWindow(window);
   }
 

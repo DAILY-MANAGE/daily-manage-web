@@ -22,9 +22,7 @@ export default function IdFuncionario({ params }: Props) {
             <h2 className="text-3xl font-bold tracking-tight text-white">
               {`Formulário ${params.id}`}
             </h2>
-            <div className="flex items-center gap-2">
-
-            </div>
+            <div className="flex items-center gap-2"></div>
           </div>
         </div>
       </div>

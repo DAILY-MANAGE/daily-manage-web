@@ -1,12 +1,9 @@
-import { useEffect } from "react"
+import { useEffect } from 'react';
 
 const useFetch = () => {
-    
-    const get = (payload: any, callback: any) => {
+  const get = (payload: any, callback: any) => {};
 
-    }
-
-    return {
-        get,
-    }
-}
+  return {
+    get,
+  };
+};

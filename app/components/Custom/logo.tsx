@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -14,12 +14,11 @@ export default function Logo({
   height = 100,
   specific = null,
 }: LogoProps) {
-
   const router = useRouter();
 
   const reloadPage = () => {
     router.refresh();
-  }
+  };
 
   return (
     <>

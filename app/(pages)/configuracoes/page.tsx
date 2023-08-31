@@ -1,5 +1,7 @@
 export default function Configuracoes() {
-  return <>
-    <p>Oi</p>
-  </>
+  return (
+    <>
+      <p>Oi</p>
+    </>
+  );
 }

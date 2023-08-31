@@ -38,7 +38,7 @@ export default function NavNotification() {
   >([]);
 
   const getNotifications = useCallback(() => {
-    console.log('Getting notifications...')
+    console.log('Getting notifications...');
     let listOfNotifications = [
       {
         id: 1,
@@ -81,8 +81,8 @@ export default function NavNotification() {
     listOfNotifications.map((notificationData: NotificationData) => {
       if (!notificationData.unread) return;
       setUnreadMessages((state) => state + 1);
-    })
-    return listOfNotifications
+    });
+    return listOfNotifications;
   }, []);
 
   const notifications: NotificationData[] = useMemo(
@@ -138,11 +138,7 @@ export default function NavNotification() {
           <RxBell className="aspect-square w-full h-full" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        className="w-[20rem]"
-        align="end"
-        forceMount
-      >
+      <DropdownMenuContent className="w-[20rem]" align="end" forceMount>
         <DropdownMenuGroup>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-row space-x-1 gap-1">
@@ -214,16 +210,14 @@ export default function NavNotification() {
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
                             onClick={() => {
-                              setNotificationChunkIndex(
-                                (state) => {
-                                  let toSet = state - notificationsToLoad
-                                  if (toSet < 0) {
-                                    toSet = 0;
-                                  }
-                                  return toSet;
+                              setNotificationChunkIndex((state) => {
+                                let toSet = state - notificationsToLoad;
+                                if (toSet < 0) {
+                                  toSet = 0;
                                 }
-                              );
-                              console.log(notificationChunkIndex)
+                                return toSet;
+                              });
+                              console.log(notificationChunkIndex);
                               setNotificationChunk(getChunkOfNotifications());
                               console.log(notificationChunk);
                             }}

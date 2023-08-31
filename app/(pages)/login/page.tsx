@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default function Login() {
-
   return (
     <div className="flex flex-row align-center justify-center w-[100vw] h-[100vh]">
       <div className="h-[100vh] flex flex-col align-center justify-center w-[80vw] md:w-[30vw] lg:w-[30w] px-0 lg:px-16 md:px-10">
@@ -20,7 +19,7 @@ export default function Login() {
         </div>
         <div className="flex flex-col align-center justify-center h-[90%] w-[90%] mx-auto">
           <h1 className="font-bold text-lg mb-1">Bem-vindo de volta!</h1>
-          <p className="text-sm mb-2 text-gray-900">Entre na sua conta</p>
+          <p className="text-sm mb-2 text-gray-900">Entre na sua conta.</p>
           <LoginForm />
           <GoToRegister />
         </div>

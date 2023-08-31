@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRouter } from 'next/navigation';
 
@@ -14,14 +14,16 @@ export default function NotFoundRoot() {
         <div className="w-fit h-fit mb-6 mx-auto">
           <Logo width={50} height={50} />
         </div>
-        <h1 className="font-black text-2xl mb-2">Erro 404</h1>
-        <h1 className="font-medium text-md md:text-lg mb-2">
+        <h1 className="font-black text-2xl mb-2">ERRO 404</h1>
+        <h1 className="font-medium text-md md:text-lg mb-2 text-gray-900">
           Não foi possível encontrar essa página...
         </h1>
-        <p className="font-normal text-md text-gray-900 mb-2">Tente outro endereço ou volte para a página principal.</p>
-        <div className='grid grid-cols-[0.5fr_0.5fr] gap-3 w-full mt-3'>
+        <div className="grid grid-cols-[0.5fr_0.5fr] gap-3 w-full mt-3">
           <NotFoundButton text="Voltar" callback={() => router.back()} />
-          <NotFoundButton text="Ir para Login" callback={() => router.push('/login')} />
+          <NotFoundButton
+            text="Ir para Login"
+            callback={() => router.push('/login')}
+          />
         </div>
       </div>
     </>

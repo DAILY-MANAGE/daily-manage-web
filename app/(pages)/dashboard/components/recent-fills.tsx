@@ -2,8 +2,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/app/components/Shadcn/avatar"
-import { Button } from "@/app/components/Shadcn/button"
+} from '@/app/components/Shadcn/avatar';
+import { Button } from '@/app/components/Shadcn/button';
 
 export function RecentFills() {
   return (
@@ -15,16 +15,12 @@ export function RecentFills() {
         </Avatar>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">Antônio</p>
-          <p className="text-sm text-zinc-500">
-            Gerador Turbinas 2
-          </p>
+          <p className="text-sm text-zinc-500">Gerador Turbinas 2</p>
         </div>
         <div className="ml-auto font-medium">
-          <Button>
-          Acessar
-          </Button>
+          <Button>Acessar</Button>
         </div>
       </div>
     </div>
-  )
+  );
 }

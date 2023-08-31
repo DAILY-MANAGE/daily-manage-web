@@ -1,17 +1,13 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 interface HeaderProps {
-  variant: string,
-  children: ReactNode
+  variant: string;
+  children: ReactNode;
 }
 
-import { tv } from 'tailwind-variants'
+import { tv } from 'tailwind-variants';
 
-const buttonVariants = tv(
-  {
-
-  }
-)
+const buttonVariants = tv({});
 
 export default function Header({ variant = 'default', children }: HeaderProps) {
   return (
@@ -19,7 +15,7 @@ export default function Header({ variant = 'default', children }: HeaderProps) {
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className={buttonVariants({})}>
           <h2 className="text-3xl font-bold tracking-tight text-white">
-            { children }
+            {children}
           </h2>
         </div>
       </div>

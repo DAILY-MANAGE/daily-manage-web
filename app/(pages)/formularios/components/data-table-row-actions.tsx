@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { RxDotsHorizontal } from "react-icons/rx"
-import { Row } from "@tanstack/react-table"
+import { RxDotsHorizontal } from 'react-icons/rx';
+import { Row } from '@tanstack/react-table';
 
-import { Button } from "@/app/components/Shadcn/button"
+import { Button } from '@/app/components/Shadcn/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,19 +16,19 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/app/components/Shadcn/dropdown-menu"
+} from '@/app/components/Shadcn/dropdown-menu';
 
-import { labels } from "../data/data"
-import { taskSchema } from "../data/schema"
+import { labels } from '../data/data';
+import { taskSchema } from '../data/schema';
 
 interface DataTableRowActionsProps<TData> {
-  row: Row<TData>
+  row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
+  const task = taskSchema.parse(row.original);
 
   return (
     <DropdownMenu>
@@ -65,5 +65,5 @@ export function DataTableRowActions<TData>({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

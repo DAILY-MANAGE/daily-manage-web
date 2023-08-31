@@ -6,7 +6,7 @@ import B64Encrypt from '../utils/useBase64';
 import { ToastWrapper } from '../utils/ToastWrapper';
 import { useRouter } from 'next/navigation';
 
-const loginCookieKey = 'login_token'
+const loginCookieKey = 'login_token';
 
 const registerPath = `/auth/register`;
 const loginPath = `/auth/login`;
@@ -14,10 +14,10 @@ const loginPath = `/auth/login`;
 const B64EncryptObject = B64Encrypt();
 let authenticatedToken = null;
 
-require("dotenv").config();
+require('dotenv').config();
 
 const instance = axios.create({
-  baseURL: 'http://10.68.21.237:8080',//process.env.API_ENDPOINT,
+  baseURL: 'http://10.68.21.237:8080', //process.env.API_ENDPOINT,
 });
 
 export interface CustomResponse extends AxiosResponse {
@@ -36,13 +36,15 @@ export interface RegisterData {
 }
 
 interface RequestType extends AxiosResponse<any, any> {
-  errors?: string[]
+  errors?: string[];
 }
 
 const useAuthHandler = () => {
   const router = useRouter();
 
-  const succesfullyAuthenticated = (message: string = 'Login realizado com sucesso!') => {
+  const succesfullyAuthenticated = (
+    message: string = 'Login realizado com sucesso!'
+  ) => {
     ToastWrapper.success(message);
     router.push('/dashboard');
   };
@@ -57,17 +59,17 @@ const useAuthHandler = () => {
     const stringfiedArray = JSON.stringify(arr);
     const encodedJSON = B64EncryptObject.encodeText(stringfiedArray);
     return encodedJSON;
-  }
+  };
 
   const rememberPassword = (data: LoginData | RegisterData) => {
     const encodedArray = encodeArray(data);
     if (!encodedArray) {
-      return
+      return;
     }
     Cookies.set(loginCookieKey, encodedArray, {
       expires: 30,
     });
-  }
+  };
 
   const login = (loginData?: LoginData) => {
     if (!loginData) return;
@@ -79,7 +81,7 @@ const useAuthHandler = () => {
         if (response.errors) {
           response.errors.forEach((message: string) => {
             unsuccesfullyAuthenticated(message);
-          })
+          });
         }
         if (response.status == 200) {
           succesfullyAuthenticated();
@@ -89,23 +91,21 @@ const useAuthHandler = () => {
         }
       })
       .catch((error) => {
-        const responseData = error.response.data
+        const responseData = error.response.data;
         if (responseData.errors) {
           responseData.errors.forEach((message: string) => {
             unsuccesfullyAuthenticated(message);
-          })
+          });
         }
       });
   };
 
   const isLoggedIn = async () => {
-
     const withCookie = async () => {
-
       const getDecodedJSON = () => {
         const tokenCookie = Cookies.get(loginCookieKey);
         if (!tokenCookie) {
-          return
+          return;
         }
 
         const decodedCookie = B64EncryptObject.decodeText(tokenCookie);
@@ -149,11 +149,11 @@ const useAuthHandler = () => {
 
     const hasAuthTokenInCookies = Cookies.get(loginCookieKey);
     if (hasAuthTokenInCookies) {
-      return await withCookie()
+      return await withCookie();
     }
 
     return false;
-  }
+  };
 
   const register = (registerData: RegisterData) => {
     const registerParams = {
@@ -163,7 +163,7 @@ const useAuthHandler = () => {
       .post(registerPath, registerParams)
       .then((response) => {
         if (response.status == 201) {
-          rememberPassword(registerData)
+          rememberPassword(registerData);
         }
       })
       .catch((error) => {
@@ -174,7 +174,7 @@ const useAuthHandler = () => {
   return {
     login,
     register,
-    isLoggedIn
+    isLoggedIn,
   };
 };
 

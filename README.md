@@ -24,6 +24,7 @@ Daily Manage
 - [ ] Design the cover art for the login/cadastro/recuperar-senha pages.
 
 ## Run Development Environment
+
 ```bash
 npm run dev
 yarn dev

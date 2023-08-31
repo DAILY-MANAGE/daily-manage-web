@@ -82,27 +82,22 @@ export default function LoginForm() {
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <Form.Label label="E-mail" />
+      <Form.Label label="Usuário" />
       <Input
-        autoComplete="email"
-        htmlFor="email"
+        autoComplete="usuario"
+        htmlFor="usuario"
         error={errors.usuario}
-        placeholder="Entre com seu e-mail"
+        placeholder="Entre com seu usuário"
         aria-invalid={errors.usuario ? 'true' : 'false'}
-        className="shadow"
+        data-invalid={errors.senha ? true : false}
         onInvalid={(e: any) => {
           e.preventDefault();
         }}
         {...register('usuario', {
-          required: 'E-mail é obrigatório',
-          validate: {
-            matchPattern: (v) =>
-              /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-              'O endereço de e-mail deve ser válido',
-          },
+          required: 'Usuário é obrigatório',
         })}
-        type="email"
-        id="email"
+        type="text"
+        id="usuario"
       />
       <Form.Error message={errors.usuario?.message} />
 
@@ -115,8 +110,8 @@ export default function LoginForm() {
           id="password"
           error={errors.senha}
           placeholder="Entre com sua senha"
-          className="shadow"
           aria-invalid={errors.senha ? 'true' : 'false'}
+          data-invalid={errors.senha ? true : false}
           onInvalid={(e: any) => {
             e.preventDefault();
           }}
@@ -126,7 +121,7 @@ export default function LoginForm() {
         />
         <button
           id="password-eye"
-          className="w-full h-full px-2 border border-black/50 rounded flex items-center justify-center shadow"
+          className="w-full h-full px-2 border border-black/50 rounded-md flex items-center justify-center shadow"
           type="button"
           onClick={hideShowPassword}
         >

@@ -3,7 +3,6 @@
 import React from 'react';
 
 import { MainNav } from './main-nav';
-import { Search } from './search';
 import { UserNav } from './user-nav';
 
 import Logo from '../logo';
@@ -16,7 +15,10 @@ export default function NavRoot() {
   const pathname = usePathname();
 
   const canShowNavbar = () =>
-    pathname.includes('dashboard') || pathname.includes('formularios') || pathname.includes('configuracoes') || pathname.includes('empresa');
+    pathname.includes('dashboard') ||
+    pathname.includes('formularios') ||
+    pathname.includes('configuracoes') ||
+    pathname.includes('empresa');
 
   return (
     (canShowNavbar() && (
@@ -25,9 +27,6 @@ export default function NavRoot() {
           <Logo width={35} height={35} />
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
-            { false && (
-              <Search />
-            )}
             <NavNotification />
             <UserNav />
           </div>

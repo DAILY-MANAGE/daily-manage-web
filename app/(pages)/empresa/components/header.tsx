@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
 
 interface HeaderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export default function Header({ children }: HeaderProps) {
@@ -12,10 +12,10 @@ export default function Header({ children }: HeaderProps) {
   useEffect(() => {
     const getBusinessName = () => {
       // Logica de request para pegar nome da empresa
-      return 'Bracell Lençóis-Paulista'
-    }
-    setBusinessName(getBusinessName())
-  }, [])
+      return 'Bracell Lençóis-Paulista';
+    };
+    setBusinessName(getBusinessName());
+  }, []);
 
   return (
     <>
@@ -23,10 +23,10 @@ export default function Header({ children }: HeaderProps) {
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
             <h2 className="text-3xl font-bold tracking-tight text-white">
-              { businessName || 'Carregando...' }
+              {businessName || 'Carregando...'}
             </h2>
           </div>
-          { children }
+          {children}
         </div>
       </div>
     </>

@@ -27,17 +27,19 @@ const defaultToastOptions: ToastOptions = {
   theme: 'light',
 };
 
-const createToast = (type: keyof typeof toast) => (message: string, options: ToastOptions = defaultToastOptions) => {
-  options.theme = isCurrentlyDarkMode ? 'dark' : 'light';
-  (toast as any)[type](message, options);
-};
+const createToast =
+  (type: keyof typeof toast) =>
+  (message: string, options: ToastOptions = defaultToastOptions) => {
+    options.theme = isCurrentlyDarkMode ? 'dark' : 'light';
+    (toast as any)[type](message, options);
+  };
 
 const setupWindow = () => (window: Window) => {
   if (globalWindow) return;
   globalWindow = window;
   runColorMode((isDarkMode: boolean) => {
     isCurrentlyDarkMode = isDarkMode;
-  });    
+  });
 };
 
 export const ToastWrapper = {
@@ -45,5 +47,5 @@ export const ToastWrapper = {
   success: createToast('success'),
   warn: createToast('warn'),
   error: createToast('error'),
-  setupWindow: setupWindow()
+  setupWindow: setupWindow(),
 };

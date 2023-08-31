@@ -8,7 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/components/Shadcn/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/Shadcn/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/app/components/Shadcn/tabs';
 
 import { CalendarDateRangePicker } from './components/date-range-picker';
 import { Overview } from './components/overview';
@@ -21,7 +26,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/app/components/Shadcn/select"
+} from '@/app/components/Shadcn/select';
 
 export const metadata: Metadata = {
   title: 'Dashboard | Daily Manage',
@@ -32,30 +37,27 @@ export default function DashboardPage() {
   return (
     <>
       <div className="flex-col flex">
-
         <div className="flex-1 space-y-4 p-8 pt-6">
-
           <div className="flex items-center justify-between flex-col md:flex-row bg-recuperarSenha bg-cover bg-no-repeat px-4 py-3 rounded">
-            <h2 className="text-3xl font-bold tracking-tight text-white">Dashboard</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-white">
+              Dashboard
+            </h2>
             <div className="flex items-center gap-2">
-              <Button className="border flex items-center justify-center gap-2 border-black/20" variant={'outline'}>
+              <Button
+                className="border flex items-center justify-center gap-2 border-black/20"
+                variant={'outline'}
+              >
                 Baixar CSV <RxDownload className="w-4 h-4" />
               </Button>
             </div>
           </div>
 
           <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList className='gap-2'>
+            <TabsList className="gap-2">
               <TabsTrigger value="overview">Geral</TabsTrigger>
-              <TabsTrigger value="analytics">
-                Análises
-              </TabsTrigger>
-              <TabsTrigger value="reports">
-                Relatórios
-              </TabsTrigger>
-              <TabsTrigger value="notifications">
-                Notificações
-              </TabsTrigger>
+              <TabsTrigger value="analytics">Análises</TabsTrigger>
+              <TabsTrigger value="reports">Relatórios</TabsTrigger>
+              <TabsTrigger value="notifications">Notificações</TabsTrigger>
             </TabsList>
             <TabsContent value="analytics" className="space-y-4">
               <p>Análises</p>
@@ -73,7 +75,7 @@ export default function DashboardPage() {
                     <CardTitle className="text-sm font-medium">
                       Formulários Respondidos
                     </CardTitle>
-                    <RxClipboard className='w-4 h-4' />
+                    <RxClipboard className="w-4 h-4" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">573</div>
@@ -87,7 +89,7 @@ export default function DashboardPage() {
                     <CardTitle className="text-sm font-medium">
                       Formulários Respondidos
                     </CardTitle>
-                    <RxClipboard className='w-4 h-4' />
+                    <RxClipboard className="w-4 h-4" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">573</div>
@@ -101,7 +103,7 @@ export default function DashboardPage() {
                     <CardTitle className="text-sm font-medium">
                       Formulários Respondidos
                     </CardTitle>
-                    <RxClipboard className='w-4 h-4' />
+                    <RxClipboard className="w-4 h-4" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">573</div>
@@ -115,7 +117,7 @@ export default function DashboardPage() {
                     <CardTitle className="text-sm font-medium">
                       Formulários Respondidos
                     </CardTitle>
-                    <RxClipboard className='w-4 h-4' />
+                    <RxClipboard className="w-4 h-4" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">573</div>
@@ -128,7 +130,9 @@ export default function DashboardPage() {
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader className="flex justify-between flex-row">
-                    <CardTitle className='leading-none my-auto'>Geral</CardTitle>
+                    <CardTitle className="leading-none my-auto">
+                      Geral
+                    </CardTitle>
                     <div className="w-1/2 h-full flex justify-end gap-2">
                       <CalendarDateRangePicker />
                       <Select defaultValue="Todos">

@@ -3,7 +3,7 @@ import Logo from './logo';
 import NavRoot from './Navbar/navroot';
 
 export const Custom = {
-    Button: Button,
-    Logo: Logo,
-    NavRoot: NavRoot,
-}
+  Button: Button,
+  Logo: Logo,
+  NavRoot: NavRoot,
+};

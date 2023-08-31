@@ -1,57 +1,57 @@
-"use client"
+'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 const data = [
   {
-    name: "Jan",
+    name: 'Jan',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Fev",
+    name: 'Fev',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Mar",
+    name: 'Mar',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Abr",
+    name: 'Abr',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Mai",
+    name: 'Mai',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Jun",
+    name: 'Jun',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Jul",
+    name: 'Jul',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Ago",
+    name: 'Ago',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Set",
+    name: 'Set',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Out",
+    name: 'Out',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Nov",
+    name: 'Nov',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
   {
-    name: "Dez",
+    name: 'Dez',
     total: Math.floor(Math.random() * 5000) + 1000,
   },
-]
+];
 
 export function Overview() {
   return (
@@ -71,8 +71,8 @@ export function Overview() {
           axisLine={false}
           tickFormatter={(value) => `${value}`}
         />
-        <Bar dataKey="total" fill="#15F45F" radius={[4, 4, 0, 0]}/>
+        <Bar dataKey="total" fill="#15F45F" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }

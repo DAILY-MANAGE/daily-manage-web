@@ -8,10 +8,10 @@ interface LoginValidationErrorProps {
 
 export default function PreFormError({ message }: LoginValidationErrorProps) {
   return (
-    message && (
+    (message && (
       <small className="block font-medium p-1 px-0 text-rose-800">
         {message}
       </small>
-    ) || <></>
+    )) || <></>
   );
 }
