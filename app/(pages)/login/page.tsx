@@ -1,14 +1,14 @@
-import Logo from '@/app/components/Custom/logo';
+import Logo from '@/app/components/Logo'
 
-import LoginForm from './components/login-form';
-import GoToRegister from './components/go-to-register';
+import LoginForm from './components/login-form'
+import GoToRegister from './components/go-to-register'
 
-import { Metadata } from 'next';
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Login | Daily Manage',
   description: 'Faça login para ter acesso ao seus formulários.',
-};
+}
 
 export default function Login() {
   return (
@@ -26,5 +26,5 @@ export default function Login() {
       </div>
       <div className="w-[70vw] hidden bg-light-100 md:flex lg:flex h-[100vh] bg-login bg-cover bg-no-repeat"></div>
     </div>
-  );
+  )
 }

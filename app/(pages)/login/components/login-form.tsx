@@ -1,35 +1,33 @@
-'use client';
-import Link from 'next/link';
+'use client'
 
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import useAuthHandler from '@/app/services/auth'
 
-import { Checkbox } from '@/app/components/Shadcn/checkbox';
-import { Input } from '@/app/components/Shadcn/input';
+import { Checkbox } from '@/app/components/Shadcn/checkbox'
+import { Input } from '@/app/components/Shadcn/input'
+import { Form } from '@/app/components/Form'
 
-import { Form } from '@/app/components/Form';
-import Button from '@/app/components/Custom/button';
+import { FiEyeOff, FiEye } from 'react-icons/fi'
+import { useForm } from 'react-hook-form'
+import { SyntheticEvent, useState } from 'react'
 
-import { FiEyeOff, FiEye } from 'react-icons/fi';
-
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-
-import useAuthHandler from '@/app/services/auth';
+import { CheckedState } from '@radix-ui/react-checkbox'
+import { Button } from '@/app/components/Shadcn/button'
 
 interface Login {
-  usuario: string;
-  senha: string;
-  lembrarSessao: boolean;
+  usuario: string
+  senha: string
+  lembrarSessao: boolean
 }
 
 const loginFormValues: Login = {
   usuario: '',
   senha: '',
   lembrarSessao: false,
-};
+}
 
-const delayTillSubmit = 1000;
-const delayTillResetDebounce = 5000;
+const delayTillSubmit = 1000
+const delayTillResetDebounce = 5000
 
 export default function LoginForm() {
   const {
@@ -40,45 +38,45 @@ export default function LoginForm() {
   } = useForm({
     mode: 'onChange',
     defaultValues: loginFormValues,
-  });
+  })
 
-  const [loginAttempts, setLoginAttempts] = useState(0);
-  const [submitQueue, setSubmitQueue] = useState(0);
-  const [passwordHidden, setPasswordHidden] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0)
+  const [submitQueue, setSubmitQueue] = useState(0)
+  const [passwordHidden, setPasswordHidden] = useState(false)
 
-  const authHandler = useAuthHandler();
+  const authHandler = useAuthHandler()
 
   const handleLoginAttemptsQueue = () => {
-    setSubmitQueue((state) => state + 1);
-    const savedQueue = submitQueue;
+    setSubmitQueue((state) => state + 1)
+    const savedQueue = submitQueue
     setTimeout(() => {
-      if (submitQueue == savedQueue) {
-        setLoginAttempts(0);
+      if (submitQueue === savedQueue) {
+        setLoginAttempts(0)
       }
-    }, delayTillResetDebounce);
-  };
+    }, delayTillResetDebounce)
+  }
 
   const handleLogin = (data: Login) => {
     if (loginAttempts > 5) {
       ToastWrapper.warn(
-        'Você tentou fazer login muitas vezes! Espere alguns segundos...'
-      );
-      return;
+        'Você tentou fazer login muitas vezes! Espere alguns segundos...',
+      )
+      return
     }
-    return authHandler.login(data);
-  };
+    return authHandler.login(data)
+  }
 
   const onSubmit = (data: Login) => {
-    setLoginAttempts((state) => state + 1);
-    handleLoginAttemptsQueue();
+    setLoginAttempts((state) => state + 1)
+    handleLoginAttemptsQueue()
     setTimeout(() => {
-      handleLogin(data);
-    }, delayTillSubmit);
-  };
+      handleLogin(data)
+    }, delayTillSubmit)
+  }
 
   const hideShowPassword = () => {
-    setPasswordHidden(!passwordHidden);
-  };
+    setPasswordHidden(!passwordHidden)
+  }
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -89,9 +87,9 @@ export default function LoginForm() {
         error={errors.usuario}
         placeholder="Entre com seu usuário"
         aria-invalid={errors.usuario ? 'true' : 'false'}
-        data-invalid={errors.senha ? true : false}
-        onInvalid={(e: any) => {
-          e.preventDefault();
+        data-invalid={errors.senha}
+        onInvalid={(e: SyntheticEvent) => {
+          e.preventDefault()
         }}
         {...register('usuario', {
           required: 'Usuário é obrigatório',
@@ -111,9 +109,9 @@ export default function LoginForm() {
           error={errors.senha}
           placeholder="Entre com sua senha"
           aria-invalid={errors.senha ? 'true' : 'false'}
-          data-invalid={errors.senha ? true : false}
-          onInvalid={(e: any) => {
-            e.preventDefault();
+          data-invalid={errors.senha}
+          onInvalid={(e: SyntheticEvent) => {
+            e.preventDefault()
           }}
           {...register('senha', {
             required: 'Senha é obrigatória',
@@ -136,27 +134,15 @@ export default function LoginForm() {
           <Checkbox
             className="border border-black/50 m-0 rounded my-auto shadow"
             {...register('lembrarSessao')}
-            onCheckedChange={(e: any) => {
-              setValue('lembrarSessao', e);
+            onCheckedChange={(checked: CheckedState) => {
+              if (typeof checked !== 'boolean') return
+              setValue('lembrarSessao', checked)
             }}
           />
           <span className="text-sm my-auto h-full leading-[1.1rem]">
             Lembrar sessão
           </span>
         </div>
-        {false && (
-          <div className="w-1/2 md:flex h-full justify-end items-center gap-2 block">
-            {' '}
-            <Link
-              href="/recuperar-senha"
-              className="leading-none text-end w-full h-full block"
-            >
-              <span className="font-medium text-sm underline underline-offset-2">
-                Recuperar Senha
-              </span>
-            </Link>
-          </div>
-        )}
       </div>
 
       <Button
@@ -167,5 +153,5 @@ export default function LoginForm() {
         <span>Entrar</span>
       </Button>
     </Form.Root>
-  );
+  )
 }
