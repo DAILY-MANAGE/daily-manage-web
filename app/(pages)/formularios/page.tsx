@@ -4,9 +4,9 @@ import Link from 'next/link'
 
 import { RxClipboard } from 'react-icons/rx'
 
-import FormList from './components/form-list'
 import { Root } from '../../components/Root'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/app/components/Shadcn/card'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/app/components/Shadcn/table'
+import FormTable from './components/form-table'
 
 export const metadata: Metadata = {
   title: 'Formulários | Daily Manage',
@@ -26,21 +26,7 @@ export default function Formularios() {
           </Button>
         </Link>
       </Root.Header>
-      <Card>
-        <CardHeader>
-          <CardTitle>Formulários</CardTitle>
-          <CardTitle>Nome</CardTitle>
-          <CardTitle>Formulários</CardTitle>
-          <CardTitle>Formulários</CardTitle>
-
-        </CardHeader>
-        <CardContent>
-
-        </CardContent>
-        <CardFooter>
-
-        </CardFooter>
-      </Card>
+      <FormTable />
     </Root.Spacing>
   )
 }

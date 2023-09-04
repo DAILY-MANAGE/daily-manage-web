@@ -22,7 +22,7 @@ export default function NavRoot() {
 
   return (
     (canShowNavbar() && (
-      <div className="border-b max-w-screen">
+      <div className="border-b max-w-screen overflow-hidden">
         <div className="flex h-16 items-center px-8">
           <Logo width={35} height={35} />
           <MainNav className="mx-6" />

@@ -15,6 +15,7 @@ export const useGetRequest = (url: string, defaultData?: unknown) => {
     setLoading(true)
     try {
       const response = await instance.get(url)
+      console.log(response)
       setData(response.data)
     } catch (error) {
       const axiosError = (error as AxiosError).response as RequestType
