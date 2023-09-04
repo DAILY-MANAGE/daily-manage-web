@@ -7,22 +7,14 @@ import {
   RxCrossCircled,
   RxQuestionMarkCircled,
   RxStopwatch,
-} from 'react-icons/rx';
+} from 'react-icons/rx'
 
 export const labels = [
   {
     value: 'bug',
-    label: 'Bug',
+    label: 'Formulário',
   },
-  {
-    value: 'feature',
-    label: 'Feature',
-  },
-  {
-    value: 'documentation',
-    label: 'Documentation',
-  },
-];
+]
 
 export const statuses = [
   {
@@ -50,7 +42,7 @@ export const statuses = [
     label: 'Cancelada',
     icon: RxCrossCircled,
   },
-];
+]
 
 export const priorities = [
   {
@@ -68,4 +60,4 @@ export const priorities = [
     value: 'high',
     icon: RxArrowUp,
   },
-];
+]
