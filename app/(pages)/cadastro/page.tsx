@@ -1,15 +1,12 @@
-import Link from 'next/link';
+import Logo from '../../components/Logo'
+import RegisterForm from './components/register-form'
 
-import Logo from '../../components/Custom/logo';
-
-import RegisterForm from './components/register-form';
-
-import { Metadata } from 'next';
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Cadastro | Daily Manage',
   description: 'Faça seu cadastro para ter acesso ao seus formulários.',
-};
+}
 
 export default function Cadastro() {
   return (
@@ -29,5 +26,5 @@ export default function Cadastro() {
       </div>
       <div className="w-[70vw] bg-light-100 hidden md:flex lg:flex bg-dark h-[100vh] bg-cadastro bg-cover bg-center bg-no-repeat"></div>
     </div>
-  );
+  )
 }
