@@ -1,14 +1,12 @@
-'use client';
+'use client'
 
-import Dashboard from './(pages)/dashboard/page';
-import Login from './(pages)/login/page';
-import useAuthHandler from './services/auth';
+import Dashboard from './(pages)/dashboard/page'
+import Login from './(pages)/login/page'
+import useAuthHandler from './services/auth'
 
 export default function Page() {
-  //const authHandler = useAuthHandler();
-  const isLoggedIn = false; //await authHandler.isLoggedIn();
+  // const authHandler = useAuthHandler();
+  const isLoggedIn = false // await authHandler.isLoggedIn();
 
-  //console.log(isLoggedIn);
-
-  return isLoggedIn ? <Dashboard /> : <Login />;
+  return isLoggedIn ? <Dashboard /> : <Login />
 }

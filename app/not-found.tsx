@@ -1,11 +1,11 @@
-import { Metadata } from 'next';
+import { Metadata } from 'next'
 
-import NotFoundRoot from './components/NotFound/not-found-root';
+import NotFoundRoot from './components/NotFound/not-found-root'
 
 export const metadata: Metadata = {
   title: 'Error 404 | Daily Manage',
   description: 'Página não encontrada.',
-};
+}
 
 export default function NotFound() {
   return (
@@ -13,5 +13,5 @@ export default function NotFound() {
       <title>Error 404 | Daily Manage</title>
       <NotFoundRoot />
     </>
-  );
+  )
 }
