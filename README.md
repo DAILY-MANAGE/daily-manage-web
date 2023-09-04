@@ -17,12 +17,11 @@ Daily Manage
 
 ## To-Do
 
-- [ ] Align lembrar senha with the check box on the login page
-- [ ] Replace the default input with the one from shadcn/ui and make it work with the forms.
-- [ ] Apply zod to the login/cadastro/recuperar-senha pages.
-- [ ] Design the dashboard so it looks functional to the SaaS theme
-- [ ] Design the cover art for the login/cadastro/recuperar-senha pages.
-
+- [ ] Decide if we'll use Empresa ou Equipe
+- [ ] Authentication Service
+- [ ] Logout Page missing auth features
+- [ ] Make all forms work with the new hooks
+- [ ] Make it pull names and whatever is needed
 ## Run Development Environment
 
 ```bash
