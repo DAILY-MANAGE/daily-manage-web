@@ -48,7 +48,7 @@ export default function FormTable() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-1/6 border border-r-1 border-y-0">
-                  Id
+                  Identificação
                 </TableHead>
                 <TableHead className="w-1/4 border border-r-1 border-y-0">
                   Nome
