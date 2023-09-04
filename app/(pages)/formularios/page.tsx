@@ -1,11 +1,11 @@
 import { Button } from '@/app/components/Shadcn/button'
+
 import { Metadata } from 'next'
 import Link from 'next/link'
 
 import { RxClipboard } from 'react-icons/rx'
 
 import { Root } from '../../components/Root'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/app/components/Shadcn/table'
 import FormTable from './components/form-table'
 
 export const metadata: Metadata = {

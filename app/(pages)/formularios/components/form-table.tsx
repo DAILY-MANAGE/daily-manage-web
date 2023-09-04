@@ -28,9 +28,9 @@ export default function FormTable() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-1/4 border border-r-1">Id</TableHead>
-                                <TableHead className="w-1/4 border border-r-1">Nome</TableHead>
-                                <TableHead className="w-1/4 border border-r-1">Estado</TableHead>
+                                <TableHead className="w-1/4 border border-r-1 border-y-0">Id</TableHead>
+                                <TableHead className="w-1/4 border border-r-1 border-y-0">Nome</TableHead>
+                                <TableHead className="w-1/4 border border-r-1 border-y-0">Estado</TableHead>
                                 <TableHead className="w-1/4">Controle</TableHead>
                             </TableRow>
                         </TableHeader>
