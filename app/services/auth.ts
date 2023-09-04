@@ -1,181 +1,164 @@
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
 
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios'
 
-import B64Encrypt from '../utils/useBase64';
-import { ToastWrapper } from '../utils/ToastWrapper';
-import { useRouter } from 'next/navigation';
+import B64Encrypt from '../utils/useBase64'
+import { ToastWrapper } from '../utils/ToastWrapper'
 
-const loginCookieKey = 'login_token';
+import { useRouter } from 'next/navigation'
 
-const registerPath = `/auth/register`;
-const loginPath = `/auth/login`;
+import { CustomResponse } from '../interfaces/CustomResponse'
+import { LoginData } from '../interfaces/LoginData'
+import { RegisterData } from '../interfaces/RegisterData'
+import { RequestType } from '../interfaces/RequestType'
 
-const B64EncryptObject = B64Encrypt();
-let authenticatedToken = null;
+const loginCookieKey = 'login_token'
 
-require('dotenv').config();
+const registerPath = `/auth/register`
+const loginPath = `/auth/login`
+
+const B64EncryptObject = B64Encrypt()
 
 const instance = axios.create({
-  baseURL: 'http://10.68.21.237:8080', //process.env.API_ENDPOINT,
-});
-
-export interface CustomResponse extends AxiosResponse {
-  errors?: string[];
-}
-
-export interface LoginData {
-  usuario: string;
-  senha: string;
-  lembrarSenha?: boolean;
-}
-
-export interface RegisterData {
-  cnpj: string;
-  senha: string;
-}
-
-interface RequestType extends AxiosResponse<any, any> {
-  errors?: string[];
-}
+  baseURL: 'http://10.68.21.237:8080', // process.env.API_ENDPOINT,
+})
 
 const useAuthHandler = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const succesfullyAuthenticated = (
-    message: string = 'Login realizado com sucesso!'
+    message = 'Login realizado com sucesso!',
   ) => {
-    ToastWrapper.success(message);
-    router.push('/dashboard');
-  };
+    ToastWrapper.success(message)
+    router.push('/dashboard')
+  }
 
   const unsuccesfullyAuthenticated = (
-    message: string = 'Não foi possível realizar o login.'
+    message = 'Não foi possível realizar o login.',
   ) => {
-    ToastWrapper.error(message);
-  };
+    ToastWrapper.error(message)
+  }
 
   const encodeArray = (arr: LoginData | RegisterData) => {
-    const stringfiedArray = JSON.stringify(arr);
-    const encodedJSON = B64EncryptObject.encodeText(stringfiedArray);
-    return encodedJSON;
-  };
+    const stringfiedArray = JSON.stringify(arr)
+    const encodedJSON = B64EncryptObject.encodeText(stringfiedArray)
+    return encodedJSON
+  }
 
   const rememberPassword = (data: LoginData | RegisterData) => {
-    const encodedArray = encodeArray(data);
+    const encodedArray = encodeArray(data)
     if (!encodedArray) {
-      return;
+      return
     }
     Cookies.set(loginCookieKey, encodedArray, {
       expires: 30,
-    });
-  };
+    })
+  }
 
   const login = (loginData?: LoginData) => {
-    if (!loginData) return;
+    if (!loginData) return
 
     instance
       .post(loginPath, loginData)
       .then((response: RequestType) => {
-        console.log(response);
+        console.log(response)
         if (response.errors) {
           response.errors.forEach((message: string) => {
-            unsuccesfullyAuthenticated(message);
-          });
+            unsuccesfullyAuthenticated(message)
+          })
         }
-        if (response.status == 200) {
-          succesfullyAuthenticated();
+        if (response.status === 200) {
+          succesfullyAuthenticated()
           if (loginData.lembrarSenha) {
-            rememberPassword(loginData);
+            rememberPassword(loginData)
           }
         }
       })
       .catch((error) => {
-        const responseData = error.response.data;
+        const responseData = error.response.data
         if (responseData.errors) {
           responseData.errors.forEach((message: string) => {
-            unsuccesfullyAuthenticated(message);
-          });
+            unsuccesfullyAuthenticated(message)
+          })
         }
-      });
-  };
+      })
+  }
 
   const isLoggedIn = async () => {
     const withCookie = async () => {
       const getDecodedJSON = () => {
-        const tokenCookie = Cookies.get(loginCookieKey);
+        const tokenCookie = Cookies.get(loginCookieKey)
         if (!tokenCookie) {
-          return;
+          return
         }
 
-        const decodedCookie = B64EncryptObject.decodeText(tokenCookie);
+        const decodedCookie = B64EncryptObject.decodeText(tokenCookie)
         if (!decodedCookie) {
-          return;
+          return
         }
 
-        const decodedJSON = JSON.parse(decodedCookie);
-        return decodedJSON;
-      };
+        const decodedJSON = JSON.parse(decodedCookie)
+        return decodedJSON
+      }
 
-      const decodedJSON = getDecodedJSON();
-      if (!decodedJSON) return;
+      const decodedJSON = getDecodedJSON()
+      if (!decodedJSON) return
 
       const requestParams = {
         params: decodedJSON,
-      };
+      }
 
       return instance
         .get(loginPath, requestParams)
         .then((response: CustomResponse) => {
-          console.log(response);
-          if (response.status == 200) {
-            succesfullyAuthenticated();
-            return true;
+          console.log(response)
+          if (response.status === 200) {
+            succesfullyAuthenticated()
+            return true
           } else {
             // checar mensagem de erro
             if (!response.errors) {
-              unsuccesfullyAuthenticated();
-              return;
+              unsuccesfullyAuthenticated()
+              return
             }
-            unsuccesfullyAuthenticated();
-            return;
+            unsuccesfullyAuthenticated()
           }
         })
         .catch((error) => {
-          if (!error.message) return;
-          unsuccesfullyAuthenticated(error.message);
-        });
-    };
-
-    const hasAuthTokenInCookies = Cookies.get(loginCookieKey);
-    if (hasAuthTokenInCookies) {
-      return await withCookie();
+          if (!error.message) return
+          unsuccesfullyAuthenticated(error.message)
+        })
     }
 
-    return false;
-  };
+    const hasAuthTokenInCookies = Cookies.get(loginCookieKey)
+    if (hasAuthTokenInCookies) {
+      return await withCookie()
+    }
+
+    return false
+  }
 
   const register = (registerData: RegisterData) => {
     const registerParams = {
       params: registerData,
-    };
+    }
     instance
       .post(registerPath, registerParams)
       .then((response) => {
-        if (response.status == 201) {
-          rememberPassword(registerData);
+        if (response.status === 201) {
+          rememberPassword(registerData)
         }
       })
       .catch((error) => {
-        console.log(error);
-      });
-  };
+        console.log(error)
+      })
+  }
 
   return {
     login,
     register,
     isLoggedIn,
-  };
-};
+  }
+}
 
-export default useAuthHandler;
+export default useAuthHandler
