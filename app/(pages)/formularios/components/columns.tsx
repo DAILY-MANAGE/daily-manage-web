@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table'
 
-import { Badge } from '@/app/components/Shadcn/badge';
-import { Checkbox } from '@/app/components/Shadcn/checkbox';
+import { Badge } from '@/app/components/Shadcn/badge'
+import { Checkbox } from '@/app/components/Shadcn/checkbox'
 
-import { labels, priorities, statuses } from '../data/data';
-import { Task } from '../data/schema';
-import { DataTableColumnHeader } from './data-table-column-header';
-import { DataTableRowActions } from './data-table-row-actions';
+import { labels, priorities, statuses } from '../data/data'
+import { Task } from '../data/schema'
+import { DataTableColumnHeader } from './data-table-column-header'
+import { DataTableRowActions } from './data-table-row-actions'
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -17,7 +17,7 @@ export const columns: ColumnDef<Task>[] = [
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
+        aria-label="Selecionar todos"
         className="translate-y-[2px]"
       />
     ),
@@ -25,7 +25,7 @@ export const columns: ColumnDef<Task>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
+        aria-label="Selecionar linha"
         className="translate-y-[2px]"
       />
     ),
@@ -35,7 +35,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Task" />
+      <DataTableColumnHeader column={column} title="Formulários" />
     ),
     cell: ({ row }) => <div className="w-fit">{row.getValue('id')}</div>,
     enableSorting: false,
@@ -44,10 +44,10 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'title',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Nome" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label);
+      const label = labels.find((label) => label.value === row.original.label)
 
       return (
         <div className="flex space-x-2">
@@ -56,65 +56,38 @@ export const columns: ColumnDef<Task>[] = [
             {row.getValue('title')}
           </span>
         </div>
-      );
+      )
     },
   },
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="Estado" />
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.value === row.getValue('status')
-      );
+        (status) => status.value === row.getValue('status'),
+      )
 
       if (!status) {
-        return null;
+        return null
       }
 
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex w-[200px] items-center">
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
           <span>{status.label}</span>
         </div>
-      );
+      )
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
-  {
-    accessorKey: 'priority',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Priority" />
-    ),
-    cell: ({ row }) => {
-      const priority = priorities.find(
-        (priority) => priority.value === row.getValue('priority')
-      );
-
-      if (!priority) {
-        return null;
-      }
-
-      return (
-        <div className="flex items-center">
-          {priority.icon && (
-            <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{priority.label}</span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
+      return value.includes(row.getValue(id))
     },
   },
   {
     id: 'actions',
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
-];
+]

@@ -1,28 +1,28 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { RxCaretSort, RxCheck } from 'react-icons/rx';
-import { PopoverProps } from '@radix-ui/react-popover';
+import * as React from 'react'
+import { useRouter } from 'next/navigation'
+import { RxCaretSort, RxCheck } from 'react-icons/rx'
+import { PopoverProps } from '@radix-ui/react-popover'
 
-import { cn } from '../../../../utils/utils';
-import { Button } from '@/app/components/Shadcn/button';
+import { cn } from '../../../../utils/utils'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/app/components/Shadcn/command';
+} from '@/app/components/Shadcn/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/app/components/Shadcn/popover';
+} from '@/app/components/Shadcn/popover'
 
 export interface Preset {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 const presets: Preset[] = [
@@ -34,16 +34,16 @@ const presets: Preset[] = [
     id: 2,
     name: 'Usuário2',
   },
-];
+]
 
 interface PresetSelectorProps extends PopoverProps {
-  presets?: Preset[];
+  presets?: Preset[]
 }
 
 export function PermittedUsers({ ...props }: PresetSelectorProps) {
-  const [open, setOpen] = React.useState(false);
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset>();
-  const router = useRouter();
+  const [open, setOpen] = React.useState(false)
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset>()
+  const router = useRouter()
 
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>
@@ -68,8 +68,8 @@ export function PermittedUsers({ ...props }: PresetSelectorProps) {
               <CommandItem
                 key={preset.id}
                 onSelect={() => {
-                  setSelectedPreset(preset);
-                  setOpen(false);
+                  setSelectedPreset(preset)
+                  setOpen(false)
                 }}
               >
                 {preset.name}
@@ -78,7 +78,7 @@ export function PermittedUsers({ ...props }: PresetSelectorProps) {
                     'ml-auto h-4 w-4',
                     selectedPreset?.id === preset.id
                       ? 'opacity-100'
-                      : 'opacity-0'
+                      : 'opacity-0',
                   )}
                 />
               </CommandItem>
@@ -87,5 +87,5 @@ export function PermittedUsers({ ...props }: PresetSelectorProps) {
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }
