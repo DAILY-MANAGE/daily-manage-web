@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { cn } from '@/app/utils/utils';
-import NavLink from './nav-link';
-import { usePathname, useRouter } from 'next/navigation';
+import { cn } from '@/app/utils/utils'
+import NavLink from './nav-link'
+import { usePathname, useRouter } from 'next/navigation'
 
 import {
   DropdownMenu,
@@ -11,29 +11,32 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/components/Shadcn/dropdown-menu';
-import { Button } from '@/app/components/Shadcn/button';
-import { RxClipboard, RxListBullet } from 'react-icons/rx';
-import Link from 'next/link';
-import { SyntheticEvent, useState } from 'react';
+} from '@/app/components/Shadcn/dropdown-menu'
+import { Button } from '@/app/components/Shadcn/button'
+import { RxClipboard, RxListBullet } from 'react-icons/rx'
+import Link from 'next/link'
+import { SyntheticEvent, useState } from 'react'
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const router = useRouter();
-  const pathname = usePathname();
+  const router = useRouter()
+  const pathname = usePathname()
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  function getIsActiveFor(route: string) {
-    return pathname.toLowerCase().includes(route.toLowerCase());
+  const isCurrentlyInRoute = (route: string) => {
+    return pathname.toLowerCase().includes(route.toLowerCase())
   }
 
   return (
     <nav className={cn('flex items-center gap-2', className)} {...props}>
       {false && (
-        <NavLink href="/dashboard" data-active={getIsActiveFor('dashboard')}>
+        <NavLink
+          href="/dashboard"
+          data-active={isCurrentlyInRoute('dashboard')}
+        >
           Dashboard
         </NavLink>
       )}
@@ -43,17 +46,16 @@ export function MainNav({
           asChild
           className="group"
           onClick={() => {
-            console.log('zapzap');
-            router.push('/formularios');
+            router.push('/formularios')
           }}
           onContextMenu={(event: SyntheticEvent) => {
-            event.preventDefault();
-            setDropdownOpen(!dropdownOpen);
+            event.preventDefault()
+            setDropdownOpen(!dropdownOpen)
           }}
         >
           <Button
             variant="outline"
-            data-active={getIsActiveFor('formularios')}
+            data-active={isCurrentlyInRoute('formularios')}
             className="text-sm font-medium transition-colors group-hover:text-primary rounded p-2 px-4 data-[active=true]:bg-zinc-50 border-0 outline outline-0 data-[active=true]:outline-1 outline-offset-1 data-[active=true]:outline-black/10"
           >
             Formulários
@@ -61,7 +63,7 @@ export function MainNav({
         </DropdownMenuTrigger>
         <DropdownMenuContent
           onPointerDownOutside={() => {
-            setDropdownOpen(false);
+            setDropdownOpen(false)
           }}
           className="w-56"
           align="start"
@@ -83,9 +85,9 @@ export function MainNav({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <NavLink href="/empresa" data-active={getIsActiveFor('empresa')}>
-        Empresa
+      <NavLink href="/equipes" data-active={isCurrentlyInRoute('equipes')}>
+        Equipes
       </NavLink>
     </nav>
-  );
+  )
 }

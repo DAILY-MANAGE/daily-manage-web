@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   Table,
@@ -6,102 +6,92 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  TableCell,
-} from '@/app/components/Shadcn/table';
-import { Button } from '@/app/components/Shadcn/button';
-import { useGetRequest } from '@/app/hooks/useGetRequest';
+} from '@/app/components/Shadcn/table'
+import { useGetRequest } from '@/app/hooks/useGetRequest'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card';
-import { Label } from '@/app/components/Shadcn/label';
-import { FormData } from '../../../interfaces/FormData';
+} from '@/app/components/Shadcn/card'
+import { Label } from '@/app/components/Shadcn/label'
+import { FormData } from '../../../interfaces/FormData'
+import SkeletonRows from './skeleton-rows'
+import FormRows from './form-rows'
+import {
+  RxCrossCircled,
+  RxChevronLeft,
+  RxDoubleArrowLeft,
+  RxDoubleArrowRight,
+  RxChevronRight,
+  RxReload,
+} from 'react-icons/rx'
+import { Button } from '@/app/components/Shadcn/button'
+import { Input } from '@/app/components/Shadcn/input'
+import { DataCounter } from './data-counter'
+import { Paginator } from './paginator'
 
 export default function FormTable() {
   // Temporário...
-  const formulariosDefault: FormData[] = [];
+  const formulariosDefault: FormData[] = []
 
   const { data, error, loading } = useGetRequest(
     '/formularios/todos',
-    formulariosDefault
-  );
-
-  const getRandomSize = () => {
-    const options = [
-      'w-1/2',
-      'w-1/6',
-      'w-full'
-    ]
-    return `h-2 bg-slate-200 rounded col-span-2 ${options[Math.floor(Math.random() * options.length)]}`
-  }
-
-  const loadingTemp = [1, 2, 3, 4, 5];
+    formulariosDefault,
+  )
 
   return (
     <>
+      <Input
+        type="text"
+        placeholder="Pesquisar formulário..."
+        className="md:w-1/6 border-black/20"
+      />
       {data != null && (
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-1/6 border border-r-1 border-y-0">
-                  Identificação
-                </TableHead>
-                <TableHead className="w-1/4 border border-r-1 border-y-0">
-                  Nome
-                </TableHead>
-                <TableHead className="w-1/4 border border-r-1 border-y-0">
-                  Estado
-                </TableHead>
-                <TableHead className="w-1/4">Controle</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {Array.isArray(data) &&
-                (data as FormData[]).map((formData: FormData) => {
-                  return (
-                    <TableRow>
-                      <TableCell className="font-medium border border-r-1">
-                        Formulário {formData.id}
-                      </TableCell>
-                      <TableCell className="border border-r-1">
-                        {formData.nome}
-                      </TableCell>
-                      <TableCell className="border border-r-1">
-                        {formData.estado}
-                      </TableCell>
-                      <TableCell>
-                        <Button>Ações</Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {loading && (
-                <>
-                  {loadingTemp.map((index: number) => {
-                    return <TableRow className="animate-pulse" key={index}>
-                      <TableCell className="font-medium border border-r-1">
-                        <div className={getRandomSize()}></div>
-                      </TableCell>
-                      <TableCell className="font-medium border border-r-1">
-                        <div className={getRandomSize()}></div>
-                      </TableCell>
-                      <TableCell className="font-medium border border-r-1">
-                        <div className={getRandomSize()}></div>
-                      </TableCell>
-                      <TableCell className="font-medium border">
-                        <div className={getRandomSize()}></div>
-                      </TableCell>
-                    </TableRow>;
-                  })}
-                </>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+        <>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/6 border border-r-1 border-y-0">
+                    Identificação
+                  </TableHead>
+                  <TableHead className="w-1/4 border border-r-1 border-y-0">
+                    Nome
+                  </TableHead>
+                  <TableHead className="w-1/4 border border-r-1 border-y-0">
+                    Estado
+                  </TableHead>
+                  <TableHead className="w-1/4">Controle</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Array.isArray(data) && (
+                  <FormRows data={data} loading={loading} />
+                )}
+                {loading && <SkeletonRows />}
+              </TableBody>
+            </Table>
+            {!loading && Array.isArray(data) && data.length === 0 && (
+              <p className="font-regular text-md p-12 py-3 text-center my-auto flex gap-2 align-center justify-center">
+                <RxCrossCircled className="w-4 h-4 my-auto leading-none" />{' '}
+                Nenhum formulário foi encontrado.
+              </p>
+            )}
+          </div>
+          <div className="w-full h-fit mt-0 flex flex-row">
+            {Array.isArray(data) && (
+              <>
+                <DataCounter data={data} loading={loading} />
+                <Paginator
+                  currentPage={1}
+                  amountOfPages={Math.floor(data.length / 15)}
+                />
+              </>
+            )}
+          </div>
+        </>
       )}
       {error && error.length > 0 && (
         <Card>
@@ -115,11 +105,11 @@ export default function FormTable() {
                 <Label key={index} className="block w-full h-6 mb-2">
                   {errorMessage}
                 </Label>
-              );
+              )
             })}
           </CardContent>
         </Card>
       )}
     </>
-  );
+  )
 }

@@ -11,23 +11,23 @@ import {
 import { Root } from '@/app/components/Root'
 
 export default function Empresa() {
-  const [businessName, setBusinessName] = useState<string | undefined>()
+  const [teamName, setTeamName] = useState<string | undefined>()
 
   useEffect(() => {
-    const getBusinessName = () => {
+    const getTeamName = () => {
       // Logica de request para pegar nome da empresa
       return 'Bracell Lençóis-Paulista'
     }
-    const loadedBusinessName = getBusinessName()
-    setBusinessName(loadedBusinessName)
+    const loadedTeamName = getTeamName()
+    setTeamName(loadedTeamName)
   }, [])
 
   return (
     <>
       <Root.Spacing>
-        <Root.Header title={businessName || 'Carregando...'}></Root.Header>
+        <Root.Header title={teamName || 'Carregando...'}></Root.Header>
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="gap-2">
+          <TabsList className="gap-2 h-fit grid grid-cols-1 md:flex md:justify-start">
             <TabsTrigger value="forms">Formulários</TabsTrigger>
             <TabsTrigger value="users">Usuários</TabsTrigger>
             <TabsTrigger value="setor">Setores</TabsTrigger>

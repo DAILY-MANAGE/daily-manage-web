@@ -2,8 +2,12 @@ import { useState, useEffect, useCallback } from 'react'
 import axios, { AxiosError } from 'axios'
 import { RequestType } from '../interfaces/RequestType'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config()
+
+console.log(process.env.API_ENDPOINT)
 const instance = axios.create({
-  baseURL: process.env.API_ENDPOINT,
+  baseURL: 'http://localhost:8080',
 })
 
 export const useGetRequest = (url: string, defaultData?: unknown) => {
