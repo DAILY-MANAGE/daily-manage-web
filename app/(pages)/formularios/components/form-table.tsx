@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Table,
@@ -6,40 +6,73 @@ import {
   TableRow,
   TableHead,
   TableBody,
-} from '@/app/components/Shadcn/table'
-import { useGetRequest } from '@/app/hooks/useGetRequest'
+} from '@/app/components/Shadcn/table';
+import { useGetRequest } from '@/app/hooks/useGetRequest';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card'
-import { Label } from '@/app/components/Shadcn/label'
-import { FormData } from '../../../interfaces/FormData'
-import SkeletonRows from './skeleton-rows'
-import FormRows from './form-rows'
-import {
-  RxCrossCircled,
-  RxChevronLeft,
-  RxDoubleArrowLeft,
-  RxDoubleArrowRight,
-  RxChevronRight,
-  RxReload,
-} from 'react-icons/rx'
-import { Button } from '@/app/components/Shadcn/button'
-import { Input } from '@/app/components/Shadcn/input'
-import { DataCounter } from './data-counter'
-import { Paginator } from './paginator'
+} from '@/app/components/Shadcn/card';
+import { Label } from '@/app/components/Shadcn/label';
+import { FormData } from '../../../interfaces/FormData';
+import SkeletonRows from './skeleton-rows';
+import FormRows from './form-rows';
+import { RxCrossCircled } from 'react-icons/rx';
+import { Input } from '@/app/components/Shadcn/input';
+import { DataCounter } from './data-counter';
+import { Paginator } from './paginator';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 export default function FormTable() {
-  // Temporário...
-  const formulariosDefault: FormData[] = []
 
+  const formulariosDefault: FormData[] = [
+    {
+      id: 1,
+      nome: 'Turbina Gerador 001',
+      estado: 'Assinado',
+      dataCriacao: 21512521,
+    },
+    {
+      id: 2,
+      nome: 'Turbina Gerador 002',
+      estado: 'Assinado',
+      dataCriacao: 21512521,
+    },
+    {
+      id: 3,
+      nome: 'Ventilador 003',
+      estado: 'Assinado',
+      dataCriacao: 21512521,
+    },
+    {
+      id: 4,
+      nome: 'Turbina 004',
+      estado: 'Assinado',
+      dataCriacao: 21512521,
+    },
+    {
+      id: 5,
+      nome: 'Turbina 005',
+      estado: 'Não Visto',
+      dataCriacao: 21512521,
+    },
+  ];
+
+  const filterForms = (event: ChangeEvent<HTMLInputElement>) => setFilter(event.target.value.toLowerCase())
+
+  const [filter, setFilter] = useState<string>('')
+  const [filteredData, setFilteredData] = useState<FormData[] | undefined>()
   const { data, error, loading } = useGetRequest(
     '/formularios/todos',
-    formulariosDefault,
+    formulariosDefault
   )
+
+  useEffect(() => {
+    if (!Array.isArray(data)) return
+    setFilteredData(data)
+  }, [setFilteredData])
 
   return (
     <>
@@ -47,8 +80,9 @@ export default function FormTable() {
         type="text"
         placeholder="Pesquisar formulário..."
         className="md:w-1/6 border-black/20"
+        onChange={filterForms}
       />
-      {data != null && (
+      {filteredData != null && (
         <>
           <div className="rounded-md border">
             <Table>
@@ -67,26 +101,32 @@ export default function FormTable() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.isArray(data) && (
-                  <FormRows data={data} loading={loading} />
+                {Array.isArray(filteredData) && (
+                  <FormRows
+                    data={filteredData.filter((formData: FormData) => formData.nome.toLowerCase().includes(filter))}
+                    loading={loading}
+                    filter={filter}
+                  />
                 )}
                 {loading && <SkeletonRows />}
               </TableBody>
             </Table>
-            {!loading && Array.isArray(data) && data.length === 0 && (
-              <p className="font-regular text-md p-12 py-3 text-center my-auto flex gap-2 align-center justify-center">
-                <RxCrossCircled className="w-4 h-4 my-auto leading-none" />{' '}
-                Nenhum formulário foi encontrado.
-              </p>
-            )}
+            {!loading &&
+              Array.isArray(filteredData) &&
+              filteredData.length === 0 && (
+                <p className="font-regular text-md p-12 py-3 text-center my-auto flex gap-2 align-center justify-center">
+                  <RxCrossCircled className="w-4 h-4 my-auto leading-none" />{' '}
+                  Nenhum formulário foi encontrado.
+                </p>
+              )}
           </div>
           <div className="w-full h-fit mt-0 flex flex-row">
-            {Array.isArray(data) && (
+            {Array.isArray(filteredData) && (
               <>
-                <DataCounter data={data} loading={loading} />
+                <DataCounter data={filteredData.filter((formData: FormData) => formData.nome.toLowerCase().includes(filter))} loading={loading} />
                 <Paginator
                   currentPage={1}
-                  amountOfPages={Math.floor(data.length / 15)}
+                  amountOfPages={Math.floor(filteredData.length / 15)}
                 />
               </>
             )}
@@ -105,11 +145,11 @@ export default function FormTable() {
                 <Label key={index} className="block w-full h-6 mb-2">
                   {errorMessage}
                 </Label>
-              )
+              );
             })}
           </CardContent>
         </Card>
       )}
     </>
-  )
+  );
 }
