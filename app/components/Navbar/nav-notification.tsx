@@ -44,8 +44,6 @@ export default function NavNotification() {
   >([])
 
   const getNotifications = useCallback(() => {
-    console.log('Getting notifications...')
-
     const listOfNotifications = [
       {
         id: 1,
