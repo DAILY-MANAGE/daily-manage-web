@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   Table,
@@ -6,27 +6,26 @@ import {
   TableRow,
   TableHead,
   TableBody,
-} from '@/app/components/Shadcn/table';
-import { useGetRequest } from '@/app/hooks/useGetRequest';
+} from '@/app/components/Shadcn/table'
+import { useGetRequest } from '@/app/hooks/useGetRequest'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card';
-import { Label } from '@/app/components/Shadcn/label';
-import { FormData } from '../../../interfaces/FormData';
-import SkeletonRows from './skeleton-rows';
-import FormRows from './form-rows';
-import { RxCrossCircled } from 'react-icons/rx';
-import { Input } from '@/app/components/Shadcn/input';
-import { DataCounter } from './data-counter';
-import { Paginator } from './paginator';
-import { ChangeEvent, useEffect, useState } from 'react';
+} from '@/app/components/Shadcn/card'
+import { Label } from '@/app/components/Shadcn/label'
+import { FormData } from '../../../interfaces/FormData'
+import SkeletonRows from './skeleton-rows'
+import FormRows from './form-rows'
+import { RxCrossCircled } from 'react-icons/rx'
+import { Input } from '@/app/components/Shadcn/input'
+import { DataCounter } from './data-counter'
+import { Paginator } from './paginator'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 export default function FormTable() {
-
   const formulariosDefault: FormData[] = [
     {
       id: 1,
@@ -58,21 +57,22 @@ export default function FormTable() {
       estado: 'Não Visto',
       dataCriacao: 21512521,
     },
-  ];
+  ]
 
-  const filterForms = (event: ChangeEvent<HTMLInputElement>) => setFilter(event.target.value.toLowerCase())
+  const filterForms = (event: ChangeEvent<HTMLInputElement>) =>
+    setFilter(event.target.value.toLowerCase())
 
   const [filter, setFilter] = useState<string>('')
   const [filteredData, setFilteredData] = useState<FormData[] | undefined>()
   const { data, error, loading } = useGetRequest(
     '/formularios/todos',
-    formulariosDefault
+    formulariosDefault,
   )
 
   useEffect(() => {
     if (!Array.isArray(data)) return
     setFilteredData(data)
-  }, [setFilteredData])
+  }, [data, setFilteredData])
 
   return (
     <>
@@ -84,26 +84,34 @@ export default function FormTable() {
       />
       {filteredData != null && (
         <>
-          <div className="rounded-md border">
+          <div className="rounded-md border shadow-sm">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/6 border border-r-1 border-y-0">
+                  <TableHead className="w-[6%] border border-r-1 border-y-0">
                     Identificação
                   </TableHead>
-                  <TableHead className="w-1/4 border border-r-1 border-y-0">
+                  <TableHead className="w-[10%] border border-r-1 border-y-0">
                     Nome
                   </TableHead>
-                  <TableHead className="w-1/4 border border-r-1 border-y-0">
+                  <TableHead className="w-[6%] border border-r-1 border-y-0">
+                    Data de Criação
+                  </TableHead>
+                  <TableHead className="w-[6%] border border-r-1 border-y-0">
                     Estado
                   </TableHead>
-                  <TableHead className="w-1/4">Controle</TableHead>
+                  <TableHead className="w-[5%]">Controle</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {Array.isArray(filteredData) && (
                   <FormRows
-                    data={filteredData.filter((formData: FormData) => formData.nome.toLowerCase().includes(filter))}
+                    data={filteredData.filter(
+                      (formData: FormData) =>
+                        formData.nome.toLowerCase().includes(filter) ||
+                        `formulário ${formData.id}`.includes(filter) ||
+                        formData.estado.toLowerCase().includes(filter),
+                    )}
                     loading={loading}
                     filter={filter}
                   />
@@ -123,7 +131,15 @@ export default function FormTable() {
           <div className="w-full h-fit mt-0 flex flex-row">
             {Array.isArray(filteredData) && (
               <>
-                <DataCounter data={filteredData.filter((formData: FormData) => formData.nome.toLowerCase().includes(filter))} loading={loading} />
+                <DataCounter
+                  data={filteredData.filter(
+                    (formData: FormData) =>
+                      formData.nome.toLowerCase().includes(filter) ||
+                      `formulário ${formData.id}`.includes(filter) ||
+                      formData.estado.toLowerCase().includes(filter),
+                  )}
+                  loading={loading}
+                />
                 <Paginator
                   currentPage={1}
                   amountOfPages={Math.floor(filteredData.length / 15)}
@@ -145,11 +161,11 @@ export default function FormTable() {
                 <Label key={index} className="block w-full h-6 mb-2">
                   {errorMessage}
                 </Label>
-              );
+              )
             })}
           </CardContent>
         </Card>
       )}
     </>
-  );
+  )
 }

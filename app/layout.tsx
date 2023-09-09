@@ -19,10 +19,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  if (typeof window !== 'undefined') {
-    ToastWrapper.setupWindow(window)
-  }
-
   return (
     <html lang="pt-br">
       <body className={`${inter.className} bg-light-100 dark:bg-zinc-900`}>

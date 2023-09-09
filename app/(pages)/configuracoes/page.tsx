@@ -24,9 +24,9 @@ export default function Configuracoes() {
   return (
     <Root.Spacing>
       <Root.Header title="Configurações">
-        <Link href="/formularios/criar">
+        <Link href="/sair">
           <Button
-            className="border flex items-center justify-center gap-2 border-black/20 bg-red-400"
+            className="border flex items-center justify-center gap-2 border-black/20 bg-red-400 hover:bg-red-300 hover:animate-pulse"
             variant={'outline'}
           >
             Sair da Conta <RxExit className="w-4 h-4" />

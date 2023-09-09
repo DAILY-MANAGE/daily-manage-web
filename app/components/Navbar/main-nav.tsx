@@ -26,7 +26,10 @@ export function MainNav({
 
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  const isCurrentlyInRoute = (route: string) => {
+  const isCurrentlyInRoute = (route: string, exact?: boolean) => {
+    if (exact) {
+      return pathname.toLowerCase() === route.toLowerCase()
+    }
     return pathname.toLowerCase().includes(route.toLowerCase())
   }
 
@@ -71,13 +74,19 @@ export function MainNav({
         >
           <DropdownMenuGroup>
             <Link href="/formularios">
-              <DropdownMenuItem className="flex items-center justify-start gap-2">
+              <DropdownMenuItem
+                className="flex items-center justify-start gap-2"
+                disabled={isCurrentlyInRoute('/formularios', true)}
+              >
                 <RxListBullet className="w-4 h-4" /> Lista de Formulários
               </DropdownMenuItem>
             </Link>
             <DropdownMenuSeparator />
             <Link href="/formularios/criar">
-              <DropdownMenuItem className="flex items-center justify-start gap-2">
+              <DropdownMenuItem
+                className="flex items-center justify-start gap-2"
+                disabled={isCurrentlyInRoute('formularios/criar')}
+              >
                 <RxClipboard className="w-4 h-4" /> Criar Formulário
               </DropdownMenuItem>
             </Link>

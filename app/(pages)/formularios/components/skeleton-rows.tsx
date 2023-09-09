@@ -31,16 +31,16 @@ export default function SkeletonRows() {
         (index: number) => {
           return (
             <TableRow className="animate-pulse" key={index}>
-              <TableCell className="font-medium border border-r-1">
+              <TableCell className="font-medium border border-r-1 animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards">
                 <div className={cell({ size: getRandomSize() })}></div>
               </TableCell>
-              <TableCell className="font-medium border border-r-1">
+              <TableCell className="font-medium border border-r-1 animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards">
                 <div className={cell({ size: getRandomSize() })}></div>
               </TableCell>
-              <TableCell className="font-medium border border-r-1">
+              <TableCell className="font-medium border border-r-1 animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards">
                 <div className={cell({ size: getRandomSize() })}></div>
               </TableCell>
-              <TableCell className="font-medium border">
+              <TableCell className="font-medium border animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards">
                 <div className={cell({ size: getRandomSize() })}></div>
               </TableCell>
             </TableRow>

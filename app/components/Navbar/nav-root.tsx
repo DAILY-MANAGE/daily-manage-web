@@ -24,7 +24,7 @@ export default function NavRoot() {
     (canShowNavbar() && (
       <div className="border-b max-w-screen overflow-hidden">
         <div className="flex h-16 items-center px-8">
-          <Logo width={35} height={35} />
+          <Logo width={30} height={30} />
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
             <NavNotification />

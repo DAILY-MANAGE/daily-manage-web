@@ -1,7 +1,13 @@
 'use client'
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { RxBell, RxEyeOpen } from 'react-icons/rx'
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import { RxBell } from 'react-icons/rx'
 
 import {
   DropdownMenu,
@@ -39,6 +45,7 @@ export default function NavNotification() {
 
   const getNotifications = useCallback(() => {
     console.log('Getting notifications...')
+
     const listOfNotifications = [
       {
         id: 1,
@@ -78,6 +85,7 @@ export default function NavNotification() {
         message: 'Seu formulário foi excluido.',
       },
     ]
+
     listOfNotifications.forEach((notificationData: NotificationData) => {
       if (!notificationData.unread) return
       setUnreadMessages((state) => state + 1)
@@ -98,29 +106,19 @@ export default function NavNotification() {
     return format(Date.now() - timeStamp, 'pt_BR')
   }
 
-  const getChunkOfNotifications = useCallback((): NotificationData[] => {
-    const chunkOfNotifications = notifications.splice(
-      notificationChunkIndex,
-      notificationChunkIndex + notificationsToLoad,
+  const getChunkOfNotifications = useCallback(() => {
+    const filtered = notifications.filter(
+      (notificationData: NotificationData, index: number) =>
+        index >= notificationChunkIndex &&
+        index < notificationChunkIndex + notificationsToLoad,
     )
-    console.log(chunkOfNotifications)
-    // Caso não tenha mais notificações para carregar, retornaremos o chunk anterior.
-    if (chunkOfNotifications.length === 0) {
-      return notificationChunk
-    }
-
-    return [...chunkOfNotifications]
-  }, [notifications, notificationChunkIndex, notificationChunk])
-
-  // chunkOfNotifications.map((notificationData: NotificationData) => {
-  //  if (!notificationData.unread) return;
-  //  setUnreadMessages((state) => state + 1);
-  //  return;
-  // })
+    return filtered
+  }, [notificationChunkIndex, notifications])
 
   useEffect(() => {
     registerLocale()
-    setNotificationChunk(getChunkOfNotifications())
+    const chunk = getChunkOfNotifications()
+    setNotificationChunk(chunk)
   }, [getChunkOfNotifications])
 
   return (
@@ -135,7 +133,10 @@ export default function NavNotification() {
           data-unreadmessages={unreadMessages > 0}
           className="hover:bg-zinc-100 p-2 w-8 h-8 outline outline-0 data-[unreadmessages=true]:animate-pulse hover:outline-1 outline-offset-1 outline-black/20 aspect-square rounded flex items-center justify-center"
         >
-          <RxBell className="aspect-square w-full h-full" />
+          <RxBell
+            data-unreadmessages={unreadMessages > 0}
+            className="aspect-square w-full h-full data-[unreadmessages=true]:animate-wiggle animate-infinite animate-duration-[2000ms] animate-ease-in animate-normal animate-fill-forwards"
+          />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[20rem]" align="end" forceMount>
@@ -151,11 +152,16 @@ export default function NavNotification() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          {notificationChunk.length === 0 && (
+            <p className="w-full text-center text-sm font-semibold py-4">
+              Nenhuma notificação encontrada.
+            </p>
+          )}
           {notificationChunk.map(
             (notificationData: NotificationData, index: number) => {
               return (
-                <>
-                  <div key={notificationData.id}>
+                <Fragment key={notificationData.id}>
+                  <div>
                     <DropdownMenuItem
                       className="flex items-center justify-start gap-2"
                       onSelect={(event: Event) => {
@@ -217,9 +223,7 @@ export default function NavNotification() {
                                 }
                                 return toSet
                               })
-                              console.log(notificationChunkIndex)
                               setNotificationChunk(getChunkOfNotifications())
-                              console.log(notificationChunk)
                             }}
                             onSelect={(event: Event) => {
                               event.preventDefault()
@@ -235,7 +239,7 @@ export default function NavNotification() {
                         </>
                       ))}
                   </div>
-                </>
+                </Fragment>
               )
             },
           )}

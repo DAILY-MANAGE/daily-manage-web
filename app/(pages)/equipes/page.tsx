@@ -1,11 +1,6 @@
 import { Root } from '@/app/components/Root'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/app/components/Shadcn/card'
 import { Metadata } from 'next'
+import { TeamPicker } from './components/team-picker'
 
 export const metadata: Metadata = {
   title: 'Equipes | Daily Manage',
@@ -17,12 +12,7 @@ export default function Equipes() {
     <Root.Spacing>
       <Root.Header title="Equipes"></Root.Header>
       <Root.Container>
-        <Card>
-          <CardHeader>
-            <CardTitle>Bracell</CardTitle>
-          </CardHeader>
-          <CardContent></CardContent>
-        </Card>
+        <TeamPicker />
       </Root.Container>
     </Root.Spacing>
   )
