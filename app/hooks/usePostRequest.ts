@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios'
 import { RequestType } from '../interfaces/RequestType'
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
 })
 
 export const usePostRequest = (url: string) => {

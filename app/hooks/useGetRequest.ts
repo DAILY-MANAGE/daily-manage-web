@@ -5,7 +5,7 @@ import { getErrorMessage } from '../utils/ErrorHandler'
 import { ToastWrapper } from '../utils/ToastWrapper'
 
 const instance = axios.create({
-  baseURL: 'https://localhost:8080',
+  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
 })
 
 export const useGetRequest = (url: string, defaultData?: unknown) => {

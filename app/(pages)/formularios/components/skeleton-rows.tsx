@@ -43,6 +43,9 @@ export default function SkeletonRows() {
               <TableCell className="font-medium border animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards">
                 <div className={cell({ size: getRandomSize() })}></div>
               </TableCell>
+              <TableCell className="font-medium border animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards">
+                <div className={cell({ size: 'default' })}></div>
+              </TableCell>
             </TableRow>
           )
         },

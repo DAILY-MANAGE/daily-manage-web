@@ -1,12 +1,6 @@
 'use client'
 
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { RxBell } from 'react-icons/rx'
 
 import {
@@ -24,100 +18,51 @@ import ptbrLocale from 'timeago.js/lib/lang/pt_BR'
 
 import { Button } from '../Shadcn/button'
 import { Badge } from '../Shadcn/badge'
+import { useGetRequest } from '@/app/hooks/useGetRequest'
+import { Notifications } from '@/app/interfaces/Notifications'
 
 const notificationsToLoad = 5
-
-interface NotificationData {
-  id: number
-  sender: string
-  sentTimestamp: number
-  message: string
-  unread?: boolean
-  callback?: () => unknown
-}
 
 export default function NavNotification() {
   const [notificationChunkIndex, setNotificationChunkIndex] = useState(0)
   const [unreadMessages, setUnreadMessages] = useState(0)
-  const [notificationChunk, setNotificationChunk] = useState<
-    NotificationData[]
-  >([])
 
-  const getNotifications = useCallback(() => {
-    const listOfNotifications = [
-      {
-        id: 1,
-        sender: 'Sistema',
-        sentTimestamp: 21512521,
-        message: 'Seu formulário foi revisado.',
-        unread: true,
-      },
-      {
-        id: 2,
-        sender: 'Alguem',
-        sentTimestamp: 22352521,
-        message: 'Seu formulário foi excluido.',
-      },
-      {
-        id: 3,
-        sender: 'Zé',
-        sentTimestamp: 32352521,
-        message: 'Seu formulário foi excluido.',
-      },
-      {
-        id: 4,
-        sender: 'Asadhdha',
-        sentTimestamp: 21512521,
-        message: 'Seu formulário foi revisado.',
-      },
-      {
-        id: 5,
-        sender: 'BAGADGA',
-        sentTimestamp: 32352521,
-        message: 'Seu formulário foi excluido.',
-      },
-      {
-        id: 6,
-        sender: 'asashadhad',
-        sentTimestamp: 12352521,
-        message: 'Seu formulário foi excluido.',
-      },
-    ]
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const notificationsDefault: Notifications[] = [
+    {
+      idNotificacao: 1,
+      fonte: 'Sistema',
+      data: 1251251251,
+      mensagem: 'Seu formulário foi revisado.',
+    },
+  ]
 
-    listOfNotifications.forEach((notificationData: NotificationData) => {
-      if (!notificationData.unread) return
-      setUnreadMessages((state) => state + 1)
-    })
-    return listOfNotifications
-  }, [])
-
-  const notifications: NotificationData[] = useMemo(
-    () => getNotifications(),
-    [getNotifications],
+  const { data, error, loading } = useGetRequest(
+    '/notificacoes/todos',
+    notificationsDefault,
   )
 
-  const registerLocale = () => {
-    register('pt_BR', ptbrLocale)
-  }
+  const getChunkOfNotifications = useCallback(() => {
+    if (!Array.isArray(data)) return [...notificationsDefault]
+    const filtered = data.filter(
+      (notificationData: Notifications, index: number) =>
+        index >= notificationChunkIndex &&
+        index < notificationChunkIndex + notificationsToLoad,
+    )
+    return filtered
+  }, [notificationChunkIndex, data, notificationsDefault])
+
+  const [notificationChunk, setNotificationChunk] = useState<Notifications[]>(
+    getChunkOfNotifications(),
+  )
 
   const formatNotificationTimestamp = (timeStamp: number) => {
     return format(Date.now() - timeStamp, 'pt_BR')
   }
 
-  const getChunkOfNotifications = useCallback(() => {
-    const filtered = notifications.filter(
-      (notificationData: NotificationData, index: number) =>
-        index >= notificationChunkIndex &&
-        index < notificationChunkIndex + notificationsToLoad,
-    )
-    return filtered
-  }, [notificationChunkIndex, notifications])
-
   useEffect(() => {
-    registerLocale()
-    const chunk = getChunkOfNotifications()
-    setNotificationChunk(chunk)
-  }, [getChunkOfNotifications])
+    register('pt_BR', ptbrLocale)
+  }, [])
 
   return (
     <DropdownMenu
@@ -156,30 +101,19 @@ export default function NavNotification() {
             </p>
           )}
           {notificationChunk.map(
-            (notificationData: NotificationData, index: number) => {
+            (notificationData: Notifications, index: number) => {
               return (
-                <Fragment key={notificationData.id}>
+                <Fragment key={notificationData.idNotificacao}>
                   <div>
-                    <DropdownMenuItem
-                      className="flex items-center justify-start gap-2"
-                      onSelect={(event: Event) => {
-                        if (notificationData.callback) {
-                          notificationData.callback()
-                        } else {
-                          event.preventDefault()
-                        }
-                      }}
-                    >
+                    <DropdownMenuItem className="flex items-center justify-start gap-2">
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-semibold leading-none">
-                          {notificationData.sender}
+                          {notificationData.fonte}
                         </p>
                         <p className="text-zinc-500 text-xs">
-                          {formatNotificationTimestamp(
-                            notificationData.sentTimestamp,
-                          )}
+                          {formatNotificationTimestamp(notificationData.data)}
                         </p>
-                        <p className="text-sm">{notificationData.message}</p>
+                        <p className="text-sm">{notificationData.mensagem}</p>
                       </div>
                     </DropdownMenuItem>
                     {(notificationChunk.length === notificationsToLoad &&

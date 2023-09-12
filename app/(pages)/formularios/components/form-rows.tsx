@@ -1,18 +1,37 @@
+'use client'
+
 import { Fragment } from 'react'
 
 import { Button } from '@/app/components/Shadcn/button'
 import { TableCell, TableRow } from '@/app/components/Shadcn/table'
 
 import { FormData } from '@/app/interfaces/FormData'
-import { RxCheckCircled, RxCrossCircled } from 'react-icons/rx'
+import {
+  RxCheckCircled,
+  RxCrossCircled,
+  RxDotsHorizontal,
+  RxPencil1,
+  RxPencil2,
+  RxTrash,
+} from 'react-icons/rx'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/app/components/Shadcn/dropdown-menu'
+import axios from 'axios'
+import { RequestType } from '@/app/interfaces/RequestType'
+import Link from 'next/link'
 
 interface FormProps {
   data: FormData[]
   loading: boolean
-  filter: string | undefined
 }
 
-export default function FormRows({ data, loading, filter }: FormProps) {
+export default function FormRows({ data, loading }: FormProps) {
   const iconMap = new Map()
   iconMap.set(
     'assinado',
@@ -24,29 +43,28 @@ export default function FormRows({ data, loading, filter }: FormProps) {
   )
 
   const timeConverter = (unixTimestamp: number) => {
-    const a = new Date(unixTimestamp * 1000)
-    const months = [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro',
-    ]
-    const year = a.getFullYear()
-    const month = months[a.getMonth()]
-    const date = a.getDate()
-    const hour = a.getHours()
-    const min = a.getMinutes()
-    const sec = a.getSeconds()
-    const time = `${date} de ${month} de ${year} as ${hour}:${min}:${sec}`
-    return time
+    const date = new Date(unixTimestamp * 1000)
+    return date.toLocaleString('pt-BR')
+  }
+
+  const deleteForm = (formData: FormData) => {
+    axios
+      .delete(`/formularios/${formData.id}`)
+      .then((response: RequestType) => {
+        if (response) {
+          // response.request.status === 200
+          console.log(response)
+          data.forEach((form) => {
+            if (form.id === formData.id) {
+              form.estado = 'Deletado'
+              console.log(form)
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (
@@ -71,9 +89,38 @@ export default function FormRows({ data, loading, filter }: FormProps) {
               </div>
             </TableCell>
             <TableCell className="flex gap-2 justify-between align-center">
-              <Button className="w-1/3">Editar</Button>
-              <Button className="w-1/3">Remover</Button>
-              <Button className="w-1/3">Duplicar</Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="w-full" variant={'outline'}>
+                    <RxDotsHorizontal className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  alignOffset={-5}
+                  className="w-[200px]"
+                  forceMount
+                >
+                  <DropdownMenuLabel>Opções</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href={`/formularios/editar/${formData.id}`}>
+                    <DropdownMenuItem className="flex gap-2">
+                      <RxPencil2 className="w-4 h-4 text-green-600" /> Editar
+                    </DropdownMenuItem>
+                  </Link>
+                  {formData.estado !== 'Assinado' && (
+                    <DropdownMenuItem className="flex gap-2">
+                      <RxPencil1 className="w-4 h-4 text-orange-600" /> Assinar
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem
+                    className="flex gap-2"
+                    onClick={() => deleteForm(formData)}
+                  >
+                    <RxTrash className="w-4 h-4 text-red-900" /> Deletar
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </TableCell>
           </TableRow>
         )

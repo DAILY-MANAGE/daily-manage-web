@@ -11,6 +11,7 @@ import { TeamData } from '@/app/interfaces/TeamData'
 import { useState } from 'react'
 import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
 import { Subtitle } from './subtitle'
+import Link from 'next/link'
 
 export function TeamPicker() {
   const [teams, setTeams] = useState<TeamData[]>([
@@ -28,22 +29,28 @@ export function TeamPicker() {
         !loading &&
         data.map((teamData: TeamData) => {
           return (
-            <Card
+            <Link
+              href={`/equipes/${teamData.idEquipe}`}
               key={teamData.idEquipe}
-              className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
+              className="w-full"
             >
-              <CardHeader className="space-y-0 flex flex-row p-6 py-4">
-                <div className="w-1/2">
-                  <CardTitle>{teamData.nome || 'Carregando...'}</CardTitle>
-                  <CardDescription>
-                    {`Identificação: ${teamData.idEquipe}` || 'Carregando...'}
-                  </CardDescription>
-                </div>
-                <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
-                  <RxChevronRight className="w-6 h-full my-auto group-hover:animate-fade-right" />
-                </div>
-              </CardHeader>
-            </Card>
+              <Card
+                key={teamData.idEquipe}
+                className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
+              >
+                <CardHeader className="space-y-0 flex flex-row p-6 py-4">
+                  <div className="w-1/2">
+                    <CardTitle>{teamData.nome || 'Carregando...'}</CardTitle>
+                    <CardDescription>
+                      {`Identificação: ${teamData.idEquipe}` || 'Carregando...'}
+                    </CardDescription>
+                  </div>
+                  <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
+                    <RxChevronRight className="w-6 h-full my-auto group-hover:animate-fade-right" />
+                  </div>
+                </CardHeader>
+              </Card>
+            </Link>
           )
         })}
       {!loading && Array.isArray(data) && data.length > 0 && (

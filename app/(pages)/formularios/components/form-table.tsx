@@ -31,31 +31,31 @@ export default function FormTable() {
       id: 1,
       nome: 'Turbina Gerador 001',
       estado: 'Assinado',
-      dataCriacao: 21512521,
+      dataCriacao: 1694468062,
     },
     {
       id: 2,
       nome: 'Turbina Gerador 002',
       estado: 'Assinado',
-      dataCriacao: 21512521,
+      dataCriacao: 1694468062,
     },
     {
       id: 3,
       nome: 'Ventilador 003',
       estado: 'Assinado',
-      dataCriacao: 21512521,
+      dataCriacao: 1694468062,
     },
     {
       id: 4,
       nome: 'Turbina 004',
       estado: 'Assinado',
-      dataCriacao: 21512521,
+      dataCriacao: 1694468062,
     },
     {
       id: 5,
       nome: 'Turbina 005',
       estado: 'Não Visto',
-      dataCriacao: 21512521,
+      dataCriacao: 1694468062,
     },
   ]
 
@@ -100,7 +100,7 @@ export default function FormTable() {
                   <TableHead className="w-[6%] border border-r-1 border-y-0">
                     Estado
                   </TableHead>
-                  <TableHead className="w-[5%]">Controle</TableHead>
+                  <TableHead className="w-[.3%]">Controle</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -113,7 +113,6 @@ export default function FormTable() {
                         formData.estado.toLowerCase().includes(filter),
                     )}
                     loading={loading}
-                    filter={filter}
                   />
                 )}
                 {loading && <SkeletonRows />}

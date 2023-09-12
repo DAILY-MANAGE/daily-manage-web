@@ -100,7 +100,7 @@ export default function LoginForm() {
       <Form.Error message={errors.usuario?.message} />
 
       <Form.Label label="Senha" className="mt-2" />
-      <div className="w-full h-fit grid grid-cols-[0.99fr_0.01fr] lg:grid-cols-[0.9fr_0.1fr] md:grid-cols-[0.95fr_0.05fr] gap-1">
+      <div className="w-full h-fit gap-1 grid grid-cols-[1fr,2.5rem]">
         <Input
           autoComplete="current-password"
           htmlFor="password"
@@ -110,6 +110,7 @@ export default function LoginForm() {
           placeholder="Entre com sua senha"
           aria-invalid={errors.senha ? 'true' : 'false'}
           data-invalid={errors.senha}
+          className="w-full"
           onInvalid={(e: SyntheticEvent) => {
             e.preventDefault()
           }}
@@ -119,7 +120,7 @@ export default function LoginForm() {
         />
         <button
           id="password-eye"
-          className="w-full h-full px-2 border border-black/50 rounded-md flex items-center justify-center shadow"
+          className="h-full w-10 aspect-square px-2 border border-black/50 rounded-md flex items-center justify-center shadow"
           type="button"
           onClick={hideShowPassword}
         >
