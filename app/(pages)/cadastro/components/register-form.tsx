@@ -12,66 +12,108 @@ import { RegisterData } from '@/app/interfaces/RegisterData'
 import Link from 'next/link'
 
 import { SyntheticEvent } from 'react'
+import { useFetch } from '../../../hooks/useFetch';
 
 export default function RegisterForm() {
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      cnpj: '',
+      usuario: '',
+      email: '',
       senha: '',
-      nomeEmpresa: '',
+      nome: '',
+      confirmarSenha: '',
+      permissoes: [
+        "VIEW_FORMULARY",
+        "CREATE_FORMULARY",
+        "DELETE_FORMULARY",
+        "EDIT_FORMULARY",
+        "ANSWER_FORMULARY",
+        "VIEW_ANSWERED_FORMULARY",
+        "EDIT_ANSWERED_FORMULARY"
+      ]
     },
   })
 
+  const { handlePost, handleAxiosError } = useFetch('/auth/user/register', false)
+
   const onSubmit = (data: RegisterData) => {
-    console.log(data)
-    // useAuthHandler().register(data);
+    try {
+      handlePost(data);
+    } catch (error) {
+      handleAxiosError(error)
+    }
   }
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <Form.Label label="Nome Empresa" className="mt-2" />
+      <Form.Label label="Usuário" className="mt-2" />
       <Input
-        autoComplete="nomeEmpresa"
-        htmlFor="nomeEmpresa"
-        error={errors.nomeEmpresa}
-        placeholder="Entre com o Nome da Empresa"
-        aria-invalid={errors.nomeEmpresa ? 'true' : 'false'}
+        autoComplete="usuario"
+        htmlFor="usuario"
+        error={errors.usuario}
+        placeholder="Entre com o Usuário"
+        aria-invalid={errors.usuario ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: SyntheticEvent) => {
           e.preventDefault()
         }}
-        {...register('nomeEmpresa', {
-          required: 'Nome da Empresa é obrigatório',
+        {...register('usuario', {
+          required: 'Usuario é obrigatório',
         })}
         type="text"
-        id="nomeEmpresa"
+        id="usuario"
       />
-      <Form.Error message={errors.nomeEmpresa?.message} />
+      <Form.Error message={errors.usuario?.message} />
 
-      <Form.Label label="CNPJ" className="mt-2" />
+      <Form.Label label="Nome" className="mt-2" />
       <Input
-        autoComplete="cnpj"
-        htmlFor="cnpj"
-        error={errors.cnpj}
-        placeholder="Entre com o CNPJ"
-        aria-invalid={errors.cnpj ? 'true' : 'false'}
+        autoComplete="nome"
+        htmlFor="nome"
+        error={errors.nome}
+        placeholder="Entre com o seu Nome"
+        aria-invalid={errors.nome ? 'true' : 'false'}
+        className="shadow"
+        onInvalid={(e: SyntheticEvent) => {
+          e.preventDefault()
+        }}
+        {...register('nome', {
+          required: 'Nome é obrigatório',
+        })}
+        type="text"
+        id="nome"
+      />
+      <Form.Error message={errors.nome?.message} />
+
+      <Form.Label label="E-mail" className="mt-2" />
+      <Input
+        autoComplete="email"
+        htmlFor="email"
+        error={errors.email}
+        placeholder="Entre com o E-mail"
+        aria-invalid={errors.email ? 'true' : 'false'}
         className="shadow"
         pattern="/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/"
         onInvalid={(e: SyntheticEvent) => {
           e.preventDefault()
         }}
-        {...register('cnpj', {
-          required: 'CNPJ é obrigatório',
+        {...register('email', {
+          required: 'E-mail é obrigatório',
+          validate: {
+            matchPattern: (v) =>
+              /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+              'O endereço de e-mail deve ser válido',
+          },
         })}
         type="text"
-        id="cnpj"
+        id="email"
       />
-      <Form.Error message={errors.cnpj?.message} />
+      <Form.Error message={errors.email?.message} />
 
       <Form.Label label="Senha" className="mt-2" />
       <Input
@@ -95,17 +137,41 @@ export default function RegisterForm() {
             message: 'Número mínimo de caractéres é 5',
           },
         })}
-        type="text"
+        type="password"
         id="password"
       />
       <Form.Error message={errors.senha?.message} />
+
+      <Form.Label label="Confirmar Senha" className="mt-2" />
+      <Input
+        htmlFor="confirmarSenha"
+        error={errors.senha}
+        autoComplete="confirmarSenha"
+        placeholder="Confirme a sua senha"
+        aria-invalid={errors.confirmarSenha ? 'true' : 'false'}
+        className="shadow"
+        onInvalid={(e: SyntheticEvent) => {
+          e.preventDefault()
+        }}
+        {...register('confirmarSenha', {
+          required: 'Confirmar a senha é obrigatório',
+          validate: (val: string) => {
+            if (watch('senha') != val) {
+              return 'As senhas não são iguais';
+            }
+          },
+        })}
+        type="password"
+        id="confirmarSenha"
+      />
+      <Form.Error message={errors.confirmarSenha?.message} />
 
       <Button
         size="full"
         type="submit"
         className="mt-4 flex items-center justify-center bg-zinc-900 text-white"
       >
-        Cadastrar Empresa
+        Cadastrar
       </Button>
 
       <Link
@@ -113,7 +179,7 @@ export default function RegisterForm() {
         className="mt-2 w-full flex items-center justify-center"
       >
         <p className="text-zinc-500 underline underline-offset-2">
-          Não é empresa?
+          Já possui conta?
         </p>
       </Link>
     </Form.Root>

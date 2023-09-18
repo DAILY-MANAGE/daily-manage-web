@@ -18,7 +18,7 @@ import ptbrLocale from 'timeago.js/lib/lang/pt_BR'
 
 import { Button } from '../Shadcn/button'
 import { Badge } from '../Shadcn/badge'
-import { useGetRequest } from '@/app/hooks/useGetRequest'
+import { useFetch } from '@/app/hooks/useFetch'
 import { Notifications } from '@/app/interfaces/Notifications'
 
 const notificationsToLoad = 5
@@ -37,9 +37,8 @@ export default function NavNotification() {
     },
   ]
 
-  const { data, error, loading } = useGetRequest(
+  const { data, error, loading } = useFetch(
     '/notificacoes/todos',
-    notificationsDefault,
   )
 
   const getChunkOfNotifications = useCallback(() => {

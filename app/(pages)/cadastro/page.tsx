@@ -5,7 +5,7 @@ import { RegisterWrapper } from './components/register-wrapper'
 
 export const metadata: Metadata = {
   title: 'Cadastro | Daily Manage',
-  description: 'Faça seu cadastro para ter acesso ao seus formulários.',
+  description: 'Realize o cadastro para ter acesso ao seus formulários.',
 }
 
 export default function Cadastro() {

@@ -11,7 +11,7 @@ export default function GoToRegister() {
       className="mt-2 w-full flex items-center justify-center"
     >
       <p className="text-zinc-500 underline underline-offset-2">
-        Deseja cadastrar sua empresa?
+        Ainda não possui uma conta?
       </p>
     </Link>
   );

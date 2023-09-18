@@ -7,7 +7,7 @@ import {
   TableHead,
   TableBody,
 } from '@/app/components/Shadcn/table'
-import { useGetRequest } from '@/app/hooks/useGetRequest'
+import { useFetch } from '@/app/hooks/useFetch'
 import {
   Card,
   CardContent,
@@ -64,10 +64,7 @@ export default function FormTable() {
 
   const [filter, setFilter] = useState<string>('')
   const [filteredData, setFilteredData] = useState<FormData[] | undefined>()
-  const { data, error, loading } = useGetRequest(
-    '/formularios/todos',
-    formulariosDefault,
-  )
+  const { data, error, loading } = useFetch('/equipes/todas')
 
   useEffect(() => {
     if (!Array.isArray(data)) return

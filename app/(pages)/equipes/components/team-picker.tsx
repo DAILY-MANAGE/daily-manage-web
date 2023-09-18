@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/components/Shadcn/card'
-import { useGetRequest } from '@/app/hooks/useGetRequest'
+import { useFetch } from '@/app/hooks/useFetch'
 import { TeamData } from '@/app/interfaces/TeamData'
 import { useState } from 'react'
 import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
@@ -21,7 +21,7 @@ export function TeamPicker() {
       nome: 'Equipe 1',
     },
   ])
-  const { data, error, loading } = useGetRequest('/equipes/todas', teams)
+  const { data, error, loading } = useFetch('/equipes/todas')
 
   return (
     <>

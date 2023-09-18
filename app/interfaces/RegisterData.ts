@@ -1,4 +1,8 @@
 export interface RegisterData {
-  cnpj: string
+  email: string
+  usuario: string
+  nome: string
   senha: string
+  confirmarSenha: string
+  permissoes: string[]
 }
