@@ -42,8 +42,22 @@ interface PresetSelectorProps extends PopoverProps {
 
 export function PermittedUsers({ ...props }: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset>()
-  const router = useRouter()
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>(presets)
+
+  const formatUsers = () => {
+    let formattedUsers = ''
+    selectedPreset.forEach((userPreset: Preset, index: number) => {
+      if (index == selectedPreset.length-1) {
+        formattedUsers += userPreset.name
+      } else {
+        formattedUsers += `${userPreset.name}, `
+      }
+    })
+    if (formattedUsers == '') {
+      formattedUsers = 'Selecionar usuários'
+    }
+    return formattedUsers
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>
@@ -53,30 +67,34 @@ export function PermittedUsers({ ...props }: PresetSelectorProps) {
           role="combobox"
           aria-label="Selecionar usuários"
           aria-expanded={open}
-          className="flex-1 justify-between w-full"
+          className="flex-1 justify-between w-full shadow border-black/20"
         >
-          {selectedPreset ? selectedPreset.name : 'Selecionar usuários'}
+          {formatUsers()}
           <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full block p-0 border-black/20">
         <Command>
-          <CommandInput placeholder="Pesquisar usuários..." />
+          <CommandInput placeholder="Pesquisar usuários..."/>
           <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
           <CommandGroup heading="Recomendados">
             {presets.map((preset) => (
               <CommandItem
                 key={preset.id}
                 onSelect={() => {
-                  setSelectedPreset(preset)
-                  setOpen(false)
+                  const isValid = selectedPreset.filter((userPreset: Preset) => userPreset.id == preset.id)
+                  console.log(isValid)
+                  if (isValid.length == 0) return
+                  const auxSelectedPreset = [...selectedPreset]
+                  auxSelectedPreset.push(preset)
+                  setSelectedPreset(auxSelectedPreset)
                 }}
               >
                 {preset.name}
                 <RxCheck
                   className={cn(
                     'ml-auto h-4 w-4',
-                    selectedPreset?.id === preset.id
+                    selectedPreset.filter((userPreset: Preset) => userPreset.id == preset.id)
                       ? 'opacity-100'
                       : 'opacity-0',
                   )}

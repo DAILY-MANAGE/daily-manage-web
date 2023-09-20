@@ -25,8 +25,16 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true) {
 
   const handleResponseErrors = (response: RequestType) => {
     const errors = response.data.errors
-    if (response.status == 201) {
-      ToastWrapper.success("Usuário criado com sucesso!")
+    switch (response.status) {
+      case 201:
+        ToastWrapper.success("Usuário criado com sucesso!")
+        break
+      case 200:
+        ToastWrapper.success("Login realizado com sucesso!")
+        break
+      default:
+        ToastWrapper.warn(`Notificação ${response.status} - Indefinido`)
+        break
     }
     if (errors) {
       errors.forEach((error: string) => {
@@ -51,7 +59,7 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true) {
       try {
         const response = await requestInstance.post(url, postData)
         handleResponseErrors(response)
-      } catch(error) {
+      } catch (error) {
         handleResponseErrors((error as any).response)
       }
     }
@@ -62,7 +70,7 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true) {
     { id: number; putData: any }
   >({
     mutationFn: (params: { id: number; putData: any }) =>
-    requestInstance.put(`${url}/${params.id}`, params.putData),
+      requestInstance.put(`${url}/${params.id}`, params.putData),
     onSuccess: () => {
       refetch()
     },

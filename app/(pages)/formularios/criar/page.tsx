@@ -14,7 +14,7 @@ export default function Criar() {
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
           <h2 className="text-3xl font-bold tracking-tight text-white">
-            Criar Formulário
+            Informações
           </h2>
         </div>
         <div className="flex items-center space-y-2 flex-col w-full">
@@ -33,21 +33,10 @@ export default function Criar() {
               </CardContent>
             </div>
           </Card>
-          <ScreenDivider />
-          <Card className="w-full h-fit flex items-center justify-center flex-col md:flex-row shadow">
-            <CardContent className="py-2 pb-4 w-full">
-              <Label>Etiquetas</Label>
-              <div className="w-full h-fit flex items-center justify-center">
-                <Button className="text-md p-1 w-fit h-fit aspect-square">
-                  <RxPlus className="w-8 h-8" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
         </div>
         <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
           <h2 className="text-3xl font-bold tracking-tight text-white">
-            Perguntas
+            Campos
           </h2>
         </div>
         <div className="flex items-center space-y-2 flex-col w-full">
