@@ -1,6 +1,9 @@
-import { Root } from '@/app/components/Root'
 import { Metadata } from 'next'
-import { TeamPicker } from './components/team-picker'
+
+import { TeamForms } from './components/team-forms'
+import { Root } from '@/app/components/Root'
+import { useSession } from 'next-auth/react'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Equipes | Daily Manage',
@@ -10,9 +13,10 @@ export const metadata: Metadata = {
 export default function Equipes() {
   return (
     <Root.Spacing>
-      <Root.Header title="Equipes"></Root.Header>
+      <Root.Header title="Equipes">
+      </Root.Header>
       <Root.Container>
-        <TeamPicker />
+        <TeamForms />
       </Root.Container>
     </Root.Spacing>
   )

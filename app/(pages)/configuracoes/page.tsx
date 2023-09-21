@@ -15,6 +15,8 @@ import {
 import { Label } from '@/app/components/Shadcn/label'
 import { Input } from '@/app/components/Shadcn/input'
 
+import { signOut } from 'next-auth/react'
+
 export const metadata: Metadata = {
   title: 'Configurações | Daily Manage',
   description: 'Lista de formulários criados.',
@@ -24,14 +26,13 @@ export default function Configuracoes() {
   return (
     <Root.Spacing>
       <Root.Header title="Configurações">
-        <Link href="/sair">
           <Button
-            className="border flex items-center justify-center gap-2 border-black/20 bg-red-400 hover:bg-red-300 hover:animate-pulse"
+            className="border flex items-center justify-center gap-2 border-black/20 bg-red-400 hover:bg-red-200 hover:animate-pulse mt-2 md:mt-0 font-semibold text-red-900"
             variant={'outline'}
+            onClick={() => signOut()}
           >
             Sair da Conta <RxExit className="w-4 h-4" />
           </Button>
-        </Link>
       </Root.Header>
       <div className="w-full h-fit flex flex-col space-y-4">
         <Card>

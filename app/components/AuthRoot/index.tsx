@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 
 interface AuthRootProps {
   element: ReactNode
-  background: 'login' | 'cadastro' | 'recuperarSenha'
+  background?: 'login' | 'cadastro' | 'recuperarSenha'
 }
 
 export function AuthRoot({ element, background = 'login' }: AuthRootProps) {

@@ -35,21 +35,12 @@ export function MainNav({
 
   return (
     <nav className={cn('flex items-center gap-2', className)} {...props}>
-      {false && (
-        <NavLink
-          href="/dashboard"
-          data-active={isCurrentlyInRoute('dashboard')}
-        >
-          Dashboard
-        </NavLink>
-      )}
-
       <DropdownMenu open={dropdownOpen}>
         <DropdownMenuTrigger
           asChild
           className="group"
           onClick={() => {
-            router.push('/formularios')
+            router.push('/equipes')
           }}
           onContextMenu={(event: SyntheticEvent) => {
             event.preventDefault()
@@ -58,10 +49,10 @@ export function MainNav({
         >
           <Button
             variant="outline"
-            data-active={isCurrentlyInRoute('formularios')}
+            data-active={isCurrentlyInRoute('equipes')}
             className="text-sm font-medium transition-colors group-hover:text-primary rounded p-2 px-4 data-[active=true]:bg-zinc-50 border-0 outline outline-0 data-[active=true]:outline-1 outline-offset-1 data-[active=true]:outline-black/10"
           >
-            Formulários
+            Equipes
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -93,10 +84,6 @@ export function MainNav({
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <NavLink href="/equipes" data-active={isCurrentlyInRoute('equipes')}>
-        Equipes
-      </NavLink>
     </nav>
   )
 }

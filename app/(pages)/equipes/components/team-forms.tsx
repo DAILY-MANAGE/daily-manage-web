@@ -18,7 +18,7 @@ import { Subtitle } from './subtitle'
 
 import Link from 'next/link'
 
-export function TeamPicker() {
+export function TeamForms() {
   const { data: session } = useSession();
 
   const [teams, setTeams] = useState<TeamData[]>([
@@ -28,7 +28,7 @@ export function TeamPicker() {
       nome: 'Equipe 1',
     },
   ])
-  const { data, error, loading } = useFetch('/equipes/todas')
+  const { data, error, loading } = useFetch('/equipes/todas', true, teams)
 
   return (
     <>

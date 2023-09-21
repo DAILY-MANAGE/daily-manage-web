@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={`${inter.className} bg-light-100 dark:bg-zinc-900`}>
-        <ToastContainer icon={true} />
+        <ToastContainer icon={true} limit={3}/>
         <NextAuthProvider>
           <QueryClientProviderHandler>
             <NavRoot />

@@ -9,11 +9,11 @@ type FetchDataResponse<T> = AxiosResponse<T>
 type PostDataResponse = void
 type PutDataResponse = void
 
-export function useFetch<T = unknown>(url: string, isGet: boolean = true) {
+export function useFetch<T = unknown>(url: string, isGet: boolean = true, defaultData: unknown) {
   const queryKey = ['myQueryKey', url]
 
   const requestInstance = axios.create({
-    baseURL: 'http://10.68.21.225:8080'
+    baseURL: 'http://10.68.21.237:8080'
   })
 
   const [error, setError] = useState<string[]>([])
@@ -48,7 +48,8 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true) {
     queryKey,
     queryFn: async () => {
       if (!isGet) return
-      const response = await requestInstance.get<T>(url)
+      const response = await requestInstance.get<T>(url).catch(handleAxiosError)
+      if (!response) return
       handleResponseErrors(response)
       return response
     },
@@ -57,13 +58,15 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true) {
   const postMutation = useMutation<PostDataResponse, unknown, unknown>({
     mutationFn: async (postData: any) => {
       try {
-        const response = await requestInstance.post(url, postData)
+        const response = await requestInstance.post(url, postData).catch(handleAxiosError)
+        if (!response) return
         handleResponseErrors(response)
       } catch (error) {
         handleResponseErrors((error as any).response)
       }
     }
   })
+
   const putMutation = useMutation<
     PutDataResponse,
     unknown,
@@ -75,6 +78,7 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true) {
       refetch()
     },
   })
+
   const deleteMutation = useMutation<PostDataResponse, unknown, number>({
     mutationFn: (id: number) => requestInstance.delete(`${url}/${id}`),
     onSuccess: () => {

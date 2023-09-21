@@ -1,7 +1,6 @@
 'use client'
 
 import { ToastWrapper } from '@/app/utils/ToastWrapper'
-import useAuthHandler from '@/app/services/auth'
 
 import { Checkbox } from '@/app/components/Shadcn/checkbox'
 import { Input } from '@/app/components/Shadcn/input'
@@ -13,6 +12,7 @@ import { SyntheticEvent, useState } from 'react'
 
 import { CheckedState } from '@radix-ui/react-checkbox'
 import { Button } from '@/app/components/Shadcn/button'
+import { signIn, useSession } from 'next-auth/react'
 
 interface Login {
   usuario: string
@@ -44,8 +44,6 @@ export default function LoginForm() {
   const [submitQueue, setSubmitQueue] = useState(0)
   const [passwordHidden, setPasswordHidden] = useState(false)
 
-  const authHandler = useAuthHandler()
-
   const handleLoginAttemptsQueue = () => {
     setSubmitQueue((state) => state + 1)
     const savedQueue = submitQueue
@@ -63,7 +61,8 @@ export default function LoginForm() {
       )
       return
     }
-    return authHandler.login(data)
+    //login
+    signIn()
   }
 
   const onSubmit = (data: Login) => {
@@ -150,6 +149,7 @@ export default function LoginForm() {
         size="full"
         type="submit"
         className="mt-4 flex items-center justify-center gap-2 data-[loginloadingdelay=true]:opacity-50 bg-zinc-950 text-white"
+        onClick={() => signIn()}
       >
         <span>Entrar</span>
       </Button>
