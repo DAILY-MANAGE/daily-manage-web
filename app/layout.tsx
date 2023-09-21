@@ -6,6 +6,8 @@ import { ToastContainer } from 'react-toastify';
 import NavRoot from './components/Navbar/nav-root';
 import QueryClientProviderHandler from './components/QueryClientProviderHandler';
 
+import { NextAuthProvider } from './context/client-provider';
+
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
@@ -25,10 +27,12 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={`${inter.className} bg-light-100 dark:bg-zinc-900`}>
         <ToastContainer icon={true} />
-        <QueryClientProviderHandler>
-          <NavRoot />
-          {children}
-        </QueryClientProviderHandler>
+        <NextAuthProvider>
+          <QueryClientProviderHandler>
+            <NavRoot />
+            {children}
+          </QueryClientProviderHandler>
+        </NextAuthProvider>
       </body>
     </html>
   );

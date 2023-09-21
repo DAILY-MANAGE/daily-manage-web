@@ -2,9 +2,15 @@ import Dashboard from './(pages)/dashboard/page'
 import Login from './(pages)/login/page'
 import useAuthHandler from './services/auth'
 
-export default function Page() {
-  // const authHandler = useAuthHandler();
-  const isLoggedIn = false // await authHandler.isLoggedIn();
+import { authOptions } from './utils/auth';
 
-  return isLoggedIn ? <Dashboard /> : <Login />
+import { getServerSession } from "next-auth";
+
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  console.log(session);
+
+  return <>
+          <pre>{JSON.stringify(session)}</pre>
+  </>
 }

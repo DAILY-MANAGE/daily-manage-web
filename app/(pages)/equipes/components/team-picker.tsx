@@ -6,14 +6,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/components/Shadcn/card'
+
+import { useSession } from "next-auth/react";
+
 import { useFetch } from '@/app/hooks/useFetch'
 import { TeamData } from '@/app/interfaces/TeamData'
+
 import { useState } from 'react'
 import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
 import { Subtitle } from './subtitle'
+
 import Link from 'next/link'
 
 export function TeamPicker() {
+  const { data: session } = useSession();
+
   const [teams, setTeams] = useState<TeamData[]>([
     {
       idEquipe: 1,
@@ -25,6 +32,7 @@ export function TeamPicker() {
 
   return (
     <>
+      <pre>{JSON.stringify(session)}</pre>
       {Array.isArray(data) &&
         !loading &&
         data.map((teamData: TeamData) => {
