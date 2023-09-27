@@ -9,12 +9,12 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Sign in",
       credentials: {
-        email: {
-          label: "Email",
+        usuario: {
+          label: "Usuário",
           type: "email",
-          placeholder: "example@example.com",
+          placeholder: "Usuário",
         },
-        password: { label: "Password", type: "password" },
+        senha: { label: "Senha", type: "password" },
       },
       async authorize(credentials) {
         const user = { id: "1", name: "Admin", email: "admin@admin.com" };
@@ -22,4 +22,10 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async signIn({ user }) {
+      return true
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
