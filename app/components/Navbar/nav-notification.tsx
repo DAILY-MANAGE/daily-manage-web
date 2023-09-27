@@ -38,7 +38,9 @@ export default function NavNotification() {
   ]
 
   const { data, error, loading } = useFetch(
-    '/notificacoes/todos',
+    {
+      url: '/notificacoes/todos'
+    }
   )
 
   const getChunkOfNotifications = useCallback(() => {
@@ -56,12 +58,9 @@ export default function NavNotification() {
   )
 
   const formatNotificationTimestamp = (timeStamp: number) => {
+    register('pt_BR', ptbrLocale)
     return format(Date.now() - timeStamp, 'pt_BR')
   }
-
-  useEffect(() => {
-    register('pt_BR', ptbrLocale)
-  }, [])
 
   return (
     <DropdownMenu

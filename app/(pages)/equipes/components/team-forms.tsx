@@ -28,7 +28,7 @@ export function TeamForms() {
       nome: 'Equipe 1',
     },
   ])
-  const { data, error, loading } = useFetch('/equipes/todas', true, teams)
+  const { data, error, loading } = useFetch({ url: '/equipes/todas', isGet: true, defaultData: teams })
 
   return (
     <>
@@ -62,9 +62,8 @@ export function TeamForms() {
           )
         })}
       {!loading && Array.isArray(data) && data.length > 0 && (
-        <Subtitle>{`${data.length} Equipe${
-          data.length > 1 ? 's' : ''
-        } encontrada${data.length > 1 ? 's' : ''}`}</Subtitle>
+        <Subtitle>{`${data.length} Equipe${data.length > 1 ? 's' : ''
+          } encontrada${data.length > 1 ? 's' : ''}`}</Subtitle>
       )}
       {loading && (
         <Subtitle>
@@ -72,7 +71,7 @@ export function TeamForms() {
           Carregando equipes...
         </Subtitle>
       )}
-      {!loading && Array.isArray(data) && data.length === 0 && (
+      {!loading && ((Array.isArray(data) && data.length === 0) || !data) && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhuma
           equipe foi encontrada.

@@ -9,7 +9,15 @@ type FetchDataResponse<T> = AxiosResponse<T>
 type PostDataResponse = void
 type PutDataResponse = void
 
-export function useFetch<T = unknown>(url: string, isGet: boolean = true, defaultData: unknown) {
+interface FetchOptions {
+  url: string
+  isGet?: boolean
+  defaultData?: unknown
+}
+
+export function useFetch<T = unknown>(options: FetchOptions) {
+  const { url, isGet, defaultData } = options
+
   const queryKey = ['myQueryKey', url]
 
   const requestInstance = axios.create({
@@ -20,6 +28,7 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true, defaul
 
   const handleAxiosError = (error: unknown) => {
     const errorMessage = getErrorMessage(error as AxiosError)
+    if (!errorMessage) return
     ToastWrapper.error(errorMessage)
   }
 
@@ -49,7 +58,8 @@ export function useFetch<T = unknown>(url: string, isGet: boolean = true, defaul
     queryFn: async () => {
       if (!isGet) return
       const response = await requestInstance.get<T>(url).catch(handleAxiosError)
-      if (!response) return
+      if (!response) return defaultData;
+      (response.data as any) = [...(response.data as any), defaultData]
       handleResponseErrors(response)
       return response
     },

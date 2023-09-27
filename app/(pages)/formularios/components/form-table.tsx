@@ -64,7 +64,7 @@ export default function FormTable() {
 
   const [filter, setFilter] = useState<string>('')
   const [filteredData, setFilteredData] = useState<FormData[] | undefined>()
-  const { data, error, loading } = useFetch('/equipes/todas')
+  const { data, error, loading } = useFetch({ url: '/equipes/todas' })
 
   useEffect(() => {
     if (!Array.isArray(data)) return

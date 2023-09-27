@@ -40,7 +40,7 @@ export default function RegisterForm() {
     },
   })
 
-  const { handlePost, handleAxiosError } = useFetch('/auth/user/register', false)
+  const { handlePost, handleAxiosError } = useFetch({ url: '/auth/user/register', isGet: false })
 
   const onSubmit = (data: RegisterData) => {
     try {
