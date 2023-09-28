@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { RequestType } from '../interfaces/RequestType';
 import { ToastWrapper } from '../utils/ToastWrapper';
 import { getErrorMessage } from '../utils/ErrorHandler';
+import { handleAxiosError } from '../utils/AxiosError';
 
 type FetchDataResponse<T> = AxiosResponse<T>
 type PostDataResponse = void
@@ -25,12 +26,6 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   })
 
   const [error, setError] = useState<string[]>([])
-
-  const handleAxiosError = (error: unknown) => {
-    const errorMessage = getErrorMessage(error as AxiosError)
-    if (!errorMessage) return
-    ToastWrapper.error(errorMessage)
-  }
 
   const handleResponseErrors = (response: RequestType) => {
     const errors = response.data.errors
@@ -101,6 +96,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     data: data?.data || null,
     loading: !data,
     error: error,
+    requestInstance,
     handleAxiosError,
     handlePost: postMutation.mutateAsync as MutationFunction<
       PostDataResponse,

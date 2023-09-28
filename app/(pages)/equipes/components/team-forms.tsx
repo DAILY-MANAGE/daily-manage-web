@@ -46,9 +46,9 @@ export function TeamForms() {
                 className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
               >
                 <CardHeader className="space-y-0 flex flex-row p-6 py-4">
-                  <div className="w-1/2">
+                  <div className="w-1/2 flex justify-start align-center flex-col gap-1">
                     <CardTitle>{teamData.nome || 'Carregando...'}</CardTitle>
-                    <CardDescription>
+                    <CardDescription className='leading-none'>
                       {`Identificação: ${teamData.idEquipe}` || 'Carregando...'}
                     </CardDescription>
                   </div>
