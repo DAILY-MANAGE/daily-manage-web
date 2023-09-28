@@ -58,8 +58,9 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     queryFn: async () => {
       if (!isGet) return
       const response = await requestInstance.get<T>(url).catch(handleAxiosError)
-      if (!response) return defaultData;
+      if (!response) return {data: defaultData};
       (response.data as any) = [...(response.data as any), defaultData]
+      console.log(response.data)
       handleResponseErrors(response)
       return response
     },
