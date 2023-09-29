@@ -1,10 +1,10 @@
-import { authOptions } from './utils/auth';
+'use client'
 
-import { getServerSession } from "next-auth";
 import { redirect } from 'next/navigation';
+import { useAuth } from './hooks/useAuth';
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const { session } = useAuth()
 
   if (!session) {
     redirect('/login')

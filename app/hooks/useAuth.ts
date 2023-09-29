@@ -1,11 +1,15 @@
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
-import Cookies from "js-cookie"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+'use client'
 
 import { ToastWrapper } from "../utils/ToastWrapper"
+
+import Cookies from "js-cookie"
+
+import { useQuery } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { useFetch } from "./useFetch"
+import { CustomResponse } from "../interfaces/CustomResponse"
+import { AuthResponse } from "../interfaces/AuthResponse"
 
 const cookieKey = "auth_token"
 
@@ -31,44 +35,42 @@ const endpoints = {
   login: '/auth/login',
   signIn: '/auth/register',
 
-  validateToken: '/auth',
+  validateToken: '/token/istokenexpired',
 }
 
-export const useAuth = (url: string) => {
+export const useAuth = () => {
 
   const router = useRouter()
   const [session, setSession] = useState<SessionData | null>()
   const { requestInstance } = useFetch({
-    url: url,
     isGet: false,
   })
 
-  const queryKey = ['loginQuery', url]
+  const queryKey = ['loginQuery']
 
   const { data, refetch } = useQuery<any>({
     queryKey,
     queryFn: async () => {
+      console.log('Tentando login com cookie...')
       const token = Cookies.get(cookieKey)
       if (token) {
-        signInWithToken(token)
+        loginWithToken(token)
       }
     },
   })
 
-  const signInWithToken = async (token: string) => {
-    const res = await requestInstance.get(endpoints.validateToken, {
-      token
-    })
-    if (!res) return
-    if (!res.data) return
-    if (res.data.token == null) return
+  const handleLogin = (responseData: AuthResponse) => {
+    Cookies.set(cookieKey, responseData.token)
+    router.push('/equipes')
   }
 
   const signIn = (signinData: SigninData) => {
-
+    if (session) {
+      logout()
+    }
   }
 
-  const signOut = () => {
+  const logout = () => {
     if (session) {
       setSession(null)
       Cookies.remove(cookieKey)
@@ -78,14 +80,38 @@ export const useAuth = (url: string) => {
     }
   }
 
-  const login = (loginData: LoginData) => {
-    handlePost(loginData)
+  const login = async (loginData: LoginData) => {
+    const res = await requestInstance.post(endpoints.login, {
+      params: loginData
+    })
+    if (!res) return
+    if (res.status == 200) {
+      handleLogin(res.data)
+    } else {
+      Cookies.remove(cookieKey)
+      ToastWrapper.error("Não foi possível realizar o login.")
+    }
+  }
+
+  const loginWithToken = async (token: string) => {
+    const res = await requestInstance.get(endpoints.validateToken, {
+      params: {
+        token: token
+      }
+    })
+    if (!res) return
+    if (res.status == 200) {
+      handleLogin(res.data)
+    } else {
+      Cookies.remove(cookieKey)
+      ToastWrapper.error("Não foi possível realizar o login automaticamente.")
+    }
   }
 
   return {
-    session: session,
+    session,
     login,
     signIn,
-    signOut
+    logout
   }
 }

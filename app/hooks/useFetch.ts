@@ -3,7 +3,6 @@ import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useState } from 'react'
 import { RequestType } from '../interfaces/RequestType';
 import { ToastWrapper } from '../utils/ToastWrapper';
-import { getErrorMessage } from '../utils/ErrorHandler';
 import { handleAxiosError } from '../utils/AxiosError';
 
 type FetchDataResponse<T> = AxiosResponse<T>
@@ -11,7 +10,7 @@ type PostDataResponse = void
 type PutDataResponse = void
 
 interface FetchOptions {
-  url: string
+  url?: string
   isGet?: boolean
   defaultData?: unknown
 }
@@ -52,6 +51,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     queryKey,
     queryFn: async () => {
       if (!isGet) return
+      if (!url) return
       const response = await requestInstance.get<T>(url).catch(handleAxiosError)
       if (!response) return {data: defaultData};
       (response.data as any) = [...(response.data as any), defaultData]
@@ -64,6 +64,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   const postMutation = useMutation<PostDataResponse, unknown, unknown>({
     mutationFn: async (postData: any) => {
       try {
+        if (!url) return
         const response = await requestInstance.post(url, postData).catch(handleAxiosError)
         if (!response) return
         handleResponseErrors(response)
