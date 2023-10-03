@@ -13,6 +13,7 @@ import Link from 'next/link'
 
 import { SyntheticEvent } from 'react'
 import { useFetch } from '../../../hooks/useFetch';
+import { useAuth } from '@/app/hooks/useAuth'
 
 export default function RegisterForm() {
   const {
@@ -40,14 +41,10 @@ export default function RegisterForm() {
     },
   })
 
-  const { handlePost, handleAxiosError } = useFetch({ url: '/auth/user/register', isGet: false })
+  const { signIn } = useAuth()
 
   const onSubmit = (data: RegisterData) => {
-    try {
-      handlePost(data);
-    } catch (error) {
-      handleAxiosError(error)
-    }
+    signIn(data)
   }
 
   return (

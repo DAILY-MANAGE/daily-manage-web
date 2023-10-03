@@ -16,7 +16,8 @@ interface FetchOptions {
 }
 
 export function useFetch<T = unknown>(options: FetchOptions) {
-  const { url, isGet, defaultData } = options
+  let { url, isGet, defaultData } = options
+  url = url || ''
 
   const queryKey = ['myQueryKey', url]
 
@@ -99,6 +100,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     error: error,
     requestInstance,
     handleAxiosError,
+    handleResponseErrors,
     handlePost: postMutation.mutateAsync as MutationFunction<
       PostDataResponse,
       unknown

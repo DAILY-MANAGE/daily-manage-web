@@ -8,8 +8,9 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useFetch } from "./useFetch"
-import { CustomResponse } from "../interfaces/CustomResponse"
+
 import { AuthResponse } from "../interfaces/AuthResponse"
+import { RegisterData } from "../interfaces/RegisterData"
 
 const cookieKey = "auth_token"
 
@@ -42,13 +43,12 @@ export const useAuth = () => {
 
   const router = useRouter()
   const [session, setSession] = useState<SessionData | null>()
-  const { requestInstance } = useFetch({
+  const { requestInstance, handleResponseErrors } = useFetch({
     isGet: false,
   })
 
-  const queryKey = ['loginQuery']
-
-  const { data, refetch } = useQuery<any>({
+  /**
+   * const { data, refetch } = useQuery<any>({
     queryKey,
     queryFn: async () => {
       console.log('Tentando login com cookie...')
@@ -58,15 +58,25 @@ export const useAuth = () => {
       }
     },
   })
+   */
 
   const handleLogin = (responseData: AuthResponse) => {
     Cookies.set(cookieKey, responseData.token)
     router.push('/equipes')
   }
 
-  const signIn = (signinData: SigninData) => {
+  const signIn = async (signinData: RegisterData) => {
+    console.log(signinData)
     if (session) {
       logout()
+    }
+    const res = await requestInstance.post(endpoints.signIn, {
+      params: signinData
+    })
+    if (res.status == 201) {
+      handleLogin(res.data)
+    } else {
+      handleResponseErrors(res)
     }
   }
 
