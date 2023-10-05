@@ -13,15 +13,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/app/components/Shadcn/dropdown-menu'
+import { useAuth } from '@/app/hooks/useAuth'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { signOut, useSession } from 'next-auth/react'
-
 export function UserNav() {
   const pathname = usePathname()
-  const { data: session } = useSession();
+  const { session, signOut } = useAuth()
 
   return (
     <>
@@ -33,7 +32,7 @@ export function UserNav() {
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-8 w-8">
                 <AvatarImage src="/avatars/01.png" alt="Foto de Perfil" />
-                <AvatarFallback className="border">SC</AvatarFallback>
+                <AvatarFallback className="border">{ session.usuario.substring(0, 1).toUpperCase() }</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -41,7 +40,7 @@ export function UserNav() {
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">
-                  antonio@gmail.com
+                  { session.email }
                 </p>
               </div>
             </DropdownMenuLabel>

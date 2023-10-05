@@ -1,5 +1,9 @@
 import { AxiosError } from 'axios'
 
+import { useAuth } from '../hooks/useAuth';
+import { handleResponseErrors } from '../hooks/useFetch';
+import { CustomResponse } from '../interfaces/CustomResponse';
+
 let debounce = false;
 
 const codes = new Map<string, string>([
@@ -14,6 +18,11 @@ export const getErrorMessage = (axiosError: AxiosError) => {
   setTimeout(() => {
     debounce = false
   }, 1000)
+  // edge case onde o request retorna um array de erros para as notificações.
+  if (axiosError.response && axiosError.response.data && (axiosError.response.data as CustomResponse).errors) {
+    handleResponseErrors(axiosError.response)
+    return
+  }
   if (!axiosError) return unknownErrorMessage
   if (axiosError.code === undefined) return unknownErrorMessage
   return codes.get(axiosError.code) || unknownErrorMessage

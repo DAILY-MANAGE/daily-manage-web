@@ -12,7 +12,7 @@ import { SyntheticEvent, useState } from 'react'
 
 import { CheckedState } from '@radix-ui/react-checkbox'
 import { Button } from '@/app/components/Shadcn/button'
-import { signIn, useSession } from 'next-auth/react'
+import { useAuth } from '@/app/hooks/useAuth'
 
 interface Login {
   usuario: string
@@ -44,6 +44,8 @@ export default function LoginForm() {
   const [submitQueue, setSubmitQueue] = useState(0)
   const [passwordHidden, setPasswordHidden] = useState(false)
 
+  const { login } = useAuth()
+
   const handleLoginAttemptsQueue = () => {
     setSubmitQueue((state) => state + 1)
     const savedQueue = submitQueue
@@ -62,7 +64,7 @@ export default function LoginForm() {
       return
     }
     //login
-    signIn()
+    login(data)
   }
 
   const onSubmit = (data: Login) => {
@@ -149,7 +151,6 @@ export default function LoginForm() {
         size="full"
         type="submit"
         className="mt-4 flex items-center justify-center gap-2 data-[loginloadingdelay=true]:opacity-50 bg-zinc-950 text-white"
-        onClick={() => signIn()}
       >
         <span>Entrar</span>
       </Button>

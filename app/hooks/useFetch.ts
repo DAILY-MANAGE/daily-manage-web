@@ -15,44 +15,44 @@ interface FetchOptions {
   defaultData?: unknown
 }
 
+export const handleResponseErrors = (response: RequestType, setError?: any) => {
+  const errors = response.data.errors
+  switch (response.status) {
+    case 201:
+      ToastWrapper.success("Usuário criado com sucesso!")
+      break
+    case 200:
+      ToastWrapper.success("Login realizado com sucesso!")
+      break
+    default:
+      break
+  }
+  if (errors) {
+    errors.forEach((error: string) => {
+      ToastWrapper.error(error)
+    });
+    if (setError) {
+      setError(errors)
+    }
+  }
+}
+
 export function useFetch<T = unknown>(options: FetchOptions) {
   let { url, isGet, defaultData } = options
-  url = url || ''
 
-  const queryKey = ['myQueryKey', url]
+  const queryKey = ['fetchKey']
 
   const requestInstance = axios.create({
-    baseURL: 'http://10.68.21.237:8080'
+    baseURL: url || process.env.NEXT_PUBLIC_API_ENDPOINT
   })
 
   const [error, setError] = useState<string[]>([])
 
-  const handleResponseErrors = (response: RequestType) => {
-    const errors = response.data.errors
-    switch (response.status) {
-      case 201:
-        ToastWrapper.success("Usuário criado com sucesso!")
-        break
-      case 200:
-        ToastWrapper.success("Login realizado com sucesso!")
-        break
-      default:
-        ToastWrapper.warn(`Notificação ${response.status} - Indefinido`)
-        break
-    }
-    if (errors) {
-      errors.forEach((error: string) => {
-        ToastWrapper.error(error)
-      });
-      setError(errors)
-    }
-  }
-
   const { data, refetch } = useQuery<any>({
     queryKey,
     queryFn: async () => {
-      if (!isGet) return
-      if (!url) return
+      if (!isGet) return ''
+      if (!url) return ''
       const response = await requestInstance.get<T>(url).catch(handleAxiosError)
       if (!response) return {data: defaultData};
       (response.data as any) = [...(response.data as any), defaultData]

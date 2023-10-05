@@ -6,11 +6,12 @@ import Cookies from "js-cookie"
 
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useFetch } from "./useFetch"
 
 import { AuthResponse } from "../interfaces/AuthResponse"
 import { RegisterData } from "../interfaces/RegisterData"
+import { AxiosRequestConfig } from "axios"
 
 const cookieKey = "auth_token"
 
@@ -35,15 +36,19 @@ interface SessionData {
 const endpoints = {
   login: '/auth/login',
   signIn: '/auth/register',
-
-  validateToken: '/token/istokenexpired',
+  refreshToken: '/auth/refresh',
 }
 
 export const useAuth = () => {
 
   const router = useRouter()
-  const [session, setSession] = useState<SessionData | null>()
-  const { requestInstance, handleResponseErrors } = useFetch({
+
+  const sessionData = localStorage.getItem('sessionData') as string
+
+  const [session, setSession] = useState<SessionData | null>(
+    sessionData ? JSON.parse(sessionData) : null
+  )
+  const { requestInstance, handleResponseErrors, handleAxiosError } = useFetch({
     isGet: false,
   })
 
@@ -60,68 +65,87 @@ export const useAuth = () => {
   })
    */
 
+  const leaveSessionIfActive = () => {
+    if (session) {
+      signOut()
+    }
+  }
+
   const handleLogin = (responseData: AuthResponse) => {
-    Cookies.set(cookieKey, responseData.token)
+    const loginPayload: SessionData = {
+      id: responseData.usuario.id,
+      usuario: responseData.usuario.usuario,
+      email: responseData.usuario.email
+    }
+    localStorage.setItem('sessionData', JSON.stringify(loginPayload))
+    setSession(loginPayload)
+    Cookies.set(cookieKey, responseData.refreshToken)
     router.push('/equipes')
   }
 
   const signIn = async (signinData: RegisterData) => {
-    console.log(signinData)
-    if (session) {
-      logout()
-    }
-    const res = await requestInstance.post(endpoints.signIn, {
-      params: signinData
-    })
-    if (res.status == 201) {
-      handleLogin(res.data)
-    } else {
+    leaveSessionIfActive()
+    try {
+      const res = await requestInstance.post(endpoints.signIn, signinData)
       handleResponseErrors(res)
-    }
-  }
-
-  const logout = () => {
-    if (session) {
-      setSession(null)
-      Cookies.remove(cookieKey)
-      router.push('/login')
-    } else {
-      ToastWrapper.error("Não foi possível realizar o logout.")
-    }
-  }
-
-  const login = async (loginData: LoginData) => {
-    const res = await requestInstance.post(endpoints.login, {
-      params: loginData
-    })
-    if (!res) return
-    if (res.status == 200) {
-      handleLogin(res.data)
-    } else {
-      Cookies.remove(cookieKey)
-      ToastWrapper.error("Não foi possível realizar o login.")
-    }
-  }
-
-  const loginWithToken = async (token: string) => {
-    const res = await requestInstance.get(endpoints.validateToken, {
-      params: {
-        token: token
+      if (res.status == 201) {
+        handleLogin(res.data)
       }
-    })
-    if (!res) return
-    if (res.status == 200) {
-      handleLogin(res.data)
-    } else {
-      Cookies.remove(cookieKey)
-      ToastWrapper.error("Não foi possível realizar o login automaticamente.")
+    } catch (error) {
+      handleAxiosError(error)
     }
   }
+
+  const signOut = () => {
+    setSession(null)
+    Cookies.remove(cookieKey)
+    router.push('/login')
+  }
+
+  const login = (loginData: LoginData) => {
+    requestInstance.post(endpoints.login, loginData
+    ).then((res) => {
+      handleResponseErrors(res)
+      if (res.status == 200) {
+        handleLogin(res.data)
+      } else {
+        Cookies.remove(cookieKey)
+        ToastWrapper.error("Não foi possível realizar o login.")
+      }
+    }).catch((error) => handleAxiosError(error))
+  }
+
+  const loginWithToken = async (refreshToken: string) => {
+    const refreshTokenPayload = {
+      refreshToken: refreshToken
+    }
+    requestInstance.post(endpoints.refreshToken, refreshTokenPayload).then((res) => {
+      handleAxiosError(res)
+      handleResponseErrors(res)
+      if (res.status == 200) {
+        handleLogin(res.data)
+      } else {
+        Cookies.remove(cookieKey)
+        ToastWrapper.error("Login expirado, entre novamente.")
+      }
+    }).catch((error) => {
+      signOut()
+      handleAxiosError(error)
+    })
+
+  }
+
+  useEffect(() => {
+    const token = Cookies.get(cookieKey)
+    if (!token) return
+    console.log(token)
+    loginWithToken(token)
+  }, [])
 
   return {
     session,
     login,
     signIn,
-    logout
+    signOut
   }
 }

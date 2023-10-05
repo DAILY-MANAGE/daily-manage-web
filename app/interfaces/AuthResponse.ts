@@ -5,7 +5,7 @@ interface Form {
 }
 
 interface User {
-  idUsuario: number,
+  id: number,
   email: string,
   usuario: string,
   nome?: string,
@@ -14,6 +14,6 @@ interface User {
 
 export interface AuthResponse extends AxiosResponse {
   errors?: string[],
-  token: string,
-  usuarioDTO: User
+  refreshToken: string,
+  usuario: User
 }
