@@ -53,10 +53,10 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   const { data, refetch } = useQuery<any>({
     queryKey,
     queryFn: async () => {
-      if (!isGet) return {}
-      if (!url) return {}
+      if (!isGet) return []
+      if (!url) return []
       const token = Cookies.get(cookieKey)
-      if (!token) return {}
+      if (!token) return []
       const response = await requestInstance.get<T>(url, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -102,10 +102,8 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     },
   })
 
-  console.log(data)
-
   return {
-    data: data?.data,
+    data: data,
     loading: !data,
     error: error,
     requestInstance,

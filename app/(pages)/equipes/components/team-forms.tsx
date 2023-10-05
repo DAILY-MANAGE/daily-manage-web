@@ -31,9 +31,6 @@ export function TeamForms() {
 
   return (
     <>
-    <pre>
-      {JSON.stringify(data)}
-    </pre>
       {Array.isArray(data) &&
         !loading &&
         data.map((teamData: TeamData) => {
