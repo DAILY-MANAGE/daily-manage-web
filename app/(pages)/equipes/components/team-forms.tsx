@@ -7,8 +7,6 @@ import {
   CardTitle,
 } from '@/app/components/Shadcn/card'
 
-import { useSession } from "next-auth/react";
-
 import { useFetch } from '@/app/hooks/useFetch'
 import { TeamData } from '@/app/interfaces/TeamData'
 
@@ -17,9 +15,10 @@ import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
 import { Subtitle } from './subtitle'
 
 import Link from 'next/link'
+import { useAuth } from '@/app/hooks/useAuth'
 
 export function TeamForms() {
-  const { data: session } = useSession();
+  const { session } = useAuth();
 
   const [teams, setTeams] = useState<TeamData[]>([
     {
@@ -28,10 +27,13 @@ export function TeamForms() {
       nome: 'Equipe 1',
     },
   ])
-  const { data, error, loading } = useFetch({ url: '/equipes/todas', isGet: true, defaultData: teams })
+  const { data, error, loading } = useFetch({ url: 'equipe', isGet: true, defaultData: teams })
 
   return (
     <>
+    <pre>
+      {JSON.stringify(data)}
+    </pre>
       {Array.isArray(data) &&
         !loading &&
         data.map((teamData: TeamData) => {

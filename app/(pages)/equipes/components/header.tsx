@@ -10,19 +10,13 @@ import {
 } from '@/app/components/Shadcn/tabs'
 import { Root } from '@/app/components/Root'
 
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/app/hooks/useAuth'
 
 export default function Empresa() {
   const router = useRouter()
 
-  const {data: session} = useSession({
-    required: true,
-    onUnauthenticated() {
-      console.log('non auth')
-      router.push('/login')
-    }
-  })
+  const {session} = useAuth()
 
   const [teamName, setTeamName] = useState<string | undefined>()
 

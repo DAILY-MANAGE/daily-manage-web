@@ -56,7 +56,7 @@ export function UserNav() {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="group focus:bg-red-200" onClick={() => signOut()}>
+            <DropdownMenuItem className="group focus:bg-red-200" onClick={signOut}>
               <p className="group-hover:text-red-900 font-semibold">Sair</p>
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { RequestType } from '../interfaces/RequestType';
 import { ToastWrapper } from '../utils/ToastWrapper';
 import { handleAxiosError } from '../utils/AxiosError';
+import { cookieKey, useAuth } from './useAuth';
+import Cookies from 'js-cookie';
 
 type FetchDataResponse<T> = AxiosResponse<T>
 type PostDataResponse = void
@@ -43,7 +45,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   const queryKey = ['fetchKey']
 
   const requestInstance = axios.create({
-    baseURL: url || process.env.NEXT_PUBLIC_API_ENDPOINT
+    baseURL: `http://10.68.20.106:8080/${url}` || process.env.NEXT_PUBLIC_API_ENDPOINT
   })
 
   const [error, setError] = useState<string[]>([])
@@ -51,9 +53,15 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   const { data, refetch } = useQuery<any>({
     queryKey,
     queryFn: async () => {
-      if (!isGet) return ''
-      if (!url) return ''
-      const response = await requestInstance.get<T>(url).catch(handleAxiosError)
+      if (!isGet) return {}
+      if (!url) return {}
+      const token = Cookies.get(cookieKey)
+      if (!token) return {}
+      const response = await requestInstance.get<T>(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).catch(handleAxiosError)
       if (!response) return {data: defaultData};
       (response.data as any) = [...(response.data as any), defaultData]
       console.log(response.data)
@@ -94,8 +102,10 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     },
   })
 
+  console.log(data)
+
   return {
-    data: data?.data || null,
+    data: data?.data,
     loading: !data,
     error: error,
     requestInstance,
