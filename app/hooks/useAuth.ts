@@ -11,7 +11,9 @@ import { useFetch } from "./useFetch"
 import { AuthResponse } from "../interfaces/AuthResponse"
 import { RegisterData } from "../interfaces/RegisterData"
 
-export const cookieKey = "auth_token"
+export const cookieKey = "auth_token_refresh"
+export const cookieKeyOriginal = "auth_token"
+export const sessionKey = "session_data"
 
 interface LoginData {
   usuario: string
@@ -38,10 +40,9 @@ const endpoints = {
 }
 
 export const useAuth = () => {
-
   const router = useRouter()
 
-  const sessionData = localStorage.getItem('sessionData') as string
+  const sessionData = localStorage.getItem(sessionKey) as string
 
   const [session, setSession] = useState<SessionData | null>(
     sessionData ? JSON.parse(sessionData) : null
@@ -65,7 +66,8 @@ export const useAuth = () => {
     }
     setSession(loginPayload)
     if (rememberSession) {
-      localStorage.setItem('sessionData', JSON.stringify(loginPayload))
+      localStorage.setItem(sessionKey, JSON.stringify(loginPayload))
+      Cookies.set(cookieKeyOriginal, responseData.token)
       Cookies.set(cookieKey, responseData.refreshToken)
     }
     if (redirects) {
@@ -89,6 +91,8 @@ export const useAuth = () => {
   const signOut = () => {
     setSession(null)
     Cookies.remove(cookieKey)
+    Cookies.remove(cookieKeyOriginal)
+    localStorage.removeItem(sessionKey)
     router.push('/login')
   }
 
@@ -100,6 +104,8 @@ export const useAuth = () => {
         handleLogin(res.data, true, loginData.lembrarSessao)
       } else {
         Cookies.remove(cookieKey)
+        Cookies.remove(cookieKeyOriginal)
+        localStorage.removeItem(sessionKey)
         ToastWrapper.error("Não foi possível realizar o login.")
       }
     }).catch((error) => handleAxiosError(error))
@@ -116,6 +122,8 @@ export const useAuth = () => {
         handleLogin(res.data, false, true)
       } else {
         Cookies.remove(cookieKey)
+        Cookies.remove(cookieKeyOriginal)
+        localStorage.removeItem(sessionKey)
         ToastWrapper.error("Login expirado, entre novamente.")
       }
     }).catch((error) => {
@@ -128,7 +136,6 @@ export const useAuth = () => {
   useEffect(() => {
     const token = Cookies.get(cookieKey)
     if (!token) return
-    console.log(token)
     loginWithToken(token)
   }, [])
 

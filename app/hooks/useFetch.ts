@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { RequestType } from '../interfaces/RequestType';
 import { ToastWrapper } from '../utils/ToastWrapper';
 import { handleAxiosError } from '../utils/AxiosError';
-import { cookieKey, useAuth } from './useAuth';
+import { cookieKeyOriginal, useAuth } from './useAuth';
 import Cookies from 'js-cookie';
 
 type FetchDataResponse<T> = AxiosResponse<T>
@@ -42,10 +42,10 @@ export const handleResponseErrors = (response: RequestType, setError?: any) => {
 export function useFetch<T = unknown>(options: FetchOptions) {
   let { url, isGet, defaultData } = options
 
-  const queryKey = ['fetchKey']
+  const queryKey = [url]
 
   const requestInstance = axios.create({
-    baseURL: `http://10.68.20.106:8080/${url}` || process.env.NEXT_PUBLIC_API_ENDPOINT
+    baseURL: `http://10.68.20.106:8080/` || process.env.NEXT_PUBLIC_API_ENDPOINT
   })
 
   const [error, setError] = useState<string[]>([])
@@ -55,15 +55,20 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     queryFn: async () => {
       if (!isGet) return []
       if (!url) return []
-      const token = Cookies.get(cookieKey)
+      const token = Cookies.get(cookieKeyOriginal)
+      console.log("TOKEN: ", token)
       if (!token) return []
-      const response = await requestInstance.get<T>(url, {
+      const response = await requestInstance.get(url, {
+        withCredentials: true,
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        data: {}
       }).catch(handleAxiosError)
+      console.log(response)
       if (!response) return {data: defaultData};
-      (response.data as any) = [...(response.data as any), defaultData]
+      //(response.data as any) = [...(response.data as any), defaultData]
       console.log(response.data)
       handleResponseErrors(response)
       return response

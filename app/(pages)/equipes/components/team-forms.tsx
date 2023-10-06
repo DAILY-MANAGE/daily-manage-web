@@ -23,10 +23,20 @@ export function TeamForms() {
   const [teams, setTeams] = useState<TeamData[]>([
     {
       idEquipe: 1,
-      idAdministrator: 1,
       nome: 'Equipe 1',
+      usuarios: [
+        {
+          usuario: "usuario",
+          nome: "Bingus",
+          permissoes: [
+            "VIEW_FORMULARY"
+          ]
+        }
+      ],
+
     },
   ])
+
   const { data, error, loading } = useFetch({ url: 'equipe', isGet: true, defaultData: teams })
 
   return (
