@@ -6,6 +6,7 @@ import { ToastWrapper } from '../utils/ToastWrapper';
 import { handleAxiosError } from '../utils/AxiosError';
 import { cookieKeyOriginal, useAuth } from './useAuth';
 import Cookies from 'js-cookie';
+import { ENDPOINT } from '../utils/EndpointStorage';
 
 type FetchDataResponse<T> = AxiosResponse<T>
 type PostDataResponse = void
@@ -15,6 +16,7 @@ interface FetchOptions {
   url?: string
   isGet?: boolean
   defaultData?: unknown
+  errorList?: string[]
 }
 
 export const handleResponseErrors = (response: RequestType, setError?: any) => {
@@ -39,39 +41,48 @@ export const handleResponseErrors = (response: RequestType, setError?: any) => {
   }
 }
 
+export function getClientCookie(key: string) {
+  return Cookies.get(key)
+}
+
 export function useFetch<T = unknown>(options: FetchOptions) {
-  let { url, isGet, defaultData } = options
+  let { url, isGet, defaultData, errorList } = options
 
   const queryKey = [url]
 
   const requestInstance = axios.create({
-    baseURL: `http://10.68.20.106:8080/` || process.env.NEXT_PUBLIC_API_ENDPOINT
+    baseURL: ENDPOINT
   })
 
   const [error, setError] = useState<string[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const retrieveData = async (url: string, token: string) => {
+    setLoading(true)
+    const response = await requestInstance.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      data: {}
+    }).catch(handleAxiosError)
+    console.log(response)
+    setLoading(false)
+    if (response) {
+      handleResponseErrors(response, setError)
+      return response
+    }
+  }
 
   const { data, refetch } = useQuery<any>({
     queryKey,
     queryFn: async () => {
-      if (!isGet) return []
-      if (!url) return []
+      if (!isGet || !url) return []
       const token = Cookies.get(cookieKeyOriginal)
-      console.log("TOKEN: ", token)
-      if (!token) return []
-      const response = await requestInstance.get(url, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        data: {}
-      }).catch(handleAxiosError)
-      console.log(response)
-      if (!response) return {data: defaultData};
-      //(response.data as any) = [...(response.data as any), defaultData]
-      console.log(response.data)
-      handleResponseErrors(response)
-      return response
+      if (token) {
+        return retrieveData(url, token)
+      }
+      return {data: defaultData}
     },
   })
 
@@ -81,9 +92,9 @@ export function useFetch<T = unknown>(options: FetchOptions) {
         if (!url) return
         const response = await requestInstance.post(url, postData).catch(handleAxiosError)
         if (!response) return
-        handleResponseErrors(response)
+        handleResponseErrors(response, setError)
       } catch (error) {
-        handleResponseErrors((error as any).response)
+        handleResponseErrors((error as any).response, setError)
       }
     }
   })
@@ -109,7 +120,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
 
   return {
     data: data,
-    loading: !data,
+    loading: loading,
     error: error,
     requestInstance,
     handleAxiosError,

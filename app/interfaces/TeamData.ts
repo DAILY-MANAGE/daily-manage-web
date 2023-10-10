@@ -5,7 +5,7 @@ interface User {
 }
 
 export interface TeamData {
-  idEquipe: number
+  id: number
   nome: string
   usuarios: User[]
 }

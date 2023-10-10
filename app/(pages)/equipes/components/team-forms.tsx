@@ -6,59 +6,40 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/components/Shadcn/card'
-
 import { useFetch } from '@/app/hooks/useFetch'
 import { TeamData } from '@/app/interfaces/TeamData'
-
-import { useState } from 'react'
-import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 import { Subtitle } from './subtitle'
 
+import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
 import Link from 'next/link'
-import { useAuth } from '@/app/hooks/useAuth'
+import { cookieKeyOriginal } from '@/app/hooks/useAuth'
+import Cookies from 'js-cookie'
 
 export function TeamForms() {
-  const { session } = useAuth();
 
-  const [teams, setTeams] = useState<TeamData[]>([
-    {
-      idEquipe: 1,
-      nome: 'Equipe 1',
-      usuarios: [
-        {
-          usuario: "usuario",
-          nome: "Bingus",
-          permissoes: [
-            "VIEW_FORMULARY"
-          ]
-        }
-      ],
-
-    },
-  ])
-
-  const { data, error, loading } = useFetch({ url: 'equipe', isGet: true, defaultData: teams })
+  const { data, error, loading } = useFetch({ url: 'equipe', isGet: true })
 
   return (
     <>
-      {Array.isArray(data) &&
+      {data && (data as any).data &&
         !loading &&
-        data.map((teamData: TeamData) => {
+        (data as any).data.map((teamData: TeamData) => {
           return (
             <Link
-              href={`/equipes/${teamData.idEquipe}`}
-              key={teamData.idEquipe}
+              href={`/equipes/${teamData.id}?t=${Cookies.get(cookieKeyOriginal)}`}
+              key={teamData.id}
               className="w-full"
             >
               <Card
-                key={teamData.idEquipe}
+                key={teamData.id}
                 className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
               >
                 <CardHeader className="space-y-0 flex flex-row p-6 py-4">
                   <div className="w-1/2 flex justify-start align-center flex-col gap-1">
-                    <CardTitle>{teamData.nome || 'Carregando...'}</CardTitle>
+                    <CardTitle>{capitalizeFirstLetter(teamData.nome) || 'Carregando...'}</CardTitle>
                     <CardDescription className='leading-none'>
-                      {`Identificação: ${teamData.idEquipe}` || 'Carregando...'}
+                      {`Identificação: ${teamData.id}` || 'Carregando...'}
                     </CardDescription>
                   </div>
                   <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
