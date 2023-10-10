@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/app/components/Shadcn/dropdown-menu'
 import { useAuth } from '@/app/hooks/useAuth'
+import { getInitialLetter } from '@/app/utils/GetInitialLetter'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -32,7 +33,7 @@ export function UserNav() {
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-8 w-8">
                 <AvatarImage src="/avatars/01.png" alt="Foto de Perfil" />
-                <AvatarFallback className="border">{ session.usuario.substring(0, 1).toUpperCase() }</AvatarFallback>
+                <AvatarFallback className="border">{ getInitialLetter(session.usuario) }</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>

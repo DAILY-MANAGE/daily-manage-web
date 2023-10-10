@@ -4,14 +4,15 @@ import { FormData } from '@/app/interfaces/FormData'
 import Link from "next/link"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/app/components/Shadcn/card"
 import { capitalizeFirstLetter } from "@/app/utils/CapitalizeFirstLetter"
-import { RxChevronRight } from "react-icons/rx"
+import { RxChevronRight, RxCrossCircled, RxReload } from "react-icons/rx"
+import { Subtitle } from "../subtitle"
 
 export default function Forms() {
 
   const params = useParams()
   const { data, loading } = useFetch({ url: `equipe/forms/todos?equipeid=${params.id}`, isGet: true, errorList: []})
 
-  return <>
+  return <div className="flex flex-col gap-2">
       {data && (data as any).data &&
         !loading &&
         (data as any).data.map((teamData: FormData) => {
@@ -40,5 +41,21 @@ export default function Forms() {
             </Link>
           )
         })}
-  </>
+      {!loading && Array.isArray(data) && data.length > 0 && (
+        <Subtitle>{`${data.length} Formulário${data.length > 1 ? 's' : ''
+          } encontrado${data.length > 1 ? 's' : ''}`}</Subtitle>
+      )}
+      {loading && (
+        <Subtitle>
+          <RxReload className="w-4 h-4 my-auto leading-none animate-spin" />
+          Carregando formulários...
+        </Subtitle>
+      )}
+      {!loading && ((Array.isArray(data) && data.length === 0) || !data) && (
+        <Subtitle>
+          <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
+          formulário foi encontrada.
+        </Subtitle>
+      )}
+  </div>
 }

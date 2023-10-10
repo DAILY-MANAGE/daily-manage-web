@@ -1,4 +1,4 @@
-interface User {
+export interface User {
   usuario: string
   nome: string
   permissoes: string[]
