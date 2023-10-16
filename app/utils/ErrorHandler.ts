@@ -7,7 +7,7 @@ import { CustomResponse } from '../interfaces/CustomResponse';
 let debounce = false;
 
 const codes = new Map<string, string>([
-  ['ERR_NETWORK', 'Ocorreu um erro de rede ao tentar se conectar ao servidor.'],
+  //['ERR_NETWORK', 'Ocorreu um erro de rede ao tentar se conectar ao servidor.'],
 ])
 
 const unknownErrorMessage = 'Ocorreu um erro desconhecido.'
