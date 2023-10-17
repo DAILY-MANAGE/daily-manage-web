@@ -1,5 +1,5 @@
 import { useQuery, useMutation, MutationFunction } from '@tanstack/react-query'
-import axios, { AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios'
 import { useState } from 'react'
 import { RequestType } from '../interfaces/RequestType';
 import { ToastWrapper } from '../utils/ToastWrapper';
@@ -67,26 +67,37 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     }
   }
 
-  const retrieveData = async (url: string, token: string) => {
-    setLoading(true)
-    if (!token) return
-    const header = getDefaultHeader(token)
-    const response = await requestInstance.get(url, header).catch(handleAxiosError)
-    console.log(response)
-    setLoading(false)
-    if (response) {
-      handleResponseErrors(response, setError)
-      return response
+  const checkIfLoginIsValid = async () => {
+
+    const retrieveData = async (url: string, token: string) => {
+      setLoading(true)
+      if (!token) return
+      const header = getDefaultHeader(token)
+      const response = await requestInstance.get(url, header).catch(handleAxiosError)
+      setLoading(false)
+      if (response) {
+        handleResponseErrors(response, setError)
+        return response
+      }
     }
+
+    if (!isGet || !url) return []
+    const token = Cookies.get(cookieKeyOriginal)
+    if (token) {
+      return retrieveData(url, token)
+    }
+    return { data: defaultData }
   }
 
-  const handleRequest = async (callback: (a: any, b: any, c: any) => any, params: any[]) => {
+  const handleRequest = async (callback: <T = any, R = AxiosResponse<T, any>, D = any>(url: string, data?: D | undefined, config?: AxiosRequestConfig<D> | undefined) => Promise<R>, params: any[]) => {
+    console.log('request')
     let response: any
     try {
       if (!url) return
       const token = Cookies.get(cookieKeyOriginal)
       if (!token) return
       const header = getDefaultHeader(token)
+      // @ts-ignore
       response = await callback(...params, header).catch(handleAxiosError)
       if (!response) return
       handleResponseErrors(response, setError)
@@ -99,20 +110,11 @@ export function useFetch<T = unknown>(options: FetchOptions) {
 
   const { data, refetch } = useQuery<any>({
     queryKey,
-    queryFn: async () => {
-      if (!isGet || !url) return []
-      const token = Cookies.get(cookieKeyOriginal)
-      if (token) {
-        return retrieveData(url, token)
-      }
-      return { data: defaultData }
-    },
+    queryFn: async () => checkIfLoginIsValid(),
   })
 
   const postMutation = useMutation<PostDataResponse, unknown, unknown>({
-    mutationFn: async (postData: any) => {
-
-    },
+    mutationFn: async (postData: unknown) => handleRequest(requestInstance.post, [url, postData]),
     onSuccess: () => {
       refetch()
     },
@@ -123,19 +125,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     unknown,
     { id: number; putData: any }
   >({
-    mutationFn: async (params: { id: number; putData: any }) => {
-      try {
-        if (!url) return
-        const token = Cookies.get(cookieKeyOriginal)
-        if (!token) return
-        const header = getDefaultHeader(token)
-        const response = await requestInstance.put(`${url}/${params.id}`, params.putData, header)
-        if (!response) return
-        handleResponseErrors(response, setError)
-      } catch (error) {
-        handleResponseErrors((error as any).response, setError)
-      }
-    },
+    mutationFn: async (params: { id: number; putData: any }) => handleRequest(requestInstance.put, [`${url}/${params.id}`, params.putData]),
     onSuccess: () => {
       refetch()
     },
@@ -146,19 +136,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     unknown,
     { id: number; patchData: any }
   >({
-    mutationFn: async (params: { id: number; patchData: any }) => {
-      try {
-        if (!url) return
-        const token = Cookies.get(cookieKeyOriginal)
-        if (!token) return
-        const header = getDefaultHeader(token)
-        const response = await requestInstance.patch(`${url}`, params.patchData, header)
-        if (!response) return
-        handleResponseErrors(response, setError)
-      } catch (error) {
-        handleResponseErrors((error as any).response, setError)
-      }
-    },
+    mutationFn: async (params: { id: number; patchData: any }) => handleRequest(requestInstance.patch, [url, params.patchData]),
     onSuccess: () => {
       refetch()
     },
