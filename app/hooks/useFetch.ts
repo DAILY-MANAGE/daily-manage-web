@@ -8,7 +8,7 @@ import { cookieKeyOriginal, useAuth } from './useAuth';
 import Cookies from 'js-cookie';
 import { ENDPOINT } from '../utils/EndpointStorage';
 
-type FetchDataResponse<T> = AxiosResponse<T>
+type PatchDataResponse = void
 type PostDataResponse = void
 type PutDataResponse = void
 
@@ -19,7 +19,7 @@ interface FetchOptions {
   errorList?: string[]
 }
 
-export const handleResponseErrors = (response: RequestType, setError?: any) => {
+export const handleResponseErrors = (response: AxiosResponse, setError?: any) => {
   const errors = response.data.errors
   switch (response.status) {
     case 201:
@@ -57,15 +57,21 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   const [error, setError] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
-  const retrieveData = async (url: string, token: string) => {
-    setLoading(true)
-    const response = await requestInstance.get(url, {
+  const getDefaultHeader = (token: string) => {
+    return {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
       data: {}
-    }).catch(handleAxiosError)
+    }
+  }
+
+  const retrieveData = async (url: string, token: string) => {
+    setLoading(true)
+    if (!token) return
+    const header = getDefaultHeader(token)
+    const response = await requestInstance.get(url, header).catch(handleAxiosError)
     console.log(response)
     setLoading(false)
     if (response) {
@@ -82,7 +88,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       if (token) {
         return retrieveData(url, token)
       }
-      return {data: defaultData}
+      return { data: defaultData }
     },
   })
 
@@ -90,13 +96,19 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     mutationFn: async (postData: any) => {
       try {
         if (!url) return
-        const response = await requestInstance.post(url, postData).catch(handleAxiosError)
+        const token = Cookies.get(cookieKeyOriginal)
+        if (!token) return
+        const header = getDefaultHeader(token)
+        const response = await requestInstance.post(url, postData, header).catch(handleAxiosError)
         if (!response) return
         handleResponseErrors(response, setError)
       } catch (error) {
         handleResponseErrors((error as any).response, setError)
       }
-    }
+    },
+    onSuccess: () => {
+      refetch()
+    },
   })
 
   const putMutation = useMutation<
@@ -104,8 +116,42 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     unknown,
     { id: number; putData: any }
   >({
-    mutationFn: (params: { id: number; putData: any }) =>
-      requestInstance.put(`${url}/${params.id}`, params.putData),
+    mutationFn: async (params: { id: number; putData: any }) => {
+      try {
+        if (!url) return
+        const token = Cookies.get(cookieKeyOriginal)
+        if (!token) return
+        const header = getDefaultHeader(token)
+        const response = await requestInstance.put(`${url}/${params.id}`, params.putData, header)
+        if (!response) return
+        handleResponseErrors(response, setError)
+      } catch (error) {
+        handleResponseErrors((error as any).response, setError)
+      }
+    },
+    onSuccess: () => {
+      refetch()
+    },
+  })
+
+  const patchMutation = useMutation<
+    PatchDataResponse,
+    unknown,
+    { id: number; patchData: any }
+  >({
+    mutationFn: async (params: { id: number; patchData: any }) => {
+      try {
+        if (!url) return
+        const token = Cookies.get(cookieKeyOriginal)
+        if (!token) return
+        const header = getDefaultHeader(token)
+        const response = await requestInstance.patch(`${url}`, params.patchData, header)
+        if (!response) return
+        handleResponseErrors(response, setError)
+      } catch (error) {
+        handleResponseErrors((error as any).response, setError)
+      }
+    },
     onSuccess: () => {
       refetch()
     },
@@ -132,6 +178,10 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     handlePut: putMutation.mutateAsync as MutationFunction<
       PutDataResponse,
       { id: number; putData: any }
+    >,
+    handlePatch: patchMutation.mutateAsync as MutationFunction<
+      PatchDataResponse,
+      { id: number; patchData: any }
     >,
     handleDelete: deleteMutation.mutateAsync as MutationFunction<
       PostDataResponse,

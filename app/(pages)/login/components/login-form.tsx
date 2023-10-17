@@ -12,15 +12,9 @@ import { SyntheticEvent, useState } from 'react'
 
 import { CheckedState } from '@radix-ui/react-checkbox'
 import { Button } from '@/app/components/Shadcn/button'
-import { useAuth } from '@/app/hooks/useAuth'
+import { SigninData, useAuth } from '@/app/hooks/useAuth'
 
-interface Login {
-  usuario: string
-  senha: string
-  lembrarSessao: boolean
-}
-
-const loginFormValues: Login = {
+const loginFormValues: SigninData = {
   usuario: '',
   senha: '',
   lembrarSessao: false,
@@ -56,18 +50,17 @@ export default function LoginForm() {
     }, delayTillResetDebounce)
   }
 
-  const handleLogin = (data: Login) => {
+  const handleLogin = (data: SigninData) => {
     if (loginAttempts > 5) {
       ToastWrapper.warn(
         'Você tentou fazer login muitas vezes! Espere alguns segundos...',
       )
       return
     }
-    //login
     login(data)
   }
 
-  const onSubmit = (data: Login) => {
+  const onSubmit = (data: SigninData) => {
     setLoginAttempts((state) => state + 1)
     handleLoginAttemptsQueue()
     setTimeout(() => {
@@ -88,7 +81,7 @@ export default function LoginForm() {
         error={errors.usuario}
         placeholder="Entre com seu usuário"
         aria-invalid={errors.usuario ? 'true' : 'false'}
-        data-invalid={errors.senha}
+        data-invalid={errors.usuario}
         onInvalid={(e: SyntheticEvent) => {
           e.preventDefault()
         }}

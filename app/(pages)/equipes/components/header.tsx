@@ -1,7 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-
 import {
   Tabs,
   TabsContent,
@@ -9,21 +7,21 @@ import {
   TabsTrigger,
 } from '@/app/components/Shadcn/tabs'
 import { Root } from '@/app/components/Root'
-
-import { useParams, useRouter  } from 'next/navigation'
-import { useFetch } from '@/app/hooks/useFetch'
+import BackButton from '@/app/components/BackButton'
 
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
+
+import { useParams } from 'next/navigation'
+import { useFetch } from '@/app/hooks/useFetch'
+
 import Forms from './tabs/forms'
 import Users from './tabs/users'
 
-import { RxArrowLeft, RxAvatar, RxClipboard, RxGear } from 'react-icons/rx'
-import { Button } from '@/app/components/Shadcn/button'
-import BackButton from '@/app/components/BackButton'
+import { RxAvatar, RxClipboard, RxGear } from 'react-icons/rx'
+import Config from './config/config'
 
 export default function Empresa() {
 
-  const router = useRouter()
   const params = useParams()
   const { data } = useFetch({ url: `equipe?equipeid=${params.id}`, isGet: true, errorList: []})
 
@@ -45,11 +43,8 @@ export default function Empresa() {
           <TabsContent value="users" className="space-y-4">
             <Users data={(data && data.data) && data.data.usuarios}/>
           </TabsContent>
-          <TabsContent value="setor" className="space-y-4">
-            <p>Setores aparecem aqui</p>
-          </TabsContent>
           <TabsContent value="config" className="space-y-4">
-            <p>Configurações aparecem aqui</p>
+            <Config nomeEquipe={data && data.data && data.data.nome} idEquipe={data && data.data && data.data.id}/>
           </TabsContent>
         </Tabs>
       </Root.Spacing>

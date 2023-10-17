@@ -20,10 +20,10 @@ interface LoginData {
   senha: string
 }
 
-interface SigninData extends LoginData {
-  nome: string
+export interface SigninData extends LoginData {
+  nome?: string
   // local
-  confirmarSenha: string
+  confirmarSenha?: string
   lembrarSessao: boolean
 }
 

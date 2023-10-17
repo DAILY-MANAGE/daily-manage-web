@@ -29,15 +29,7 @@ export default function RegisterForm() {
       senha: '',
       nome: '',
       confirmarSenha: '',
-      permissoes: [
-        "VIEW_FORMULARY",
-        "CREATE_FORMULARY",
-        "DELETE_FORMULARY",
-        "EDIT_FORMULARY",
-        "ANSWER_FORMULARY",
-        "VIEW_ANSWERED_FORMULARY",
-        "EDIT_ANSWERED_FORMULARY"
-      ]
+      permissoes: []
     },
   })
 

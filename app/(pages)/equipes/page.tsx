@@ -20,7 +20,10 @@ export default function Equipes() {
         </CreateTeamModal>
       </Root.Header>
       <Root.Container>
-        <TeamForms />
+        <h1 className='w-full text-left font-bold text-xl'>Suas Equipes</h1>
+        <TeamForms endpoint="equipe/todas/criadas"/>
+        <h1 className='w-full text-left font-bold text-xl'>Membro</h1>
+        <TeamForms endpoint="equipe/todas/membro"/>
       </Root.Container>
     </Root.Spacing>
   )

@@ -16,9 +16,13 @@ import Link from 'next/link'
 import { cookieKeyOriginal } from '@/app/hooks/useAuth'
 import Cookies from 'js-cookie'
 
-export function TeamForms() {
+interface TeamFormsProps {
+  endpoint: string
+}
 
-  const { data, error, loading } = useFetch({ url: 'equipe', isGet: true })
+export function TeamForms({ endpoint }: TeamFormsProps) {
+
+  const { data, error, loading } = useFetch({ url: endpoint, isGet: true })
 
   return (
     <>
@@ -60,7 +64,7 @@ export function TeamForms() {
           Carregando equipes...
         </Subtitle>
       )}
-      {!loading && ((Array.isArray(data) && data.length === 0) || !data) && (
+      {!loading && (!data || !data.data || data.data.length === 0) && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhuma
           equipe foi encontrada.

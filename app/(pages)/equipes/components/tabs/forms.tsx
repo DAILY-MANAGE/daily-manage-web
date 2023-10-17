@@ -51,7 +51,7 @@ export default function Forms() {
           Carregando formulários...
         </Subtitle>
       )}
-      {!loading && ((Array.isArray(data) && data.length === 0) || !data) && (
+      {!loading && (!data || !data.data || data.data.length === 0) && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
           formulário foi encontrada.
