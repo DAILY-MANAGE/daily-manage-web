@@ -29,13 +29,13 @@ export default function Empresa() {
     <>
       <Root.Spacing>
         <Root.Header title={((data && data.data) && capitalizeFirstLetter(data.data.nome)) || 'Carregando...'}>
-            <BackButton />
+          <BackButton />
+          <Config nomeEquipe={data && data.data && data.data.nome} idEquipe={data && data.data && data.data.id}/>
         </Root.Header>
         <Tabs defaultValue="forms" className="space-y-4">
           <TabsList className="gap-2 h-fit grid grid-cols-1 md:flex md:justify-start">
             <TabsTrigger value="forms" className='flex gap-2 flex-row'><RxClipboard className='w-4 h-4'/> Formulários</TabsTrigger>
             <TabsTrigger value="users" className='flex gap-2 flex-row'><RxAvatar className='w-4 h-4'/>Usuários</TabsTrigger>
-            <TabsTrigger value="config" className='flex gap-2 flex-row'><RxGear className='w-4 h-4'/>Configurações</TabsTrigger>
           </TabsList>
           <TabsContent value="forms" className="space-y-4">
             <Forms />
@@ -43,9 +43,7 @@ export default function Empresa() {
           <TabsContent value="users" className="space-y-4">
             <Users data={(data && data.data) && data.data.usuarios}/>
           </TabsContent>
-          <TabsContent value="config" className="space-y-4">
-            <Config nomeEquipe={data && data.data && data.data.nome} idEquipe={data && data.data && data.data.id}/>
-          </TabsContent>
+
         </Tabs>
       </Root.Spacing>
     </>
