@@ -11,6 +11,7 @@ import { ENDPOINT } from '../utils/EndpointStorage';
 type PatchDataResponse = void
 type PostDataResponse = void
 type PutDataResponse = void
+type DeleteDataResponse = void
 
 interface FetchOptions {
   url?: string
@@ -138,8 +139,8 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     },
   })
 
-  const deleteMutation = useMutation<PostDataResponse, unknown, number>({
-    mutationFn: (id: number) => requestInstance.delete(`${url}/${id}`),
+  const deleteMutation = useMutation<DeleteDataResponse, unknown, number>({
+    mutationFn: async () => handleRequest(requestInstance.delete, [url]),
     onSuccess: () => {
       refetch()
     },
@@ -165,8 +166,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       { id: number; patchData: any }
     >,
     handleDelete: deleteMutation.mutateAsync as MutationFunction<
-      PostDataResponse,
-      number
+      DeleteDataResponse
     >,
   }
 }

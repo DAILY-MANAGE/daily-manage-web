@@ -47,7 +47,7 @@ export default function Config({ nomeEquipe, idEquipe }: ConfigProps) {
             Altere informações ou mude permissões de usuários da equipe
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-1 pt-0">
+        <div className="grid gap-2 py-1 pt-0">
           {
             (nomeEquipe && idEquipe) ? <Fragment>
               <ChangeName nomeEquipe={nomeEquipe} idEquipe={idEquipe} />
