@@ -90,12 +90,26 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   const handleRequest = async (callback: <T = any, R = AxiosResponse<T, any>, D = any>(url: string, data?: D | undefined, config?: AxiosRequestConfig<D> | undefined) => Promise<R>, params: any[], doesNotRequireToken?: boolean) => {
     let response: any
     try {
+      if (params.length === 0) {
+        console.warn("URL ausente, informar no request.")
+        return
+      }
       const token = Cookies.get(cookieKeyOriginal)
-      if (!token) return
-      const header = getDefaultHeader(token)
+      if (doesNotRequireToken) {
+
+      }
+      if (!token && !doesNotRequireToken) {
+        console.warn("TOKEN ausente, informar no request.")
+        return
+      }
+      console.log("Pass 1")
+      let header
+      if (!doesNotRequireToken && token) {
+        header = getDefaultHeader(token)
+      }
+      console.log("Pass 2")
       // @ts-ignore
-      response = await callback(...params, header).catch(handleAxiosError)
-      console.log(response)
+      response = await callback(...params, header)
       if (!response) return
       handleResponseErrors(response, setError)
     } catch (error) {

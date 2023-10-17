@@ -7,31 +7,17 @@ import { User } from "@/app/interfaces/TeamData"
 import { capitalizeFirstLetter } from "@/app/utils/CapitalizeFirstLetter"
 import { getInitialLetter } from "@/app/utils/GetInitialLetter"
 import { ToastWrapper } from "@/app/utils/ToastWrapper"
-import { RxCrossCircled, RxAvatar, RxTrash } from 'react-icons/rx';
+import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1 } from 'react-icons/rx';
 import { Subtitle } from "../subtitle"
+import DeleteButton from './user-buttons/delete-button';
+import EditButton from "./user-buttons/edit-button"
 
 interface UsersProps {
   data: User[]
 }
 
 export default function Users({ data }: UsersProps) {
-
-  const { handleDelete } = useFetch({
-    url: '/usuario/deletar',
-    isGet: false
-  })
-
   const { session } = useAuth()
-
-  const removeUser = async (usuario: string) => {
-    const res = await handleDelete(usuario)
-    switch((res as any).status) {
-      case 200:
-        ToastWrapper.success("Usuário removido da equipe com sucesso.")
-      default:
-        break
-    }
-  }
 
   return <div className="flex flex-col gap-2">
     {(!data || data.length === 0) && (
@@ -63,12 +49,13 @@ export default function Users({ data }: UsersProps) {
                 <CardTitle className="flex gap-2">{`${capitalizeFirstLetter(teamData.usuario)}` || 'Carregando...'}</CardTitle>
                 <CardDescription className="flex gap-2">{`(${capitalizeFirstLetter(teamData.nome)})` || 'Carregando...'}</CardDescription>
               </div>
-              <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
+              <div className="w-1/2 flex align-center items-center justify-end m-0 p-0 gap-2">
                 {
                   teamData.usuario != session?.usuario && (
-                    <Button variant={'outline'} className="w-12 h-12 aspect-square px-2 py-1 bg-red-600 hover:bg-red-800" onClick={() => removeUser(teamData.usuario)}>
-                    <RxTrash className="w-6 h-6 my-auto text-white" />
-                  </Button>
+                    <>
+                      <DeleteButton usuario={teamData.usuario}/>
+                      <EditButton usuario={teamData.usuario}/>
+                    </>
                   )
                 }
               </div>

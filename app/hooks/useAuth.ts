@@ -79,13 +79,18 @@ export const useAuth = () => {
   const signIn = async (signinData: RegisterData) => {
     leaveSessionIfActive()
     const res = await handleRequest(requestInstance.post, [endpoints.signIn, signinData], true)
-    console.log('astralopitecus')
+    if (!res) {
+      ToastWrapper.error("Não foi possível realizar login.")
+      return
+    }
     switch(res.status) {
       case 201:
         ToastWrapper.success("Login realizado com sucesso!")
         handleLogin(res.data, true, true)
       default:
-        ToastWrapper.error("Não foi possível realizar login.")
+        if (!res.data.error && !res.data.errors) {
+          ToastWrapper.error("Não foi possível realizar login, tente novamente em breve.")
+        }
         break
       }
   }

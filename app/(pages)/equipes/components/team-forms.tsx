@@ -21,14 +21,13 @@ interface TeamFormsProps {
 }
 
 export function TeamForms({ endpoint }: TeamFormsProps) {
-
   const { data, error, loading } = useFetch({ url: endpoint, isGet: true })
 
   return (
     <>
       {data && (data as any).data &&
         !loading &&
-        (data as any).data.map((teamData: TeamData) => {
+        (data as any).data.content.map((teamData: TeamData) => {
           return (
             <Link
               href={`/equipes/${teamData.id}?t=${Cookies.get(cookieKeyOriginal)}`}
@@ -64,7 +63,7 @@ export function TeamForms({ endpoint }: TeamFormsProps) {
           Carregando equipes...
         </Subtitle>
       )}
-      {!loading && (!data || !data.data || data.data.length === 0) && (
+      {!loading && (!data || !data.data || data.data.content.length === 0) && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhuma
           equipe foi encontrada.

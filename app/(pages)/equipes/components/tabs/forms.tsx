@@ -15,7 +15,7 @@ export default function Forms() {
   return <div className="flex flex-col gap-2">
       {data && (data as any).data &&
         !loading &&
-        (data as any).data.map((teamData: FormData) => {
+        (data as any).data.content.map((teamData: FormData) => {
           return (
             <Link
               href={`/formularios/${teamData.id}`}
@@ -51,7 +51,7 @@ export default function Forms() {
           Carregando formulários...
         </Subtitle>
       )}
-      {!loading && (!data || !data.data || data.data.length === 0) && (
+      {!loading && (!data || !data.data || data.data.content.length === 0) && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
           formulário foi encontrada.
