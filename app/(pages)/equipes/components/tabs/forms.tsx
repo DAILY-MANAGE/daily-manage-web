@@ -10,7 +10,7 @@ import { Subtitle } from "../subtitle"
 export default function Forms() {
 
   const params = useParams()
-  const { data, loading } = useFetch({ url: `equipe/forms/todos?equipeid=${params.id}`, isGet: true, errorList: []})
+  const { data, loading } = useFetch({ url: `equipe/forms/todos?equipeid=${params.id}`, isGet: true})
 
   return <div className="flex flex-col gap-2">
       {data && (data as any).data &&

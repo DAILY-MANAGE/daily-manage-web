@@ -40,7 +40,7 @@ export default function Config({ nomeEquipe, idEquipe }: ConfigProps) {
           Configurações <RxGear className="w-4 h-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Configurações de Equipe</DialogTitle>
           <DialogDescription>
@@ -51,7 +51,7 @@ export default function Config({ nomeEquipe, idEquipe }: ConfigProps) {
           {
             (nomeEquipe && idEquipe) ? <Fragment>
               <ChangeName nomeEquipe={nomeEquipe} idEquipe={idEquipe} />
-              <hr />
+              <hr className="my-2"/>
               <DeleteTeam nomeEquipe={nomeEquipe} idEquipe={idEquipe}/>
             </Fragment> : <Loading />
           }

@@ -23,7 +23,7 @@ import Config from './config/config'
 export default function Empresa() {
 
   const params = useParams()
-  const { data } = useFetch({ url: `equipe?equipeid=${params.id}`, isGet: true, errorList: []})
+  const { data } = useFetch({ url: `equipe?equipeid=${params.id}`, isGet: true})
 
   return (
     <>

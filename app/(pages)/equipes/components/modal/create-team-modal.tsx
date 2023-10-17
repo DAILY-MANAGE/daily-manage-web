@@ -13,13 +13,15 @@ import {
 } from "@/app/components/Shadcn/dialog"
 import { Input } from "@/app/components/Shadcn/input"
 import { Label } from "@/app/components/Shadcn/label"
-import { useFetch } from "@/app/hooks/useFetch"
+import { getClientCookie, useFetch } from "@/app/hooks/useFetch"
 import { ReactNode, SyntheticEvent } from "react"
 import { useForm } from "react-hook-form"
 import { useState } from 'react';
 import { useRouter } from "next/navigation"
 import { ToastWrapper } from "@/app/utils/ToastWrapper"
 import { AxiosResponse } from 'axios';
+import Cookies from "js-cookie"
+import { cookieKeyOriginal } from "@/app/hooks/useAuth"
 
 interface CreateTeamModalProps {
   children: ReactNode
@@ -61,9 +63,12 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
     handleRefresh()
     setOpen(false)
     const response = await handlePost(teamData)
+    console.log(response)
     switch((response as any).status) {
       case 201:
         ToastWrapper.success("Equipe criada com sucesso!")
+        console.log(response)
+        router.push(`/equipes/${(response as any).data.id}?t=${getClientCookie(cookieKeyOriginal)}`)
       default:
         break
     }

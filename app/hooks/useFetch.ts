@@ -44,7 +44,7 @@ export function getClientCookie(key: string) {
 }
 
 export function useFetch<T = unknown>(options: FetchOptions) {
-  let { url, isGet, defaultData, errorList } = options
+  let { url, isGet, defaultData } = options
 
   const queryKey = [url]
 
@@ -87,15 +87,15 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     return { data: defaultData }
   }
 
-  const handleRequest = async (callback: <T = any, R = AxiosResponse<T, any>, D = any>(url: string, data?: D | undefined, config?: AxiosRequestConfig<D> | undefined) => Promise<R>, params: any[]) => {
+  const handleRequest = async (callback: <T = any, R = AxiosResponse<T, any>, D = any>(url: string, data?: D | undefined, config?: AxiosRequestConfig<D> | undefined) => Promise<R>, params: any[], doesNotRequireToken?: boolean) => {
     let response: any
     try {
-      console.assert(url, "URL não é valido")
       const token = Cookies.get(cookieKeyOriginal)
       if (!token) return
       const header = getDefaultHeader(token)
       // @ts-ignore
       response = await callback(...params, header).catch(handleAxiosError)
+      console.log(response)
       if (!response) return
       handleResponseErrors(response, setError)
     } catch (error) {
@@ -151,6 +151,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     loading: loading,
     error: error,
     requestInstance,
+    handleRequest,
     handleAxiosError,
     handleResponseErrors,
     handlePost: postMutation.mutateAsync as MutationFunction<

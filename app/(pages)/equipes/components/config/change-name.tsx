@@ -12,7 +12,7 @@ import { ConfigProps } from "./config"
 export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
 
   const { handlePatch } = useFetch({
-    url: 'equipe',
+    url: `equipe/editar?equipeid=${idEquipe}`,
     isGet: false
   })
 
@@ -42,12 +42,19 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
     setIsEditing((state) => !state)
   }
 
-  const onSubmit = (nameData: typeof nameValues) => {
-    handlePatch({
+  const onSubmit = async (nameData: typeof nameValues) => {
+    console.log('submit')
+    const res = await handlePatch({
       id: idEquipe,
       patchData: nameData
     })
-    handleRefresh()
+    console.log(res)
+    switch((res as any).status) {
+      case 200:
+        handleRefresh()
+      default:
+        break
+    }
   }
 
   return <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -78,7 +85,7 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
         })}
         disabled={!isEditing}
       />
-      <Button className="flex gap-2" type={isEditing ? 'submit' : 'button'} onClick={handleEdit}>
+      <Button className="flex gap-2" type={isEditing ? 'button' : 'submit'} onClick={handleEdit}>
         {isEditing ? <>
           Salvar
           <VscSave className="h-4 w-4"/>

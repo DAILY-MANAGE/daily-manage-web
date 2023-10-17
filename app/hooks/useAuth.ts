@@ -48,7 +48,8 @@ export const useAuth = () => {
     sessionData ? JSON.parse(sessionData) : null
   )
 
-  const { requestInstance, handleResponseErrors, handleAxiosError } = useFetch({
+  const { requestInstance, handleRequest, handleResponseErrors, handleAxiosError } = useFetch({
+    url: '',
     isGet: false,
   })
 
@@ -77,21 +78,16 @@ export const useAuth = () => {
 
   const signIn = async (signinData: RegisterData) => {
     leaveSessionIfActive()
-    try {
-      const res = await requestInstance.post(endpoints.signIn, signinData)
-      console.log('astralopitecus')
-      handleResponseErrors(res)
-      switch(res.status) {
-        case 201:
-          ToastWrapper.success("Login realizado com sucesso!")
-          handleLogin(res.data, true, true)
-        default:
-          ToastWrapper.error("Não foi possível realizar login.")
-          break
+    const res = await handleRequest(requestInstance.post, [endpoints.signIn, signinData], true)
+    console.log('astralopitecus')
+    switch(res.status) {
+      case 201:
+        ToastWrapper.success("Login realizado com sucesso!")
+        handleLogin(res.data, true, true)
+      default:
+        ToastWrapper.error("Não foi possível realizar login.")
+        break
       }
-    } catch (error) {
-      handleAxiosError(error)
-    }
   }
 
   const signOut = () => {

@@ -47,7 +47,6 @@ export default function DeleteTeam({ nomeEquipe, idEquipe }: ConfigProps) {
   }
 
   return <Form.Root onSubmit={handleSubmit(onSubmit)}>
-    <Form.Label label="Nome da Equipe" className="mt-0" />
     <Input
     placeholder="Confirme o nome da Equipe"
     autoComplete="nome"
