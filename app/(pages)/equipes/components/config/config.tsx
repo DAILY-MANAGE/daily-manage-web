@@ -41,21 +41,19 @@ export default function Config({ nomeEquipe, idEquipe }: ConfigProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <DialogHeader>
-          <DialogTitle>Criar Equipe</DialogTitle>
+          <DialogTitle>Configurações de Equipe</DialogTitle>
           <DialogDescription>
-            Crie uma equipe para agilizar o processo de gerenciamento de formulários
+            Altere informações ou mude permissões de usuários da equipe
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-1 pt-0">
           {
             (nomeEquipe && idEquipe) ? <Fragment>
               <ChangeName nomeEquipe={nomeEquipe} idEquipe={idEquipe} />
+              <hr></hr>
             </Fragment> : <Loading />
           }
         </div>
-        <DialogFooter>
-          <Button type="submit">Criar Equipe</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
 
