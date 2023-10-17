@@ -18,6 +18,8 @@ import { ReactNode, SyntheticEvent } from "react"
 import { useForm } from "react-hook-form"
 import { useState } from 'react';
 import { useRouter } from "next/navigation"
+import { ToastWrapper } from "@/app/utils/ToastWrapper"
+import { AxiosResponse } from 'axios';
 
 interface CreateTeamModalProps {
   children: ReactNode
@@ -55,11 +57,16 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
     router.refresh()
   }
 
-  const onSubmit = (teamData: TeamProps) => {
-    console.log('OVO')
+  const onSubmit = async (teamData: TeamProps) => {
     handleRefresh()
-    handlePost(teamData)
     setOpen(false)
+    const response = await handlePost(teamData)
+    switch((response as any).status) {
+      case 201:
+        ToastWrapper.success("Equipe criada com sucesso!")
+      default:
+        break
+    }
   }
 
   return (

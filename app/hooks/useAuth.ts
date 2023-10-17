@@ -79,9 +79,15 @@ export const useAuth = () => {
     leaveSessionIfActive()
     try {
       const res = await requestInstance.post(endpoints.signIn, signinData)
+      console.log('astralopitecus')
       handleResponseErrors(res)
-      if (res.status == 201) {
-        handleLogin(res.data, true, true)
+      switch(res.status) {
+        case 201:
+          ToastWrapper.success("Login realizado com sucesso!")
+          handleLogin(res.data, true, true)
+        default:
+          ToastWrapper.error("Não foi possível realizar login.")
+          break
       }
     } catch (error) {
       handleAxiosError(error)

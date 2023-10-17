@@ -15,6 +15,7 @@ import { Fragment, useState } from 'react';
 
 import { Subtitle } from "../subtitle";
 import ChangeName from "./change-name";
+import DeleteTeam from "./delete-team";
 
 export interface ConfigProps {
   nomeEquipe: string
@@ -50,7 +51,8 @@ export default function Config({ nomeEquipe, idEquipe }: ConfigProps) {
           {
             (nomeEquipe && idEquipe) ? <Fragment>
               <ChangeName nomeEquipe={nomeEquipe} idEquipe={idEquipe} />
-              <hr></hr>
+              <hr />
+              <DeleteTeam nomeEquipe={nomeEquipe} idEquipe={idEquipe}/>
             </Fragment> : <Loading />
           }
         </div>

@@ -21,23 +21,20 @@ interface FetchOptions {
 
 export const handleResponseErrors = (response: AxiosResponse, setError?: any) => {
   const errors = response.data.errors
-  switch (response.status) {
-    case 201:
-      ToastWrapper.success("Usuário criado com sucesso!")
-      break
-    case 200:
-      ToastWrapper.success("Login realizado com sucesso!")
-      break
-    default:
-      break
+  const error = response.data.error
+  if (error) {
+    ToastWrapper.error(error)
   }
   if (errors) {
+    console.log(errors)
     errors.forEach((error: string) => {
       ToastWrapper.error(error)
     });
     if (setError) {
       setError(errors)
     }
+    else
+    console.log('no errors')
   }
 }
 
@@ -90,10 +87,9 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   }
 
   const handleRequest = async (callback: <T = any, R = AxiosResponse<T, any>, D = any>(url: string, data?: D | undefined, config?: AxiosRequestConfig<D> | undefined) => Promise<R>, params: any[]) => {
-    console.log('request')
     let response: any
     try {
-      if (!url) return
+      console.assert(url, "URL não é valido")
       const token = Cookies.get(cookieKeyOriginal)
       if (!token) return
       const header = getDefaultHeader(token)

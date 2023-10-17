@@ -12,7 +12,6 @@ import { RegisterData } from '@/app/interfaces/RegisterData'
 import Link from 'next/link'
 
 import { SyntheticEvent } from 'react'
-import { useFetch } from '../../../hooks/useFetch';
 import { useAuth } from '@/app/hooks/useAuth'
 
 export default function RegisterForm() {
@@ -87,7 +86,6 @@ export default function RegisterForm() {
         placeholder="Entre com o E-mail"
         aria-invalid={errors.email ? 'true' : 'false'}
         className="shadow"
-        pattern="/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/"
         onInvalid={(e: SyntheticEvent) => {
           e.preventDefault()
         }}
