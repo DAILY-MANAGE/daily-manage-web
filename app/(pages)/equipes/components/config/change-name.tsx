@@ -37,6 +37,11 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
     router.refresh()
   }
 
+  const handleEdit = () => {
+    if (errors.nome?.message) return
+    setIsEditing((state) => !state)
+  }
+
   const onSubmit = (nameData: typeof nameValues) => {
     handlePatch({
       id: idEquipe,
@@ -46,7 +51,7 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
   }
 
   return <Form.Root onSubmit={handleSubmit(onSubmit)}>
-    <Form.Label label="Nome Equipe" />
+    <Form.Label label="Nome Equipe" className="mt-0"/>
     <div className="grid grid-cols-[1fr_6rem] gap-2">
       <Input
         autoComplete="nomeEquipe"
@@ -62,10 +67,18 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
         }}
         {...register('nome', {
           required: 'Nome da Equipe é obrigatório',
+          maxLength: {
+            value: 30,
+            message: 'Número máximo de caractéres é 30',
+          },
+          minLength: {
+            value: 5,
+            message: 'Número mínimo de caractéres é 5',
+          },
         })}
         disabled={!isEditing}
       />
-      <Button className="flex gap-2" type="submit" onClick={() => setIsEditing((state) => !state)}>
+      <Button className="flex gap-2" type={isEditing ? 'submit' : 'button'} onClick={handleEdit}>
         {isEditing ? <>
           Salvar
           <VscSave className="h-4 w-4"/>

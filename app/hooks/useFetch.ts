@@ -80,6 +80,23 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     }
   }
 
+  const handleRequest = async (callback: (a: any, b: any, c: any) => any, params: any[]) => {
+    let response: any
+    try {
+      if (!url) return
+      const token = Cookies.get(cookieKeyOriginal)
+      if (!token) return
+      const header = getDefaultHeader(token)
+      response = await callback(...params, header).catch(handleAxiosError)
+      if (!response) return
+      handleResponseErrors(response, setError)
+    } catch (error) {
+      handleResponseErrors((error as any).response, setError)
+    } finally {
+      return response
+    }
+  }
+
   const { data, refetch } = useQuery<any>({
     queryKey,
     queryFn: async () => {
@@ -94,17 +111,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
 
   const postMutation = useMutation<PostDataResponse, unknown, unknown>({
     mutationFn: async (postData: any) => {
-      try {
-        if (!url) return
-        const token = Cookies.get(cookieKeyOriginal)
-        if (!token) return
-        const header = getDefaultHeader(token)
-        const response = await requestInstance.post(url, postData, header).catch(handleAxiosError)
-        if (!response) return
-        handleResponseErrors(response, setError)
-      } catch (error) {
-        handleResponseErrors((error as any).response, setError)
-      }
+
     },
     onSuccess: () => {
       refetch()

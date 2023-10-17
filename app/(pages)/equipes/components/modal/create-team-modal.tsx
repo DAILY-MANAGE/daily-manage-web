@@ -44,7 +44,7 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
 
   const { handlePost } = useFetch({
     url: 'equipe/criar',
-    isGet: false
+    isGet: false,
   })
 
   const [open, setOpen] = useState(false)

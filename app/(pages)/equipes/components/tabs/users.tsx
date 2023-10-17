@@ -4,7 +4,7 @@ import { User } from "@/app/interfaces/TeamData"
 import { capitalizeFirstLetter } from "@/app/utils/CapitalizeFirstLetter"
 import { getInitialLetter } from "@/app/utils/GetInitialLetter"
 import Link from "next/link"
-import { RxChevronRight, RxCrossCircled, RxPerson } from "react-icons/rx"
+import { RxChevronRight, RxCrossCircled, RxAvatar } from 'react-icons/rx';
 import { Subtitle } from "../subtitle"
 
 interface UsersProps {
@@ -21,7 +21,7 @@ export default function Users({ data }: UsersProps) {
       )}
       {data && (
         <Subtitle>
-          <RxPerson className="w-4 h-4 my-auto leading-none" /> {data.length} usuário{data.length > 1 && 's'} encontrado{data.length > 1 && 's'}.
+          <RxAvatar className="w-4 h-4 my-auto leading-none" /> {data.length} usuário{data.length > 1 && 's'} encontrado{data.length > 1 && 's'}.
         </Subtitle>
       )}
       {data &&
