@@ -101,7 +101,7 @@ export const useAuth = () => {
         ToastWrapper.success('Login realizado com sucesso!')
         handleLogin(res.data, true, true)
       default:
-        if (!res.data.error && !res.data.errors) {
+        if (!res.data.error && !res.data.errors && res.status > 250) {
           ToastWrapper.error(
             'Não foi possível realizar login, tente novamente em breve.',
           )

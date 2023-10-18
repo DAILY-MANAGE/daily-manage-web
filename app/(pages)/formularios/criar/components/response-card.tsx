@@ -8,7 +8,6 @@ import { UseFormSetValue } from "react-hook-form";
 import { RxPlus } from "react-icons/rx";
 import { FormCreationData, FormType } from '../page';
 import { ResponseType } from "./response-type";
-import { SyntheticEvent } from 'react';
 
 interface ResponseCardProps {
   questions: FormType[]
@@ -31,7 +30,8 @@ export default function ReponseCard({ index, questions, callback, setValue, getV
               className="border-black/20"
               onChange={(e: any) => {
                 let campos = getValues('campos')
-                campos[index].perguntas[0].descricao = e.target.value
+                console.log(campos)
+                campos[0].perguntas[index].descricao = e.target.value
                 setValue("campos", campos)
               }}
             ></Input>
@@ -39,7 +39,7 @@ export default function ReponseCard({ index, questions, callback, setValue, getV
           <hr />
           <CardContent className="w-full p-3">
             <Label>Tipo da Resposta</Label>
-            <ResponseType getValues={getValues} setValue={setValue}/>
+            <ResponseType index={index} index2={0} getValues={getValues} setValue={setValue}/>
           </CardContent>
         </div>
       </Card>

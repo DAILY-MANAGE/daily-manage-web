@@ -42,12 +42,14 @@ const presets: Preset[] = [
 ]
 
 interface PresetSelectorProps extends PopoverProps {
+  index: number
+  index2: number
   presets?: Preset[]
   getValues: any
   setValue: UseFormSetValue<FormCreationData>
 }
 
-export function ResponseType({ setValue, getValues, ...props }: PresetSelectorProps) {
+export function ResponseType({ index, index2, setValue, getValues, ...props }: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [selectedPreset, setSelectedPreset] = React.useState<Preset>(presets[0])
 
@@ -77,8 +79,10 @@ export function ResponseType({ setValue, getValues, ...props }: PresetSelectorPr
                 key={preset.id}
                 onSelect={() => {
                   setSelectedPreset(preset)
-                  const campos = getValues('campos')
-                  setValue("campos", campos)
+                  let campos = getValues('campos')[0]
+                  campos.perguntas[index2].unidade = preset.value
+                  console.log(campos)
+                  setValue("campos", [campos])
                 }}
               >
                 {preset.name}

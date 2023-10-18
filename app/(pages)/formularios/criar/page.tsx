@@ -12,7 +12,7 @@ import CreateButton from './components/create-button'
 import { useForm } from 'react-hook-form'
 import { Form } from '@/app/components/Form'
 import { useFetch } from '@/app/hooks/useFetch'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ToastWrapper } from '../../../utils/ToastWrapper';
 import { useAuth } from '@/app/hooks/useAuth'
 
@@ -31,7 +31,7 @@ export const defaultFormData: FormType = {
   perguntas: [
     {
       descricao: 'Pergunta',
-      unidade: 'BOOLEAN'
+      unidade: 'STRING'
     }
   ],
 }
@@ -87,15 +87,20 @@ export default function Criar() {
     isGet: false
   })
 
+  const router = useRouter()
+
   const callback = () => {
       setQuestions((state: FormType[]) => {
           let auxFormData = {
             ...defaultFormData
           }
           const final = [...state, auxFormData]
-          setValue('campos', [...getValues('campos'), auxFormData]) //)
+          let camposs: any = getValues('campos')
+          console.log(camposs[0].perguntas)
+          camposs.perguntas.push(auxFormData)
+          setValue('campos', camposs) //)
           return final
-        })
+      })
   }
 
   const onSubmit = async (formData: typeof defaultData) => {
@@ -103,8 +108,9 @@ export default function Criar() {
     formData.idusuariospermitidos.push(session?.id)
     const res = await handlePost(formData)
     switch((res as any).status) {
-      case 200:
+      case 201:
         ToastWrapper.success("Formulário criado com sucesso.")
+        router.back()
         break
       default:
         ToastWrapper.warn("Algo deu errado na criação do formulário")

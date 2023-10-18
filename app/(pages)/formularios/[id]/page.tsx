@@ -1,7 +1,10 @@
 import BackButton from '@/app/components/BackButton'
 import { Root } from '@/app/components/Root'
+import { useFetch } from '@/app/hooks/useFetch';
 import type { Metadata } from 'next'
+import { useSearchParams } from 'next/navigation';
 import FormContext from './components/FormContext';
+import FormProvider from './components/FormProvider';
 
 type Props = {
   params: { id: number }
@@ -17,13 +20,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function IdFuncionario({ params }: Props) {
-  return (
-    <Root.Spacing>
-      <Root.Header title={`Formulário ${params.id}`}>
-        <FormContext />
-      </Root.Header>
-      <Root.Container>
-      </Root.Container>
-    </Root.Spacing>
-  )
+  return <FormProvider params={params}/>
 }

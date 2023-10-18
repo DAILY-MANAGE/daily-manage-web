@@ -14,9 +14,10 @@ import { Subtitle } from '../subtitle'
 
 export default function Forms() {
   const params = useParams()
+
   const { data, loading } = useFetch({
-    url: `equipe/forms/todos?equipeid=${params.id}`,
-    isGet: true,
+    url: `/equipe/forms/todos?equipeid=${params.id}`,
+    isGet: true
   })
 
   return (
@@ -28,7 +29,7 @@ export default function Forms() {
         (data as any).data.content.map((teamData: FormData) => {
           return (
             <Link
-              href={`/formularios/${teamData.id}`}
+              href={`/formularios/${teamData.id}?equipeid=${params.id}`}
               key={teamData.id}
               className="w-full"
             >
