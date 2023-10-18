@@ -1,5 +1,5 @@
 import { Button } from '@/app/components/Shadcn/button'
-import { Card, CardContent } from '@/app/components/Shadcn/card'
+import { Card, CardContent, CardFooter } from '@/app/components/Shadcn/card'
 import { Input } from '@/app/components/Shadcn/input'
 import { Label } from '@/app/components/Shadcn/label'
 
@@ -8,8 +8,13 @@ import { RxPlus } from 'react-icons/rx'
 
 import ScreenDivider from '@/app/components/ScreenDivider'
 import { ResponseType } from './components/response-type'
+import ResponseCard from './components/response-card'
+import { useState } from 'react'
 
 export default function Criar() {
+
+  const [questions, setQuestions] = useState([])
+
   return (
     <div className="flex-col flex w-full">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -40,23 +45,11 @@ export default function Criar() {
             Campos
           </h2>
         </div>
-        <div className="flex items-center space-y-2 flex-col w-full">
-          <Card className="w-full h-fit flex items-center justify-center flex-col shadow pb-1 px-1">
-            <div className="w-full block h-fit">
-              <CardContent className="w-full p-3">
-                <Label>Pergunta</Label>
-                <Input
-                  placeholder="Qual a temperatura do gerador?"
-                  className="border-black/20"
-                ></Input>
-              </CardContent>
-              <CardContent className="w-full p-3">
-                <Label>Tipo da Resposta</Label>
-                <ResponseType />
-              </CardContent>
-            </div>
-          </Card>
-        </div>
+        {
+          questions.map((data: any, index: number) => {
+            return <ResponseCard index={index} length={questions.length}/>
+          })
+        }
       </div>
     </div>
   )
