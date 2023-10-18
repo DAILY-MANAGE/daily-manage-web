@@ -32,12 +32,12 @@ const presets: Preset[] = [
   {
     id: 1,
     name: 'Texto',
-    value: 'STRING'
+    value: 'STRING',
   },
   {
     id: 2,
     name: 'Verdadeiro ou Falso',
-    value: 'BOOLEAN'
+    value: 'BOOLEAN',
   },
 ]
 
@@ -49,7 +49,13 @@ interface PresetSelectorProps extends PopoverProps {
   setValue: UseFormSetValue<FormCreationData>
 }
 
-export function ResponseType({ index, index2, setValue, getValues, ...props }: PresetSelectorProps) {
+export function ResponseType({
+  index,
+  index2,
+  setValue,
+  getValues,
+  ...props
+}: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [selectedPreset, setSelectedPreset] = React.useState<Preset>(presets[0])
 
@@ -65,7 +71,7 @@ export function ResponseType({ index, index2, setValue, getValues, ...props }: P
         >
           <>
             {selectedPreset.name}
-           <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </>
         </Button>
       </PopoverTrigger>
@@ -79,10 +85,10 @@ export function ResponseType({ index, index2, setValue, getValues, ...props }: P
                 key={preset.id}
                 onSelect={() => {
                   setSelectedPreset(preset)
-                  let campos = getValues('campos')[0]
+                  const campos = getValues('campos')[0]
                   campos.perguntas[index2].unidade = preset.value
                   console.log(campos)
-                  setValue("campos", [campos])
+                  setValue('campos', [campos])
                 }}
               >
                 {preset.name}
@@ -91,7 +97,7 @@ export function ResponseType({ index, index2, setValue, getValues, ...props }: P
                     'ml-auto h-4 w-4',
                     selectedPreset.id === preset.id
                       ? 'opacity-100'
-                      : 'opacity-0'
+                      : 'opacity-0',
                   )}
                 />
               </CommandItem>

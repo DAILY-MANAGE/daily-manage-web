@@ -21,7 +21,7 @@ import {
 } from '@/app/components/Shadcn/popover'
 import { FormCreationData } from '../page'
 import { UseFormSetValue } from 'react-hook-form'
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import { useFetch } from '@/app/hooks/useFetch'
 
 export interface Preset {
@@ -46,14 +46,20 @@ interface PresetSelectorProps extends PopoverProps {
   presets?: Preset[]
 }
 
-export function PermittedUsers({ setValue, equipeid, ...props }: PresetSelectorProps) {
+export function PermittedUsers({
+  setValue,
+  equipeid,
+  ...props
+}: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>([])
 
   const [search, setSearch] = React.useState<string | null>()
 
   const { data, loading, error, refetch } = useFetch({
-    url: `/equipe/users/find?equipeid=${equipeid}${search && '&nome=' + search}`
+    url: `/equipe/users/find?equipeid=${equipeid}${
+      search && '&nome=' + search
+    }`,
   })
 
   const formatUsers = () => {
@@ -95,54 +101,58 @@ export function PermittedUsers({ setValue, equipeid, ...props }: PresetSelectorP
       </PopoverTrigger>
       <PopoverContent className="w-full block p-0 border-black/20">
         <Command>
-          <CommandInput placeholder="Pesquisar usuários..." onInput={(e: any) => {
-            let value = e.target.value
-            if (value === '') {
-              value = null
-            }
-            setSearch(value)
-            refetch()
-          }}/>
+          <CommandInput
+            placeholder="Pesquisar usuários..."
+            onInput={(e: any) => {
+              let value = e.target.value
+              if (value === '') {
+                value = null
+              }
+              setSearch(value)
+              refetch()
+            }}
+          />
           <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
           <CommandGroup heading="Usuários">
-            {data && data.map((preset: Preset) => (
-              <CommandItem
-                key={preset.id}
-                onSelect={() => {
-                  const isValid = selectedPreset.filter(
-                    (userPreset: Preset) => userPreset.id === preset.id,
-                  )
-                  console.log(isValid)
-                  if (isValid.length > 0) {
-                    const removedUsers = selectedPreset.filter(
-                      (userPreset: Preset) => userPreset.id !== preset.id,
-                    )
-                    setSelectedPreset(removedUsers)
-                  } else {
-                    const auxSelectedPreset = [...selectedPreset]
-                    auxSelectedPreset.push(preset)
-                    setSelectedPreset(auxSelectedPreset)
-                  }
-                  const auxPermitted: any = []
-                  selectedPreset.forEach((userPreset: Preset) => {
-                    auxPermitted.push(userPreset.id)
-                  })
-                  setValue('idusuariospermitidos', auxPermitted)
-                }}
-              >
-                {preset.usuario}
-                <RxCheck
-                  className={cn(
-                    'ml-auto h-4 w-4',
-                    selectedPreset.filter(
+            {data &&
+              data.map((preset: Preset) => (
+                <CommandItem
+                  key={preset.id}
+                  onSelect={() => {
+                    const isValid = selectedPreset.filter(
                       (userPreset: Preset) => userPreset.id === preset.id,
-                    ).length === 0
-                      ? 'opacity-0'
-                      : 'opacity-100',
-                  )}
-                />
-              </CommandItem>
-            ))}
+                    )
+                    console.log(isValid)
+                    if (isValid.length > 0) {
+                      const removedUsers = selectedPreset.filter(
+                        (userPreset: Preset) => userPreset.id !== preset.id,
+                      )
+                      setSelectedPreset(removedUsers)
+                    } else {
+                      const auxSelectedPreset = [...selectedPreset]
+                      auxSelectedPreset.push(preset)
+                      setSelectedPreset(auxSelectedPreset)
+                    }
+                    const auxPermitted: any = []
+                    selectedPreset.forEach((userPreset: Preset) => {
+                      auxPermitted.push(userPreset.id)
+                    })
+                    setValue('idusuariospermitidos', auxPermitted)
+                  }}
+                >
+                  {preset.usuario}
+                  <RxCheck
+                    className={cn(
+                      'ml-auto h-4 w-4',
+                      selectedPreset.filter(
+                        (userPreset: Preset) => userPreset.id === preset.id,
+                      ).length === 0
+                        ? 'opacity-0'
+                        : 'opacity-100',
+                    )}
+                  />
+                </CommandItem>
+              ))}
           </CommandGroup>
         </Command>
       </PopoverContent>
