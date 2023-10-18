@@ -7,6 +7,7 @@ import { PermittedUsers } from './components/permitted-users'
 import { RxPlus } from 'react-icons/rx'
 
 import ScreenDivider from '@/app/components/ScreenDivider'
+import { ResponseType } from './components/response-type'
 
 export default function Criar() {
   return (
@@ -43,15 +44,15 @@ export default function Criar() {
           <Card className="w-full h-fit flex items-center justify-center flex-col shadow pb-1 px-1">
             <div className="w-full block h-fit">
               <CardContent className="w-full p-3">
-                <Label>Nome do Formulário</Label>
+                <Label>Pergunta</Label>
                 <Input
-                  placeholder="Turbina"
+                  placeholder="Qual a temperatura do gerador?"
                   className="border-black/20"
                 ></Input>
               </CardContent>
-              <CardContent className="w-1/3 p-3 flex flex-col">
-                <Label>Pessoas Permitidas</Label>
-                <PermittedUsers />
+              <CardContent className="w-full p-3">
+                <Label>Tipo da Resposta</Label>
+                <ResponseType />
               </CardContent>
             </div>
           </Card>
