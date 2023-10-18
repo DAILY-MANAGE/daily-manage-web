@@ -23,7 +23,7 @@ export default function Criar() {
               <CardContent className="w-full p-3">
                 <Label>Nome do Formulário</Label>
                 <Input
-                  placeholder="Turbina"
+                  placeholder="Entre com o nome do formulário"
                   className="border-black/20"
                 ></Input>
               </CardContent>
