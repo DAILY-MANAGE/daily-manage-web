@@ -8,6 +8,7 @@ import { PermittedUsers } from './components/permitted-users'
 
 import ResponseCard from './components/response-card'
 import { useEffect, useState } from 'react'
+import CreateButton from './components/create-button'
 
 export interface FormType {
   idPergunta: number
@@ -47,6 +48,7 @@ export default function Criar() {
 
   return (
     <div className="flex-col flex w-full">
+      <CreateButton />
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
           <h2 className="text-3xl font-bold tracking-tight text-white">
@@ -65,7 +67,9 @@ export default function Criar() {
               </CardContent>
               <CardContent className="w-full p-3 flex flex-col">
                 <Label>Pessoas Permitidas</Label>
-                <PermittedUsers />
+                <div className='py-1'>
+                  <PermittedUsers />
+                </div>
               </CardContent>
             </div>
           </Card>
