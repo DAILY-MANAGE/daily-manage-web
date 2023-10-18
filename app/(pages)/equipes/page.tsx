@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 
 import { TeamForms } from './components/team-forms'
 import { Root } from '@/app/components/Root'
-import CreateTeamModalWrapper from './components/modal/create-team-button'
 import { CreateTeamModal } from './components/modal/create-team-modal'
 import CreateTeamButton from './components/modal/create-team-button'
 
@@ -20,10 +19,10 @@ export default function Equipes() {
         </CreateTeamModal>
       </Root.Header>
       <Root.Container>
-        <h1 className='w-full text-left font-bold text-xl'>Suas Equipes</h1>
-        <TeamForms endpoint="equipe/todas/criadas"/>
-        <h1 className='w-full text-left font-bold text-xl'>Membro</h1>
-        <TeamForms endpoint="equipe/todas/membro"/>
+        <h1 className="w-full text-left font-bold text-xl">Suas Equipes</h1>
+        <TeamForms endpoint="equipe/todas/criadas" />
+        <h1 className="w-full text-left font-bold text-xl">Membro</h1>
+        <TeamForms endpoint="equipe/todas/membro" />
       </Root.Container>
     </Root.Spacing>
   )

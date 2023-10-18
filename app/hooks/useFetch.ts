@@ -1,12 +1,13 @@
+/* eslint-disable no-unsafe-finally */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useQuery, useMutation, MutationFunction } from '@tanstack/react-query'
-import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios'
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import { useState } from 'react'
-import { RequestType } from '../interfaces/RequestType';
-import { ToastWrapper } from '../utils/ToastWrapper';
-import { handleAxiosError } from '../utils/AxiosError';
-import { cookieKeyOriginal, useAuth } from './useAuth';
-import Cookies from 'js-cookie';
-import { ENDPOINT } from '../utils/EndpointStorage';
+import { ToastWrapper } from '../utils/ToastWrapper'
+import { handleAxiosError } from '../utils/AxiosError'
+import { cookieKeyOriginal } from './useAuth'
+import Cookies from 'js-cookie'
+import { ENDPOINT } from '../utils/EndpointStorage'
 
 type PatchDataResponse = void
 type PostDataResponse = void
@@ -20,7 +21,10 @@ interface FetchOptions {
   errorList?: string[]
 }
 
-export const handleResponseErrors = (response: AxiosResponse, setError?: any) => {
+export const handleResponseErrors = (
+  response: AxiosResponse,
+  setError?: any,
+) => {
   const errors = response.data.errors
   const error = response.data.error
   if (error) {
@@ -30,12 +34,10 @@ export const handleResponseErrors = (response: AxiosResponse, setError?: any) =>
     console.log(errors)
     errors.forEach((error: string) => {
       ToastWrapper.error(error)
-    });
+    })
     if (setError) {
       setError(errors)
-    }
-    else
-    console.log('no errors')
+    } else console.log('no errors')
   }
 }
 
@@ -44,12 +46,12 @@ export function getClientCookie(key: string) {
 }
 
 export function useFetch<T = unknown>(options: FetchOptions) {
-  let { url, isGet, defaultData } = options
+  const { url, isGet, defaultData } = options
 
   const queryKey = [url]
 
   const requestInstance = axios.create({
-    baseURL: ENDPOINT
+    baseURL: ENDPOINT,
   })
 
   const [error, setError] = useState<string[]>([])
@@ -58,20 +60,21 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   const getDefaultHeader = (token: string) => {
     return {
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      data: {}
+      data: {},
     }
   }
 
   const checkIfLoginIsValid = async () => {
-
     const retrieveData = async (url: string, token: string) => {
       setLoading(true)
       if (!token) return
       const header = getDefaultHeader(token)
-      const response = await requestInstance.get(url, header).catch(handleAxiosError)
+      const response = await requestInstance
+        .get(url, header)
+        .catch(handleAxiosError)
       setLoading(false)
       if (response) {
         handleResponseErrors(response, setError)
@@ -87,27 +90,30 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     return { data: defaultData }
   }
 
-  const handleRequest = async (callback: <T = any, R = AxiosResponse<T, any>, D = any>(url: string, data?: D | undefined, config?: AxiosRequestConfig<D> | undefined) => Promise<R>, params: any[], doesNotRequireToken?: boolean) => {
+  const handleRequest = async (
+    callback: <T = any, R = AxiosResponse<T, any>, D = any>(
+      url: string,
+      data?: D | undefined,
+      config?: AxiosRequestConfig<D> | undefined,
+    ) => Promise<R>,
+    params: any[],
+    doesNotRequireToken?: boolean,
+  ) => {
     let response: any
     try {
       if (params.length === 0) {
-        console.warn("URL ausente, informar no request.")
+        console.warn('URL ausente, informar no request.')
         return
       }
       const token = Cookies.get(cookieKeyOriginal)
-      if (doesNotRequireToken) {
-
-      }
       if (!token && !doesNotRequireToken) {
-        console.warn("TOKEN ausente, informar no request.")
+        console.warn('TOKEN ausente, informar no request.')
         return
       }
-      console.log("Pass 1")
       let header
       if (!doesNotRequireToken && token) {
         header = getDefaultHeader(token)
       }
-      console.log("Pass 2")
       // @ts-ignore
       response = await callback(...params, header)
       if (!response) return
@@ -125,7 +131,8 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   })
 
   const postMutation = useMutation<PostDataResponse, unknown, unknown>({
-    mutationFn: async (postData: unknown) => handleRequest(requestInstance.post, [url, postData]),
+    mutationFn: async (postData: unknown) =>
+      handleRequest(requestInstance.post, [url, postData]),
     onSuccess: () => {
       refetch()
     },
@@ -136,7 +143,11 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     unknown,
     { id: number; putData: any }
   >({
-    mutationFn: async (params: { id: number; putData: any }) => handleRequest(requestInstance.put, [`${url}/${params.id}`, params.putData]),
+    mutationFn: async (params: { id: number; putData: any }) =>
+      handleRequest(requestInstance.put, [
+        `${url}/${params.id}`,
+        params.putData,
+      ]),
     onSuccess: () => {
       refetch()
     },
@@ -147,7 +158,8 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     unknown,
     { id: number; patchData: any }
   >({
-    mutationFn: async (params: { id: number; patchData: any }) => handleRequest(requestInstance.patch, [url, params.patchData]),
+    mutationFn: async (params: { id: number; patchData: any }) =>
+      handleRequest(requestInstance.patch, [url, params.patchData]),
     onSuccess: () => {
       refetch()
     },
@@ -161,9 +173,9 @@ export function useFetch<T = unknown>(options: FetchOptions) {
   })
 
   return {
-    data: data,
-    loading: loading,
-    error: error,
+    data,
+    loading,
+    error,
     requestInstance,
     handleRequest,
     handleAxiosError,
@@ -180,8 +192,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       PatchDataResponse,
       { id: number; patchData: any }
     >,
-    handleDelete: deleteMutation.mutateAsync as MutationFunction<
-      DeleteDataResponse
-    >,
+    handleDelete:
+      deleteMutation.mutateAsync as MutationFunction<DeleteDataResponse>,
   }
 }

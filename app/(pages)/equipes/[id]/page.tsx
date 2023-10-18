@@ -4,13 +4,12 @@ import { Metadata } from 'next'
 
 import Header from '../components/header'
 import { ENDPOINT } from '@/app/utils/EndpointStorage'
-import Cookies from 'js-cookie'
-import { cookieKeyOriginal } from '@/app/hooks/useAuth'
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 
-export async function generateMetadata(
-  { params, searchParams }: any,
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: any): Promise<Metadata> {
   const id = params.id
   const defaultMetadata = {
     title: `Equipe ${id} | Daily Manage`,
@@ -24,10 +23,10 @@ export async function generateMetadata(
 
   const product = await axios.get(`${ENDPOINT}equipe?equipeid=${id}`, {
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
-    data: {}
+    data: {},
   })
 
   if (!product) {

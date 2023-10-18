@@ -1,20 +1,30 @@
-import { useFetch } from "@/app/hooks/useFetch"
-import { useParams } from "next/navigation"
+import { useFetch } from '@/app/hooks/useFetch'
+import { useParams } from 'next/navigation'
 import { FormData } from '@/app/interfaces/FormData'
-import Link from "next/link"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/app/components/Shadcn/card"
-import { capitalizeFirstLetter } from "@/app/utils/CapitalizeFirstLetter"
-import { RxChevronRight, RxCrossCircled, RxReload } from "react-icons/rx"
-import { Subtitle } from "../subtitle"
+import Link from 'next/link'
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/app/components/Shadcn/card'
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
+import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
+import { Subtitle } from '../subtitle'
 
 export default function Forms() {
-
   const params = useParams()
-  const { data, loading } = useFetch({ url: `equipe/forms/todos?equipeid=${params.id}`, isGet: true})
+  const { data, loading } = useFetch({
+    url: `equipe/forms/todos?equipeid=${params.id}`,
+    isGet: true,
+  })
 
-  return <div className="flex flex-col gap-2">
-      {data && (data as any).data &&
+  return (
+    <div className="flex flex-col gap-2">
+      {data &&
+        (data as any).data &&
         !loading &&
+        (data as any).data.content &&
         (data as any).data.content.map((teamData: FormData) => {
           return (
             <Link
@@ -28,8 +38,11 @@ export default function Forms() {
               >
                 <CardHeader className="space-y-0 flex flex-row p-6 py-4">
                   <div className="w-1/2 flex justify-start align-center flex-col gap-1">
-                    <CardTitle>{`Formulário ${capitalizeFirstLetter(teamData.nome)}` || 'Carregando...'}</CardTitle>
-                    <CardDescription className='leading-none'>
+                    <CardTitle>
+                      {`Formulário ${capitalizeFirstLetter(teamData.nome)}` ||
+                        'Carregando...'}
+                    </CardTitle>
+                    <CardDescription className="leading-none">
                       {`Identificação: ${teamData.id}` || 'Carregando...'}
                     </CardDescription>
                   </div>
@@ -42,8 +55,9 @@ export default function Forms() {
           )
         })}
       {!loading && Array.isArray(data) && data.length > 0 && (
-        <Subtitle>{`${data.length} Formulário${data.length > 1 ? 's' : ''
-          } encontrado${data.length > 1 ? 's' : ''}`}</Subtitle>
+        <Subtitle>{`${data.length} Formulário${
+          data.length > 1 ? 's' : ''
+        } encontrado${data.length > 1 ? 's' : ''}`}</Subtitle>
       )}
       {loading && (
         <Subtitle>
@@ -51,11 +65,16 @@ export default function Forms() {
           Carregando formulários...
         </Subtitle>
       )}
-      {!loading && (!data || !data.data || data.data.content.length === 0) && (
-        <Subtitle>
-          <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
-          formulário foi encontrada.
-        </Subtitle>
-      )}
-  </div>
+      {!loading &&
+        (!data ||
+          !data.data ||
+          !data.data.content ||
+          data.data.content.length === 0) && (
+          <Subtitle>
+            <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
+            formulário foi encontrada.
+          </Subtitle>
+        )}
+    </div>
+  )
 }

@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios'
 
-import { handleResponseErrors } from '../hooks/useFetch';
-import { CustomResponse } from '../interfaces/CustomResponse';
+import { handleResponseErrors } from '../hooks/useFetch'
+import { CustomResponse } from '../interfaces/CustomResponse'
 
-let debounce = false;
+let debounce = false
 
 const codes = new Map<string, string>([
   ['ERR_NETWORK', 'Ocorreu um erro de rede ao tentar se conectar ao servidor.'],
@@ -16,7 +16,11 @@ export const getErrorMessage = (axiosError: AxiosError) => {
     debounce = false
   }, 1000)
   // edge case onde o request retorna um array de erros para as notificações.
-  if (axiosError.response && axiosError.response.data && (axiosError.response.data as CustomResponse).errors) {
+  if (
+    axiosError.response &&
+    axiosError.response.data &&
+    (axiosError.response.data as CustomResponse).errors
+  ) {
     handleResponseErrors(axiosError.response)
     return
   }

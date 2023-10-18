@@ -28,7 +28,7 @@ export default function RegisterForm() {
       senha: '',
       nome: '',
       confirmarSenha: '',
-      permissoes: []
+      permissoes: [],
     },
   })
 
@@ -143,8 +143,8 @@ export default function RegisterForm() {
         {...register('confirmarSenha', {
           required: 'Confirmar a senha é obrigatório',
           validate: (val: string) => {
-            if (watch('senha') != val) {
-              return 'As senhas não são iguais';
+            if (watch('senha') !== val) {
+              return 'As senhas não são iguais'
             }
           },
         })}

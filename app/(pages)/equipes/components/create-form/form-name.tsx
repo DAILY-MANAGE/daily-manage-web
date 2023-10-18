@@ -7,10 +7,11 @@ import { SyntheticEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { RxPencil1 } from 'react-icons/rx'
 import { VscSave } from 'react-icons/vsc'
-import { ConfigProps } from './config'
+import { ConfigProps } from './create-form'
+import { DialogFooter } from '@/app/components/Shadcn/dialog'
 
-export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
-  const { handlePatch } = useFetch({
+export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
+  const { handlePost } = useFetch({
     url: `equipe/editar?equipeid=${idEquipe}`,
     isGet: false,
   })
@@ -30,19 +31,11 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
 
   const router = useRouter()
 
-  const [isEditing, setIsEditing] = useState(false)
-
   const handleRefresh = () => {
     router.refresh()
   }
 
-  const handleEdit = () => {
-    if (errors.nome?.message) return
-    setIsEditing((state) => !state)
-  }
-
   const onSubmit = async (nameData: typeof nameValues) => {
-    console.log('submit')
     const res = await handlePatch({
       id: idEquipe,
       patchData: nameData,
@@ -59,22 +52,22 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <Form.Label label="Nome Equipe" className="mt-0" />
+      <Form.Label label="Nome do Formulário" className="mt-0" />
       <div className="grid grid-cols-[1fr_6rem] gap-2">
         <Input
-          autoComplete="nomeEquipe"
-          htmlFor="nomeEquipe"
+          autoComplete="nomeFormulario"
+          htmlFor="nomeFormulario"
           type="text"
-          id="nomeEquipe"
+          id="nomeFormulario"
           error={errors.nome}
-          placeholder="Entre com o novo nome"
+          placeholder="Entre com o nome do formulário"
           aria-invalid={errors.nome ? 'true' : 'false'}
           data-invalid={errors.nome}
           onInvalid={(e: SyntheticEvent) => {
             e.preventDefault()
           }}
           {...register('nome', {
-            required: 'Nome da Equipe é obrigatório',
+            required: 'Nome do Formulário é obrigatório',
             maxLength: {
               value: 30,
               message: 'Número máximo de caractéres é 30',
@@ -84,27 +77,12 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
               message: 'Número mínimo de caractéres é 5',
             },
           })}
-          disabled={!isEditing}
         />
-        <Button
-          className="flex gap-2"
-          type={isEditing ? 'button' : 'submit'}
-          onClick={handleEdit}
-        >
-          {isEditing ? (
-            <>
-              Salvar
-              <VscSave className="h-4 w-4" />
-            </>
-          ) : (
-            <>
-              Editar
-              <RxPencil1 className="h-4 w-4" />
-            </>
-          )}
-        </Button>
       </div>
       <Form.Error message={errors.nome?.message} />
+      <Button type="submit" className="mt-4">
+        Criar Formulários
+      </Button>
     </Form.Root>
   )
 }

@@ -25,12 +25,16 @@ export function TeamForms({ endpoint }: TeamFormsProps) {
 
   return (
     <>
-      {data && (data as any).data &&
+      {data &&
+        (data as any).data &&
         !loading &&
+        (data as any).data.content &&
         (data as any).data.content.map((teamData: TeamData) => {
           return (
             <Link
-              href={`/equipes/${teamData.id}?t=${Cookies.get(cookieKeyOriginal)}`}
+              href={`/equipes/${teamData.id}?t=${Cookies.get(
+                cookieKeyOriginal,
+              )}`}
               key={teamData.id}
               className="w-full"
             >
@@ -40,8 +44,10 @@ export function TeamForms({ endpoint }: TeamFormsProps) {
               >
                 <CardHeader className="space-y-0 flex flex-row p-6 py-4">
                   <div className="w-1/2 flex justify-start align-center flex-col gap-1">
-                    <CardTitle>{capitalizeFirstLetter(teamData.nome) || 'Carregando...'}</CardTitle>
-                    <CardDescription className='leading-none'>
+                    <CardTitle>
+                      {capitalizeFirstLetter(teamData.nome) || 'Carregando...'}
+                    </CardTitle>
+                    <CardDescription className="leading-none">
                       {`Identificação: ${teamData.id}` || 'Carregando...'}
                     </CardDescription>
                   </div>
@@ -54,8 +60,9 @@ export function TeamForms({ endpoint }: TeamFormsProps) {
           )
         })}
       {!loading && Array.isArray(data) && data.length > 0 && (
-        <Subtitle>{`${data.length} Equipe${data.length > 1 ? 's' : ''
-          } encontrada${data.length > 1 ? 's' : ''}`}</Subtitle>
+        <Subtitle>{`${data.length} Equipe${
+          data.length > 1 ? 's' : ''
+        } encontrada${data.length > 1 ? 's' : ''}`}</Subtitle>
       )}
       {loading && (
         <Subtitle>
@@ -63,12 +70,16 @@ export function TeamForms({ endpoint }: TeamFormsProps) {
           Carregando equipes...
         </Subtitle>
       )}
-      {!loading && (!data || !data.data || data.data.content.length === 0) && (
-        <Subtitle>
-          <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhuma
-          equipe foi encontrada.
-        </Subtitle>
-      )}
+      {!loading &&
+        (!data ||
+          !data.data ||
+          !data.data.content ||
+          data.data.content.length === 0) && (
+          <Subtitle>
+            <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhuma
+            equipe foi encontrada.
+          </Subtitle>
+        )}
       {error && error.length > 0 && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Houve um
