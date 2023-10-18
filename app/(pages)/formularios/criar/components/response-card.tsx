@@ -4,18 +4,21 @@ import { Button } from "@/app/components/Shadcn/button";
 import { Card, CardContent, CardFooter } from "@/app/components/Shadcn/card";
 import { Input } from "@/app/components/Shadcn/input";
 import { Label } from "@/app/components/Shadcn/label";
+import { UseFormSetValue } from "react-hook-form";
 import { RxPlus } from "react-icons/rx";
-import { FormType } from "../page";
+import { FormCreationData, FormType } from '../page';
 import { ResponseType } from "./response-type";
+import { SyntheticEvent } from 'react';
 
 interface ResponseCardProps {
   questions: FormType[]
-
+  setValue: UseFormSetValue<FormCreationData>
+  getValues: any
   index: number
   callback: () => any
 }
 
-export default function ReponseCard({ index, questions, callback }: ResponseCardProps) {
+export default function ReponseCard({ index, questions, callback, setValue, getValues }: ResponseCardProps) {
 
   return <>
     <div className="flex items-center space-y-2 flex-col w-full">
@@ -26,12 +29,17 @@ export default function ReponseCard({ index, questions, callback }: ResponseCard
             <Input
               placeholder="Qual a temperatura do gerador?"
               className="border-black/20"
+              onChange={(e: any) => {
+                let campos = getValues('campos')
+                campos[index].perguntas[0].descricao = e.target.value
+                setValue("campos", campos)
+              }}
             ></Input>
           </CardContent>
           <hr />
           <CardContent className="w-full p-3">
             <Label>Tipo da Resposta</Label>
-            <ResponseType />
+            <ResponseType getValues={getValues} setValue={setValue}/>
           </CardContent>
         </div>
       </Card>

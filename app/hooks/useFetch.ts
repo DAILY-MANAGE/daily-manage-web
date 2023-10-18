@@ -177,6 +177,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     loading,
     error,
     requestInstance,
+    refetch,
     handleRequest,
     handleAxiosError,
     handleResponseErrors,

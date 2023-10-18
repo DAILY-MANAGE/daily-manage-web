@@ -19,28 +19,35 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/app/components/Shadcn/popover'
+import { UseFormSetValue } from 'react-hook-form'
+import { FormCreationData } from '../page'
 
 export interface Preset {
   id: number
   name: string
+  value: string
 }
 
 const presets: Preset[] = [
   {
     id: 1,
     name: 'Texto',
+    value: 'STRING'
   },
   {
     id: 2,
     name: 'Verdadeiro ou Falso',
+    value: 'BOOLEAN'
   },
 ]
 
 interface PresetSelectorProps extends PopoverProps {
   presets?: Preset[]
+  getValues: any
+  setValue: UseFormSetValue<FormCreationData>
 }
 
-export function ResponseType({ ...props }: PresetSelectorProps) {
+export function ResponseType({ setValue, getValues, ...props }: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [selectedPreset, setSelectedPreset] = React.useState<Preset>(presets[0])
 
@@ -70,6 +77,8 @@ export function ResponseType({ ...props }: PresetSelectorProps) {
                 key={preset.id}
                 onSelect={() => {
                   setSelectedPreset(preset)
+                  const campos = getValues('campos')
+                  setValue("campos", campos)
                 }}
               >
                 {preset.name}
