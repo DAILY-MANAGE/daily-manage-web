@@ -1,19 +1,49 @@
-import { Button } from '@/app/components/Shadcn/button'
+'use client'
+
 import { Card, CardContent, CardFooter } from '@/app/components/Shadcn/card'
 import { Input } from '@/app/components/Shadcn/input'
 import { Label } from '@/app/components/Shadcn/label'
 
 import { PermittedUsers } from './components/permitted-users'
-import { RxPlus } from 'react-icons/rx'
 
-import ScreenDivider from '@/app/components/ScreenDivider'
-import { ResponseType } from './components/response-type'
 import ResponseCard from './components/response-card'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+export interface FormType {
+  idPergunta: number
+  pergunta: string
+  tipoResposta: string
+}
+
+export const defaultFormData: FormType = {
+  idPergunta: 1,
+  pergunta: "",
+  tipoResposta: "string"
+}
+
+const defaultQuestions = [
+  defaultFormData
+]
 
 export default function Criar() {
 
-  const [questions, setQuestions] = useState([])
+  const [questions, setQuestions] = useState<any[]>(defaultQuestions)
+
+  useEffect(() => {
+
+  })
+
+  const callback = () => {
+      setQuestions((state: FormType[]) => {
+          let id = questions.length > 0 ? questions[questions.length - 1].idPergunta + 1 : 1
+          let auxFormData = {
+            ...defaultFormData
+          }
+          auxFormData.idPergunta = id
+          console.log(auxFormData)
+          return [...state, auxFormData]
+        })
+  }
 
   return (
     <div className="flex-col flex w-full">
@@ -33,7 +63,7 @@ export default function Criar() {
                   className="border-black/20"
                 ></Input>
               </CardContent>
-              <CardContent className="w-1/3 p-3 flex flex-col">
+              <CardContent className="w-full p-3 flex flex-col">
                 <Label>Pessoas Permitidas</Label>
                 <PermittedUsers />
               </CardContent>
@@ -46,9 +76,7 @@ export default function Criar() {
           </h2>
         </div>
         {
-          questions.map((data: any, index: number) => {
-            return <ResponseCard index={index} length={questions.length}/>
-          })
+          questions.map((data: FormType, index: number) => <ResponseCard index={index} questions={questions} callback={callback}/>)
         }
       </div>
     </div>

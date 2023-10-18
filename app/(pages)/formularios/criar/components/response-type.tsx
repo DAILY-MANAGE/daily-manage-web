@@ -28,11 +28,11 @@ export interface Preset {
 const presets: Preset[] = [
   {
     id: 1,
-    name: 'Usuário',
+    name: 'Texto',
   },
   {
     id: 2,
-    name: 'Usuário2',
+    name: 'Verdadeiro ou Falso',
   },
 ]
 
@@ -42,22 +42,7 @@ interface PresetSelectorProps extends PopoverProps {
 
 export function ResponseType({ ...props }: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>(presets)
-
-  const formatUsers = () => {
-    let formattedUsers = ''
-    selectedPreset.forEach((userPreset: Preset, index: number) => {
-      if (index === selectedPreset.length - 1) {
-        formattedUsers += userPreset.name
-      } else {
-        formattedUsers += `${userPreset.name}, `
-      }
-    })
-    if (formattedUsers === '') {
-      formattedUsers = 'Selecionar tipo'
-    }
-    return formattedUsers
-  }
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset>(presets[0])
 
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>
@@ -69,8 +54,10 @@ export function ResponseType({ ...props }: PresetSelectorProps) {
           aria-expanded={open}
           className="flex-1 justify-between w-full shadow border-black/20"
         >
-          {formatUsers()}
-          <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <>
+            {selectedPreset.name}
+           <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full block p-0 border-black/20">
@@ -82,31 +69,16 @@ export function ResponseType({ ...props }: PresetSelectorProps) {
               <CommandItem
                 key={preset.id}
                 onSelect={() => {
-                  const isValid = selectedPreset.filter(
-                    (userPreset: Preset) => userPreset.id === preset.id,
-                  )
-                  console.log(isValid)
-                  if (isValid.length > 0) {
-                    const removedUsers = selectedPreset.filter(
-                      (userPreset: Preset) => userPreset.id !== preset.id,
-                    )
-                    setSelectedPreset(removedUsers)
-                  } else {
-                    const auxSelectedPreset = [...selectedPreset]
-                    auxSelectedPreset.push(preset)
-                    setSelectedPreset(auxSelectedPreset)
-                  }
+                  setSelectedPreset(preset)
                 }}
               >
                 {preset.name}
                 <RxCheck
                   className={cn(
                     'ml-auto h-4 w-4',
-                    selectedPreset.filter(
-                      (userPreset: Preset) => userPreset.id === preset.id,
-                    ).length === 0
-                      ? 'opacity-0'
-                      : 'opacity-100',
+                    selectedPreset.id === preset.id
+                      ? 'opacity-100'
+                      : 'opacity-0'
                   )}
                 />
               </CommandItem>
