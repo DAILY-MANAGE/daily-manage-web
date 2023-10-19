@@ -32,12 +32,42 @@ const presets: Preset[] = [
   {
     id: 1,
     name: 'Texto',
-    value: 'STRING'
+    value: 'STRING',
   },
   {
     id: 2,
-    name: 'Verdadeiro ou Falso',
-    value: 'BOOLEAN'
+    name: 'Sim ou Não',
+    value: 'BOOLEAN',
+  },
+  {
+    id: 3,
+    name: 'Número Inteiro',
+    value: 'INTEGER',
+  },
+  {
+    id: 4,
+    name: 'Número Decimal',
+    value: 'DECIMAL',
+  },
+  {
+    id: 5,
+    name: 'Litro',
+    value: 'LITER',
+  },
+  {
+    id: 6,
+    name: 'Celsius',
+    value: 'CELSIUS',
+  },
+  {
+    id: 7,
+    name: 'Kilograma',
+    value: 'KILOGRAM',
+  },
+  {
+    id: 8,
+    name: 'Porcentagem',
+    value: 'PERCENT',
   },
 ]
 
@@ -47,7 +77,11 @@ interface PresetSelectorProps extends PopoverProps {
   setValue: UseFormSetValue<FormCreationData>
 }
 
-export function ResponseType({ setValue, getValues, ...props }: PresetSelectorProps) {
+export function ResponseType({
+  setValue,
+  getValues,
+  ...props
+}: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
   const [selectedPreset, setSelectedPreset] = React.useState<Preset>(presets[0])
 
@@ -57,28 +91,28 @@ export function ResponseType({ setValue, getValues, ...props }: PresetSelectorPr
         <Button
           variant="outline"
           role="combobox"
-          aria-label="Selecionar usuários"
+          aria-label="Selecionar tipos"
           aria-expanded={open}
           className="flex-1 justify-between w-full shadow border-black/20"
         >
           <>
             {selectedPreset.name}
-           <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full block p-0 border-black/20">
         <Command>
-          <CommandInput placeholder="Pesquisar usuários..." />
-          <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
-          <CommandGroup heading="Recomendados">
+          <CommandInput placeholder="Pesquisar tipos..." />
+          <CommandEmpty>Nenhum tipo encontrado.</CommandEmpty>
+          <CommandGroup heading="Tipos">
             {presets.map((preset) => (
               <CommandItem
                 key={preset.id}
                 onSelect={() => {
                   setSelectedPreset(preset)
                   const campos = getValues('campos')
-                  setValue("campos", campos)
+                  setValue('campos', campos)
                 }}
               >
                 {preset.name}
@@ -87,7 +121,7 @@ export function ResponseType({ setValue, getValues, ...props }: PresetSelectorPr
                     'ml-auto h-4 w-4',
                     selectedPreset.id === preset.id
                       ? 'opacity-100'
-                      : 'opacity-0'
+                      : 'opacity-0',
                   )}
                 />
               </CommandItem>

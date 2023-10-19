@@ -12,8 +12,8 @@ import CreateButton from './components/create-button'
 import { useForm } from 'react-hook-form'
 import { Form } from '@/app/components/Form'
 import { useFetch } from '@/app/hooks/useFetch'
-import { useSearchParams } from 'next/navigation'
-import { ToastWrapper } from '../../../utils/ToastWrapper';
+import { useRouter, useSearchParams } from 'next/navigation'
+import { ToastWrapper } from '../../../utils/ToastWrapper'
 import { useAuth } from '@/app/hooks/useAuth'
 
 interface FormQuestion {
@@ -22,7 +22,7 @@ interface FormQuestion {
 }
 
 export interface FormType {
-  nome: string;
+  nome: string
   perguntas: FormQuestion[]
 }
 
@@ -31,14 +31,12 @@ export const defaultFormData: FormType = {
   perguntas: [
     {
       descricao: 'Pergunta',
-      unidade: 'BOOLEAN'
-    }
+      unidade: 'BOOLEAN',
+    },
   ],
 }
 
-const defaultQuestions = [
-  defaultFormData
-]
+const defaultQuestions = [defaultFormData]
 
 const defaultData = {
   nome: '',
@@ -49,22 +47,21 @@ const defaultData = {
       perguntas: [
         {
           descricao: 'Pergunta',
-          unidade: 'BOOLEAN'
-        }
-      ]
-    }
+          unidade: 'BOOLEAN',
+        },
+      ],
+    },
   ],
   informacoes: [
     {
-      descricao: "Informação"
-    }
-  ]
+      descricao: 'Informação',
+    },
+  ],
 }
 
-export type FormCreationData = typeof defaultData;
+export type FormCreationData = typeof defaultData
 
 export default function Criar() {
-
   const [questions, setQuestions] = useState<any[]>(defaultQuestions)
 
   const params = useSearchParams()
@@ -84,37 +81,40 @@ export default function Criar() {
 
   const { handlePost } = useFetch({
     url: `/equipe/forms?equipeid=${params.get('equipeid')}`,
-    isGet: false
+    isGet: false,
   })
 
+  const router = useRouter()
+
   const callback = () => {
-      setQuestions((state: FormType[]) => {
-          let auxFormData = {
-            ...defaultFormData
-          }
-          const final = [...state, auxFormData]
-          setValue('campos', [...getValues('campos'), auxFormData]) //)
-          return final
-        })
+    setQuestions((state: FormType[]) => {
+      const auxFormData = {
+        ...defaultFormData,
+      }
+      const final = [...state, auxFormData]
+      setValue('campos', [...getValues('campos'), auxFormData]) // )
+      return final
+    })
   }
 
   const onSubmit = async (formData: typeof defaultData) => {
     if (!session) return
     formData.idusuariospermitidos.push(session?.id)
     const res = await handlePost(formData)
-    switch((res as any).status) {
-      case 200:
-        ToastWrapper.success("Formulário criado com sucesso.")
+    switch ((res as any).status) {
+      case 201:
+        ToastWrapper.success('Formulário criado com sucesso.')
         break
       default:
-        ToastWrapper.warn("Algo deu errado na criação do formulário")
+        ToastWrapper.warn('Algo deu errado na criação do formulário')
         break
     }
+    router.back()
   }
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex-col flex w-full">
+      <div className="flex-col flex w-full">
         <CreateButton />
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
@@ -130,7 +130,6 @@ export default function Criar() {
                   <Input
                     placeholder="Entre com o nome do formulário"
                     className="shadow border-black/20"
-
                     autoComplete="nome"
                     htmlFor="nome"
                     error={errors.nome}
@@ -156,8 +155,11 @@ export default function Criar() {
                 </CardContent>
                 <CardContent className="w-full p-3 flex flex-col">
                   <Label>Pessoas Permitidas</Label>
-                  <div className='py-1'>
-                    <PermittedUsers setValue={setValue} equipeid={params.get('equipeid')}/>
+                  <div className="py-1">
+                    <PermittedUsers
+                      setValue={setValue}
+                      equipeid={params.get('equipeid')}
+                    />
                   </div>
                 </CardContent>
               </div>
@@ -168,9 +170,15 @@ export default function Criar() {
               Campos
             </h2>
           </div>
-          {
-            questions.map((data: FormType, index: number) => <ResponseCard index={index} questions={questions} callback={callback} setValue={setValue} getValues={getValues}/>)
-          }
+          {questions.map((data: FormType, index: number) => (
+            <ResponseCard
+              index={index}
+              questions={questions}
+              callback={callback}
+              setValue={setValue}
+              getValues={getValues}
+            />
+          ))}
         </div>
       </div>
     </Form.Root>
