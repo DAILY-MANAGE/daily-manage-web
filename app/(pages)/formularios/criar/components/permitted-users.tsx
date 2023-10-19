@@ -57,9 +57,14 @@ export function PermittedUsers({
   const [search, setSearch] = React.useState<string | null>()
 
   const { data, loading, error, refetch } = useFetch({
+<<<<<<< Updated upstream
     url: `/equipe/users/find?equipeid=${equipeid}${
       search && '&nome=' + search
     }`,
+=======
+    url: `/equipe/users/find?equipeid=${equipeid}${search && '&nome=' + search}`,
+    isGet: true
+>>>>>>> Stashed changes
   })
 
   const formatUsers = () => {
@@ -85,17 +90,20 @@ export function PermittedUsers({
     setValue('idusuariospermitidos', auxPermitted)
   }, [])
 
+  const formatted = formatUsers()
+
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>
+                {JSON.stringify(data)}
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-label="Selecionar usuários"
           aria-expanded={open}
-          className="flex-1 justify-between w-full shadow border-black/20"
+          className={`flex-1 justify-between w-full shadow border-black/20 ${formatted === 'Selecionar usuários' && 'text-black/60'}`}
         >
-          {formatUsers()}
+          {formatted}
           <RxCaretSort className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -114,12 +122,45 @@ export function PermittedUsers({
           />
           <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
           <CommandGroup heading="Usuários">
+<<<<<<< Updated upstream
             {data &&
               data.map((preset: Preset) => (
                 <CommandItem
                   key={preset.id}
                   onSelect={() => {
                     const isValid = selectedPreset.filter(
+=======
+            {data && data.data && data.data.map((preset: Preset) => (
+              <CommandItem
+                key={preset.id}
+                onSelect={() => {
+                  const isValid = selectedPreset.filter(
+                    (userPreset: Preset) => userPreset.id === preset.id,
+                  )
+                  console.log(isValid)
+                  if (isValid.length > 0) {
+                    const removedUsers = selectedPreset.filter(
+                      (userPreset: Preset) => userPreset.id !== preset.id,
+                    )
+                    setSelectedPreset(removedUsers)
+                  } else {
+                    const auxSelectedPreset = [...selectedPreset]
+                    auxSelectedPreset.push(preset)
+                    setSelectedPreset(auxSelectedPreset)
+                  }
+                  const auxPermitted: any = []
+                  selectedPreset.forEach((userPreset: Preset) => {
+                    auxPermitted.push(userPreset.id)
+                  })
+                  setValue('idusuariospermitidos', auxPermitted)
+                }}
+              >
+                {preset.usuario}
+                <RxCheck
+                  className={cn(
+                    'ml-auto h-4 w-4',
+                    selectedPreset.filter(
+>>>>>>> Stashed changes
                       (userPreset: Preset) => userPreset.id === preset.id,
                     )
                     console.log(isValid)

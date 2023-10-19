@@ -32,13 +32,49 @@ const presets: Preset[] = [
   {
     id: 1,
     name: 'Texto',
-    value: 'STRING',
+    value: 'TEXTO',
   },
   {
     id: 2,
+<<<<<<< Updated upstream
     name: 'Verdadeiro ou Falso',
     value: 'BOOLEAN',
   },
+=======
+    name: 'Sim ou Não',
+    value: 'BOOLEANO',
+  },
+  {
+    id: 3,
+    name: 'Número Inteiro',
+    value: 'INTEIRO',
+  },
+  {
+    id: 4,
+    name: 'Número Decimal',
+    value: 'DECIMAL',
+  },
+  {
+    id: 5,
+    name: 'Litro',
+    value: 'LITRO',
+  },
+  {
+    id: 6,
+    name: 'Celsius',
+    value: 'CELSIUS',
+  },
+  {
+    id: 7,
+    name: 'Quilograma',
+    value: 'QUILOGRAMA',
+  },
+  {
+    id: 8,
+    name: 'Porcentagem',
+    value: 'PORCENTAGEM',
+  },
+>>>>>>> Stashed changes
 ]
 
 interface PresetSelectorProps extends PopoverProps {

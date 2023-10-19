@@ -155,6 +155,7 @@ export default function Criar() {
                     })}
                   ></Input>
                   <Form.Error message={errors.nome?.message} />
+                  <hr />
                 </CardContent>
                 <CardContent className="w-full p-3 flex flex-col">
                   <Label>Pessoas Permitidas</Label>
