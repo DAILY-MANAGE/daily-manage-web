@@ -22,6 +22,7 @@ import { ToastWrapper } from "@/app/utils/ToastWrapper"
 import { AxiosResponse } from 'axios';
 import Cookies from "js-cookie"
 import { cookieKeyOriginal } from "@/app/hooks/useAuth"
+import { CRIAR_EQUIPE } from "@/app/utils/EndpointStorage"
 
 interface CreateTeamModalProps {
   children: ReactNode
@@ -47,7 +48,7 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
   })
 
   const { handlePost } = useFetch({
-    url: 'equipe/criar',
+    url: CRIAR_EQUIPE,
     isGet: false,
   })
 

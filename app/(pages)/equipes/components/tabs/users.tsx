@@ -24,9 +24,10 @@ import { useEffect } from 'react'
 
 interface UsersProps {
   data: User[]
+  equipeId: number
 }
 
-export default function Users({ data }: UsersProps) {
+export default function Users({ equipeId, data }: UsersProps) {
   const { session } = useAuth()
 
   useEffect(() => {
@@ -85,8 +86,8 @@ export default function Users({ data }: UsersProps) {
                 <div className="w-1/2 flex align-center items-center justify-end m-0 p-0 gap-2">
                   {teamData.usuario !== session?.usuario && (
                     <>
-                      <DeleteButton usuario={teamData.usuario} />
-                      <EditButton usuario={teamData.usuario} />
+                      <DeleteButton equipeId={equipeId} usuario={teamData.usuario} />
+                      <EditButton equipeId={equipeId} usuario={teamData.usuario} />
                     </>
                   )}
                 </div>

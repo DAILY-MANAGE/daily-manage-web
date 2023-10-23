@@ -11,12 +11,16 @@ import {
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
 import { Subtitle } from '../subtitle'
+import { VER_FORMULARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
 
 export default function Forms() {
   const params = useParams()
   const { data, loading } = useFetch({
-    url: `equipe/forms/todos?equipeid=${params.id}`,
+    url: VER_FORMULARIOS_DA_EQUIPE,
     isGet: true,
+    header: {
+      Equipe: params.id
+    }
   })
 
   return (

@@ -1,7 +1,7 @@
 /* eslint-disable no-unsafe-finally */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useQuery, useMutation, MutationFunction } from '@tanstack/react-query'
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import axios, { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { useState } from 'react'
 import { ToastWrapper } from '../utils/ToastWrapper'
 import { handleAxiosError } from '../utils/AxiosError'
@@ -19,6 +19,7 @@ interface FetchOptions {
   isGet?: boolean
   defaultData?: unknown
   errorList?: string[]
+  header?: Record<string, unknown>
 }
 
 export const handleResponseErrors = (
@@ -46,7 +47,7 @@ export function getClientCookie(key: string) {
 }
 
 export function useFetch<T = unknown>(options: FetchOptions) {
-  const { url, isGet, defaultData } = options
+  const { url, isGet, defaultData, header } = options
 
   const queryKey = [url]
 
@@ -62,6 +63,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        ...header
       },
       data: {},
     }
@@ -114,9 +116,12 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       if (!doesNotRequireToken && token) {
         header = getDefaultHeader(token)
       }
+      console.log('ovo')
       // @ts-ignore
       response = await callback(...params, header)
+      console.log('teste')
       if (!response) return
+      console.log(response)
       handleResponseErrors(response, setError)
     } catch (error) {
       handleResponseErrors((error as any).response, setError)

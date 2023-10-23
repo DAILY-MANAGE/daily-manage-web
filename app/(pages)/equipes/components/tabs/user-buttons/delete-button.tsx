@@ -2,24 +2,35 @@ import { Button } from "@/app/components/Shadcn/button";
 import { useFetch } from "@/app/hooks/useFetch";
 import { ToastWrapper } from "@/app/utils/ToastWrapper";
 import { RxTrash } from "react-icons/rx";
+import { REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO } from '@/app/utils/EndpointStorage';
 
 interface DeleteButtonProps {
-  usuario: string
+  usuario: string,
+  equipeId: number
 }
 
-export default function DeleteButton({ usuario }: DeleteButtonProps) {
+export default function DeleteButton({ usuario, equipeId }: DeleteButtonProps) {
 
   const { handleDelete } = useFetch({
-    url: '/usuario/deletar',
-    isGet: false
+    url: REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO.replace("{usuario}", usuario),
+    isGet: false,
+    header: {
+      Equipe: equipeId
+    }
   })
 
   const removeUser = async (usuario: string) => {
     const res = await handleDelete(usuario)
+    console.log(res)
     switch((res as any).status) {
       case 200:
         ToastWrapper.success("Usuário removido da equipe com sucesso.")
+        break
+      case 404:
+        ToastWrapper.error("O usuário insirido não existe.")
+        break
       default:
+        ToastWrapper.error("Não foi possível deletar esse usuário.")
         break
     }
   }

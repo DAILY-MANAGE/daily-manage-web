@@ -2,6 +2,7 @@ import { Form } from '@/app/components/Form'
 import { Button } from '@/app/components/Shadcn/button'
 import { Input } from '@/app/components/Shadcn/input'
 import { useFetch } from '@/app/hooks/useFetch'
+import { EDITAR_EQUIPE } from '@/app/utils/EndpointStorage'
 import { useRouter } from 'next/navigation'
 import { SyntheticEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -11,8 +12,11 @@ import { ConfigProps } from './config'
 
 export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
   const { handlePatch } = useFetch({
-    url: `equipe/editar?equipeid=${idEquipe}`,
+    url: EDITAR_EQUIPE,
     isGet: false,
+    header: {
+      Equipe: idEquipe
+    }
   })
 
   const nameValues = {

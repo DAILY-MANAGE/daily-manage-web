@@ -15,6 +15,7 @@ import { useFetch } from '@/app/hooks/useFetch'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ToastWrapper } from '../../../utils/ToastWrapper'
 import { useAuth } from '@/app/hooks/useAuth'
+import { CRIAR_FORMULARIO } from '@/app/utils/EndpointStorage'
 
 interface FormQuestion {
   descricao: string
@@ -80,8 +81,11 @@ export default function Criar() {
   const { session } = useAuth()
 
   const { handlePost } = useFetch({
-    url: `/equipe/forms?equipeid=${params.get('equipeid')}`,
+    url: CRIAR_FORMULARIO,
     isGet: false,
+    header: {
+      Equipe: params.get('equipeid')
+    }
   })
 
   const router = useRouter()

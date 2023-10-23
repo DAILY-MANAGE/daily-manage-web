@@ -10,6 +10,7 @@ import { Root } from '@/app/components/Root'
 import BackButton from '@/app/components/BackButton'
 
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
+import { Button } from '@/app/components/Shadcn/button'
 
 import { useParams } from 'next/navigation'
 import { useFetch } from '@/app/hooks/useFetch'
@@ -17,17 +18,20 @@ import { useFetch } from '@/app/hooks/useFetch'
 import Forms from './tabs/forms'
 import Users from './tabs/users'
 
-import { RxAvatar, RxClipboard, RxGear } from 'react-icons/rx'
-import Config from './config/config'
-import CreateForm from './create-form/create-form'
-import Link from 'next/link'
-import { Button } from '@/app/components/Shadcn/button'
+import { RxAvatar, RxClipboard } from 'react-icons/rx'
 
-export default function Empresa() {
+import Config from './config/config'
+import Link from 'next/link'
+import { VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage'
+
+export default function Equipes() {
   const params = useParams()
   const { data } = useFetch({
-    url: `equipe?equipeid=${params.id}`,
+    url: VER_EQUIPE_POR_ID.replace("{equipeId}", params.id as string),
     isGet: true,
+    header: {
+      Equipe: params.id
+    }
   })
 
   return (
@@ -67,7 +71,7 @@ export default function Empresa() {
             <Forms />
           </TabsContent>
           <TabsContent value="users" className="space-y-4">
-            <Users data={data && data.data && data.data.usuarios} />
+            <Users equipeId={data && data.data && data.data.id} data={data && data.data && data.data.usuarios} />
           </TabsContent>
         </Tabs>
       </Root.Spacing>

@@ -10,6 +10,7 @@ import { useFetch } from './useFetch'
 
 import { AuthResponse } from '../interfaces/AuthResponse'
 import { RegisterData } from '../interfaces/RegisterData'
+import { LOGIN, REGISTRO, RENOVAR_TOKEN } from '../utils/EndpointStorage'
 
 export const cookieKey = 'auth_token_refresh'
 export const cookieKeyOriginal = 'auth_token'
@@ -75,11 +76,10 @@ export const useAuth = () => {
       email: responseData.usuario.email,
     }
     setSession(loginPayload)
-    if (rememberSession) {
-      localStorage.setItem(sessionKey, JSON.stringify(loginPayload))
-      Cookies.set(cookieKeyOriginal, responseData.token)
-      Cookies.set(cookieKey, responseData.refreshToken)
-    }
+    localStorage.setItem(sessionKey, JSON.stringify(loginPayload))
+    const expires = !rememberSession ? { expires: 0.5 } : undefined
+    Cookies.set(cookieKeyOriginal, responseData.token, expires)
+    Cookies.set(cookieKey, responseData.refreshToken, expires)
     if (redirects) {
       router.push('/equipes')
     }
@@ -89,7 +89,7 @@ export const useAuth = () => {
     leaveSessionIfActive()
     const res = await handleRequest(
       requestInstance.post,
-      [endpoints.signIn, signinData],
+      [REGISTRO, signinData],
       true,
     )
     if (!res) {
@@ -101,11 +101,6 @@ export const useAuth = () => {
         ToastWrapper.success('Login realizado com sucesso!')
         handleLogin(res.data, true, true)
       default:
-        if (!res.data.error && !res.data.errors) {
-          ToastWrapper.error(
-            'Não foi possível realizar login, tente novamente em breve.',
-          )
-        }
         break
     }
   }
@@ -120,7 +115,7 @@ export const useAuth = () => {
 
   const login = (loginData: SigninData) => {
     requestInstance
-      .post(endpoints.login, loginData)
+      .post(LOGIN, loginData)
       .then((res) => {
         handleResponseErrors(res)
         if (res.status == 200) {
@@ -140,7 +135,7 @@ export const useAuth = () => {
       refreshToken,
     }
     requestInstance
-      .post(endpoints.refreshToken, refreshTokenPayload)
+      .post(RENOVAR_TOKEN, refreshTokenPayload)
       .then((res) => {
         // handleAxiosError(res)
         // handleResponseErrors(res)

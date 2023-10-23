@@ -23,6 +23,7 @@ import { FormCreationData } from '../page'
 import { UseFormSetValue } from 'react-hook-form'
 import { useEffect } from 'react';
 import { useFetch } from '@/app/hooks/useFetch'
+import { FILTRAR_USUARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
 
 export interface Preset {
   id: number
@@ -53,7 +54,10 @@ export function PermittedUsers({ setValue, equipeid, ...props }: PresetSelectorP
   const [search, setSearch] = React.useState<string | null>()
 
   const { data, loading, error, refetch } = useFetch({
-    url: `/equipe/users/find?equipeid=${equipeid}${search && '&nome=' + search}`
+    url: `${FILTRAR_USUARIOS_DA_EQUIPE}?${search && 'nome=' + search}`,
+    header: {
+      Equipe: equipeid
+    }
   })
 
   const formatUsers = () => {

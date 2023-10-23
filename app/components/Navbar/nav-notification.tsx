@@ -20,6 +20,7 @@ import { Button } from '../Shadcn/button'
 import { Badge } from '../Shadcn/badge'
 import { useFetch } from '@/app/hooks/useFetch'
 import { Notifications } from '@/app/interfaces/Notifications'
+import { VER_NOTIFICACOES } from '@/app/utils/EndpointStorage'
 
 const notificationsToLoad = 5
 
@@ -39,7 +40,7 @@ export default function NavNotification() {
 
   const { data, error, loading } = useFetch(
     {
-      url: '/notificacoes/todos'
+      url: VER_NOTIFICACOES
     }
   )
 

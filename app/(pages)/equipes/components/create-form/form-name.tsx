@@ -2,18 +2,21 @@ import { Form } from '@/app/components/Form'
 import { Button } from '@/app/components/Shadcn/button'
 import { Input } from '@/app/components/Shadcn/input'
 import { useFetch } from '@/app/hooks/useFetch'
-import { useRouter } from 'next/navigation'
-import { SyntheticEvent, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { RxPencil1 } from 'react-icons/rx'
-import { VscSave } from 'react-icons/vsc'
+import { EDITAR_EQUIPE } from '@/app/utils/EndpointStorage'
+
 import { ConfigProps } from './create-form'
-import { DialogFooter } from '@/app/components/Shadcn/dialog'
+
+import { useRouter } from 'next/navigation'
+import { SyntheticEvent } from 'react'
+import { useForm } from 'react-hook-form'
 
 export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
   const { handlePost } = useFetch({
-    url: `equipe/editar?equipeid=${idEquipe}`,
+    url: EDITAR_EQUIPE,
     isGet: false,
+    header: {
+      Equipe: idEquipe
+    }
   })
 
   const nameValues = {
@@ -36,7 +39,7 @@ export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
   }
 
   const onSubmit = async (nameData: typeof nameValues) => {
-    const res = await handlePatch({
+    const res = await handlePost({
       id: idEquipe,
       patchData: nameData,
     })

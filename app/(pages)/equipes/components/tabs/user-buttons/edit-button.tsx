@@ -1,17 +1,23 @@
 import { Button } from "@/app/components/Shadcn/button";
 import { useFetch } from "@/app/hooks/useFetch";
+import { EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO } from "@/app/utils/EndpointStorage";
 import { ToastWrapper } from "@/app/utils/ToastWrapper";
+
 import { RxPencil1 } from 'react-icons/rx';
 
 interface EditButtonProps {
   usuario: string
+  equipeId: number
 }
 
-export default function EditButton({ usuario }: EditButtonProps) {
+export default function EditButton({ usuario, equipeId }: EditButtonProps) {
 
   const { handlePatch } = useFetch({
-    url: '/usuario/deletar',
-    isGet: false
+    url: EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO.replace("{usuario}", usuario),
+    isGet: false,
+    header: {
+      Equipe: equipeId
+    }
   })
 
   const editUser = async (usuario: string) => {

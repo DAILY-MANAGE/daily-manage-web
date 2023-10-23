@@ -3,6 +3,7 @@ import { Button } from '@/app/components/Shadcn/button'
 import { Input } from '@/app/components/Shadcn/input'
 
 import { useFetch } from '@/app/hooks/useFetch'
+import { EXCLUIR_EQUIPE } from '@/app/utils/EndpointStorage'
 import { ToastWrapper } from '@/app/utils/ToastWrapper'
 import { useRouter } from 'next/navigation'
 import { SyntheticEvent } from 'react'
@@ -14,8 +15,11 @@ import { ConfigProps } from './config'
 
 export default function DeleteTeam({ nomeEquipe, idEquipe }: ConfigProps) {
   const { handleDelete } = useFetch({
-    url: `equipe/excluir?equipeid=${idEquipe}`,
+    url: EXCLUIR_EQUIPE,
     isGet: false,
+    header: {
+      Equipe: idEquipe
+    }
   })
 
   const {

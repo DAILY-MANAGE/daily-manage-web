@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Metadata } from 'next'
 
 import Header from '../components/header'
-import { ENDPOINT } from '@/app/utils/EndpointStorage'
+import { ENDPOINT, VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage'
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 
 export async function generateMetadata({
@@ -21,10 +21,11 @@ export async function generateMetadata({
     return defaultMetadata
   }
 
-  const product = await axios.get(`${ENDPOINT}equipe?equipeid=${id}`, {
+  const product = await axios.get(`${ENDPOINT}${VER_EQUIPE_POR_ID.replace("{equipeId}", id)}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      Equipe: id
     },
     data: {},
   })
