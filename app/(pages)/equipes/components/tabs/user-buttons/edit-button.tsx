@@ -13,10 +13,11 @@ interface EditButtonProps {
 export default function EditButton({ usuario, equipeId }: EditButtonProps) {
 
   const { handlePatch } = useFetch({
-    url: EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO.replace("{usuario}", usuario),
+    url: EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO,
     isGet: false,
     header: {
-      Equipe: equipeId
+      Equipe: equipeId,
+      Usuario: usuario
     }
   })
 

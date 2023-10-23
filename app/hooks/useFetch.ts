@@ -116,7 +116,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       if (!doesNotRequireToken && token) {
         header = getDefaultHeader(token)
       }
-      console.log('ovo')
+      console.log(params, header)
       // @ts-ignore
       response = await callback(...params, header)
       console.log('teste')

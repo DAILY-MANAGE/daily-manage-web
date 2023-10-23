@@ -12,10 +12,11 @@ interface DeleteButtonProps {
 export default function DeleteButton({ usuario, equipeId }: DeleteButtonProps) {
 
   const { handleDelete } = useFetch({
-    url: REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO.replace("{usuario}", usuario),
+    url: REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO,
     isGet: false,
     header: {
-      Equipe: equipeId
+      Equipe: equipeId,
+      Usuario: usuario
     }
   })
 

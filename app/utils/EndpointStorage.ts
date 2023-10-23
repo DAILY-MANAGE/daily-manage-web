@@ -17,8 +17,8 @@ export const ADICONAR_USUARIO_A_EQUIPE = "/equipes/usuarios/{usuarioId}";
 export const REMOVER_USUARIO_DA_EQUIPE = "/equipes/usuarios/{usuarioId}";
 export const FILTRAR_USUARIOS_DA_EQUIPE = "/equipes/usuarios/procurar";
 
-export const EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO = "/equipes/usuarios/usuario/{usuario}";
-export const REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO = "/equipes/usuarios/usuario/{usuario}";
+export const EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO = "/equipes/usuarios/usuario";
+export const REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO = "/equipes/usuarios/usuario";
 
 export const EXCLUIR_EQUIPE = "/equipes/excluir";
 export const EDITAR_EQUIPE = "/equipes/editar";
