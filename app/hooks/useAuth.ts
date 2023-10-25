@@ -15,6 +15,7 @@ import { LOGIN, REGISTRO, RENOVAR_TOKEN } from '../utils/EndpointStorage'
 export const cookieKey = 'auth_token_refresh'
 export const cookieKeyOriginal = 'auth_token'
 export const sessionKey = 'session_data'
+export const rememberSessionKey = 'remember_session'
 
 interface LoginData {
   usuario: string
@@ -23,7 +24,6 @@ interface LoginData {
 
 export interface SigninData extends LoginData {
   nome?: string
-  // local
   confirmarSenha?: string
   lembrarSessao: boolean
 }
@@ -32,12 +32,6 @@ interface SessionData {
   id: number
   usuario: string
   email: string
-}
-
-const endpoints = {
-  login: '/auth/login',
-  signIn: '/auth/register',
-  refreshToken: '/auth/refresh',
 }
 
 export const useAuth = () => {
@@ -77,9 +71,9 @@ export const useAuth = () => {
     }
     setSession(loginPayload)
     localStorage.setItem(sessionKey, JSON.stringify(loginPayload))
-    const expires = !rememberSession ? { expires: 0.5 } : undefined
-    Cookies.set(cookieKeyOriginal, responseData.token, expires)
-    Cookies.set(cookieKey, responseData.refreshToken, expires)
+    localStorage.setItem(rememberSessionKey, rememberSession.toString())
+    Cookies.set(cookieKeyOriginal, responseData.token)
+    Cookies.set(cookieKey, responseData.refreshToken)
     if (redirects) {
       router.push('/equipes')
     }
@@ -137,8 +131,6 @@ export const useAuth = () => {
     requestInstance
       .post(RENOVAR_TOKEN, refreshTokenPayload)
       .then((res) => {
-        // handleAxiosError(res)
-        // handleResponseErrors(res)
         if (res.status == 200) {
           handleLogin(res.data, false, true)
         } else {
@@ -149,7 +141,6 @@ export const useAuth = () => {
         }
       })
       .catch((error) => {
-        // signOut()
         handleAxiosError(error)
       })
   }

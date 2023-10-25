@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import NavRoot from './components/Navbar/nav-root';
 import QueryClientProviderHandler from './components/QueryClientProviderHandler';
+import UnloadProvider from './providers/unload-provider';
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700', '800', '900'],
@@ -28,6 +29,8 @@ export default function RootLayout({
         <QueryClientProviderHandler>
           <NavRoot />
           {children}
+          <UnloadProvider />
+
         </QueryClientProviderHandler>
       </body>
     </html>

@@ -32,13 +32,12 @@ export const handleResponseErrors = (
     ToastWrapper.error(error)
   }
   if (errors) {
-    console.log(errors)
     errors.forEach((error: string) => {
       ToastWrapper.error(error)
     })
     if (setError) {
       setError(errors)
-    } else console.log('no errors')
+    }
   }
 }
 
@@ -116,12 +115,9 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       if (!doesNotRequireToken && token) {
         header = getDefaultHeader(token)
       }
-      console.log(params, header)
       // @ts-ignore
       response = await callback(...params, header)
-      console.log('teste')
       if (!response) return
-      console.log(response)
       handleResponseErrors(response, setError)
     } catch (error) {
       handleResponseErrors((error as any).response, setError)

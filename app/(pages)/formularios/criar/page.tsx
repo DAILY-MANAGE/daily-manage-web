@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ToastWrapper } from '../../../utils/ToastWrapper'
 import { useAuth } from '@/app/hooks/useAuth'
 import { CRIAR_FORMULARIO } from '@/app/utils/EndpointStorage'
+import { Root } from '@/app/components/Root'
 
 interface FormQuestion {
   descricao: string
@@ -118,62 +119,56 @@ export default function Criar() {
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex-col flex w-full">
-        <CreateButton />
-        <div className="flex-1 space-y-4 p-8 pt-6">
-          <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
-            <h2 className="text-3xl font-bold tracking-tight text-white">
-              Informações
-            </h2>
-          </div>
-          <div className="flex items-center space-y-2 flex-col w-full">
-            <Card className="w-full h-fit flex items-center justify-center flex-col shadow pb-1 px-1">
-              <div className="w-full block h-fit">
-                <CardContent className="w-full p-3">
-                  <Label>Nome do Formulário</Label>
-                  <Input
-                    placeholder="Entre com o nome do formulário"
-                    className="shadow border-black/20"
-                    autoComplete="nome"
-                    htmlFor="nome"
-                    error={errors.nome}
-                    aria-invalid={errors.nome ? 'true' : 'false'}
-                    onInvalid={(e: SyntheticEvent) => {
-                      e.preventDefault()
-                    }}
-                    type="text"
-                    id="bine"
-                    {...register('nome', {
-                      required: 'Nome do Formulário é obrigatório',
-                      maxLength: {
-                        value: 30,
-                        message: 'Número máximo de caractéres é 30',
-                      },
-                      minLength: {
-                        value: 5,
-                        message: 'Número mínimo de caractéres é 5',
-                      },
-                    })}
-                  ></Input>
-                  <Form.Error message={errors.nome?.message} />
-                </CardContent>
-                <CardContent className="w-full p-3 flex flex-col">
-                  <Label>Pessoas Permitidas</Label>
-                  <div className="py-1">
-                    <PermittedUsers
-                      setValue={setValue}
-                      equipeid={params.get('equipeid')}
-                    />
-                  </div>
-                </CardContent>
-              </div>
-            </Card>
-          </div>
-          <div className="flex items-center justify-between flex-col md:flex-row bg-titleHeader bg-cover bg-bottom bg-no-repeat px-4 py-3 rounded overflow-hidden">
-            <h2 className="text-3xl font-bold tracking-tight text-white">
-              Campos
-            </h2>
-          </div>
+      <CreateButton />
+
+      <Root.Spacing>
+        <Root.Header title="Informações" />
+        <Root.Container>
+          <Card className="w-full h-fit flex items-center justify-center flex-col shadow pb-1 px-1">
+            <div className="w-full block h-fit">
+              <CardContent className="w-full p-3">
+                <Label>Nome do Formulário</Label>
+                <Input
+                  placeholder="Entre com o nome do formulário"
+                  className="shadow border-black/20"
+                  autoComplete="nome"
+                  htmlFor="nome"
+                  error={errors.nome}
+                  aria-invalid={errors.nome ? 'true' : 'false'}
+                  onInvalid={(e: SyntheticEvent) => {
+                    e.preventDefault()
+                  }}
+                  type="text"
+                  id="bine"
+                  {...register('nome', {
+                    required: 'Nome do Formulário é obrigatório',
+                    maxLength: {
+                      value: 30,
+                      message: 'Número máximo de caractéres é 30',
+                    },
+                    minLength: {
+                      value: 5,
+                      message: 'Número mínimo de caractéres é 5',
+                    },
+                  })}
+                ></Input>
+                <Form.Error message={errors.nome?.message} />
+              </CardContent>
+              <CardContent className="w-full p-3 flex flex-col">
+                <Label>Pessoas Permitidas</Label>
+                <div className="py-1">
+                  <PermittedUsers
+                    setValue={setValue}
+                    equipeid={params.get('equipeid')}
+                  />
+                </div>
+              </CardContent>
+            </div>
+          </Card>
+        </Root.Container>
+
+        <Root.Header title="Perguntas" />
+        <Root.Container>
           {questions.map((data: FormType, index: number) => (
             <ResponseCard
               index={index}
@@ -183,8 +178,8 @@ export default function Criar() {
               getValues={getValues}
             />
           ))}
-        </div>
-      </div>
+        </Root.Container>
+      </Root.Spacing>
     </Form.Root>
   )
 }
