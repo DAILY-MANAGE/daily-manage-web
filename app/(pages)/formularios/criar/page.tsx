@@ -17,6 +17,7 @@ import { ToastWrapper } from '../../../utils/ToastWrapper'
 import { useAuth } from '@/app/hooks/useAuth'
 import { CRIAR_FORMULARIO } from '@/app/utils/EndpointStorage'
 import { Root } from '@/app/components/Root'
+import BackButton from '@/app/components/BackButton'
 
 interface FormQuestion {
   descricao: string
@@ -118,11 +119,13 @@ export default function Criar() {
   }
 
   return (
-    <Form.Root onSubmit={handleSubmit(onSubmit)}>
+    <Form.Root onSubmit={handleSubmit(onSubmit)} className="md:px-64 bg-gradient-to-tr from-stone-800/60 via-sky-900/60 to-green-500/60 min-h-screen">
       <CreateButton />
 
       <Root.Spacing>
-        <Root.Header title="Informações" />
+        <Root.Header title="Informações">
+          <BackButton />
+        </Root.Header>
         <Root.Container>
           <Card className="w-full h-fit flex items-center justify-center flex-col shadow pb-1 px-1">
             <div className="w-full block h-fit">
