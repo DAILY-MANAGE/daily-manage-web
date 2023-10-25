@@ -23,25 +23,23 @@ export interface FormQuestion {
   id: number
   descricao: string
   tiporesposta: string
+  opcional: boolean
 }
 
 export const defaultFormData: FormQuestion = {
   id: 0,
   descricao: 'NÃO PREENCHIDO',
   tiporesposta: 'TEXTO',
+  opcional: true,
 }
 
 const defaultQuestions = [defaultFormData]
 
 const defaultData = {
   nome: "Formulário",
-  idusuariospermitidos: [
-    1, 2
-  ],
+  idusuariospermitidos: [],
   descricao: "Esse formulário tem algumas perguntas!!",
-  perguntas: [
-
-  ]
+  perguntas: []
 }
 
 export type FormCreationData = typeof defaultData
@@ -75,7 +73,6 @@ export default function Criar() {
   const router = useRouter()
 
   useEffect(() => {
-    console.log('update perguntas')
     setValue('perguntas', questions as any)
   }, [])
 
@@ -85,19 +82,18 @@ export default function Criar() {
         ...defaultFormData,
         id: state[state.length - 1].id + 1 || 1
       }
-      console.log(aux)
       const final = [...state, aux]
       setValue('perguntas', final as any)
-      console.log(final)
       return final
     })
   }
 
   const onSubmit = async (formData: typeof defaultData) => {
     if (!session) return
-    formData.idusuariospermitidos.push(session?.id)
+    formData.idusuariospermitidos.push(session?.id as never)
     const filter = formData.perguntas.filter((formQuestion: FormQuestion) => formQuestion.descricao !== 'NÃO PREENCHIDO')
     formData.perguntas = filter
+    console.log(formData)
     const res = await handlePost(formData)
     switch ((res as any).status) {
       case 201:

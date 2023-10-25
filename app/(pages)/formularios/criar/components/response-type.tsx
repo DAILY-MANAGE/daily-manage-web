@@ -83,6 +83,7 @@ interface PresetSelectorProps extends PopoverProps {
   setValue: UseFormSetValue<FormCreationData>
   setQuestions: Dispatch<SetStateAction<FormQuestion[]>>
   index: number
+  defaultPreset?: string
 }
 
 export function ResponseType({
@@ -90,10 +91,29 @@ export function ResponseType({
   setQuestions,
   getValues,
   index,
+  defaultPreset,
   ...props
 }: PresetSelectorProps) {
+
+  const getPresetFromDefaultPreset = () => {
+    if (!defaultPreset) {
+      return presets[0]
+    }
+    const filter = presets.filter((currentPreset: Preset) => {
+      if (currentPreset.value === defaultPreset) {
+        return currentPreset
+      }
+    })
+    if (filter.length == 0) {
+      return presets[0]
+    }
+    return filter[0]
+  }
+
   const [open, setOpen] = React.useState(false)
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset>(presets[0])
+
+  const formattedPreset = getPresetFromDefaultPreset()
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset>(formattedPreset)
 
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>

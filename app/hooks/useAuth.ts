@@ -4,7 +4,7 @@ import { ToastWrapper } from '../utils/ToastWrapper'
 
 import Cookies from 'js-cookie'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useFetch } from './useFetch'
 
@@ -52,6 +52,13 @@ export const useAuth = () => {
     url: '',
     isGet: false,
   })
+
+  const pathname = usePathname()
+
+  const isInInitialRoutes = () => {
+    console.log(pathname)
+    return pathname.includes("/login") || pathname.includes("/cadastro")
+  }
 
   const leaveSessionIfActive = () => {
     if (session) {
@@ -146,6 +153,11 @@ export const useAuth = () => {
   }
 
   useEffect(() => {
+    setTimeout(() => {
+      if (!session && !isInInitialRoutes()) {
+        router.push('/login')
+      }
+    }, 500)
     const token = Cookies.get(cookieKey)
     if (!token) return
     loginWithToken(token)

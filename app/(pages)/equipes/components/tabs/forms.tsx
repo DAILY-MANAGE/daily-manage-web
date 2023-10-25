@@ -12,6 +12,8 @@ import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
 import { Subtitle } from '../subtitle'
 import { VER_FORMULARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
+import Cookies from 'js-cookie'
+import { cookieKeyOriginal } from '@/app/hooks/useAuth'
 
 export default function Forms() {
   const params = useParams()
@@ -32,7 +34,9 @@ export default function Forms() {
         (data as any).data.content.map((teamData: FormData) => {
           return (
             <Link
-              href={`/formularios/${teamData.id}`}
+              href={`/formularios/${teamData.id}?t=${Cookies.get(
+                cookieKeyOriginal,
+              )}&equipeId=${params.id}`}
               key={teamData.id}
               className="w-full"
             >
@@ -43,7 +47,7 @@ export default function Forms() {
                 <CardHeader className="space-y-0 flex flex-row p-6 py-4">
                   <div className="w-1/2 flex justify-start align-center flex-col gap-1">
                     <CardTitle>
-                      {`Formulário ${capitalizeFirstLetter(teamData.nome)}` ||
+                      {`${capitalizeFirstLetter(teamData.nome)}` ||
                         'Carregando...'}
                     </CardTitle>
                     <CardDescription className="leading-none">

@@ -14,12 +14,7 @@ import { ResponseType } from "./response-type";
 interface ResponseCardProps {
   questions: FormQuestion[]
   setValue: UseFormSetValue<FormCreationData>
-  getValues: UseFormGetValues<{
-    nome: string;
-    idusuariospermitidos: number[];
-    descricao: string;
-    perguntas: never[];
-  }>
+  getValues: any
   setQuestions: Dispatch<SetStateAction<FormQuestion[]>>
   index: number
   callback: () => any
@@ -48,7 +43,11 @@ export default function ReponseCard({ index, questions, callback, setValue, setQ
   }
 
   const changeObligatory = (checked: boolean) => {
-    console.log(checked)
+    setQuestions((state: FormQuestion[]) => {
+      state[index].opcional = !checked
+      setValue('perguntas', state as any)
+      return state
+    })
   }
 
   return <>
@@ -60,6 +59,7 @@ export default function ReponseCard({ index, questions, callback, setValue, setQ
             <Input
               placeholder="Qual a temperatura do gerador?"
               className="border-black/20"
+              value={(questions[index] && questions[index].descricao !== 'NÃO PREENCHIDO') ? questions[index].descricao : ''}
               onChange={(e: any) => {
                 let perguntas = getValues('perguntas') as FormQuestion[]
                 perguntas[index].descricao = e.target.value
@@ -72,7 +72,7 @@ export default function ReponseCard({ index, questions, callback, setValue, setQ
           <CardContent className="w-full gap-6 p-3 pb-4 flex">
             <div className="w-full">
               <Label>Tipo da Resposta</Label>
-              <ResponseType index={index} getValues={getValues} setValue={setValue} setQuestions={setQuestions}/>
+              <ResponseType defaultPreset={questions[index] && questions[index].tiporesposta} index={index} getValues={getValues} setValue={setValue} setQuestions={setQuestions}/>
             </div>
           </CardContent>
           <hr />
@@ -80,7 +80,7 @@ export default function ReponseCard({ index, questions, callback, setValue, setQ
             <div className="w-1/2 h-full">
               <div className="flex gap-2 items-center">
                 <Label>Obrigatório</Label>
-                <Switch onCheckedChange={changeObligatory}/>
+                <Switch defaultChecked={questions[index] && questions[index].opcional} onCheckedChange={changeObligatory}/>
               </div>
             </div>
             <div className="w-1/2 h-full flex justify-end gap-2">
