@@ -20,7 +20,8 @@ import {
   PopoverTrigger,
 } from '@/app/components/Shadcn/popover'
 import { UseFormSetValue } from 'react-hook-form'
-import { FormCreationData } from '../page'
+import { FormCreationData, FormQuestion } from '../page'
+import { Dispatch, SetStateAction } from 'react'
 
 export interface Preset {
   id: number
@@ -32,17 +33,17 @@ const presets: Preset[] = [
   {
     id: 1,
     name: 'Texto',
-    value: 'STRING',
+    value: 'TEXTO',
   },
   {
     id: 2,
     name: 'Sim ou Não',
-    value: 'BOOLEAN',
+    value: 'BOOLEANO',
   },
   {
     id: 3,
     name: 'Número Inteiro',
-    value: 'INTEGER',
+    value: 'INTEIRO',
   },
   {
     id: 4,
@@ -51,8 +52,8 @@ const presets: Preset[] = [
   },
   {
     id: 5,
-    name: 'Litro',
-    value: 'LITER',
+    name: 'Múltipla Escolha',
+    value: 'MULTIPLA_ESCOLHA',
   },
   {
     id: 6,
@@ -61,13 +62,18 @@ const presets: Preset[] = [
   },
   {
     id: 7,
-    name: 'Kilograma',
-    value: 'KILOGRAM',
+    name: 'Quilograma',
+    value: 'QUILOGRAMA',
   },
   {
     id: 8,
     name: 'Porcentagem',
-    value: 'PERCENT',
+    value: 'PORCENTAGEM',
+  },
+  {
+    id: 9,
+    name: 'Litro',
+    value: 'LITRO',
   },
 ]
 
@@ -75,11 +81,15 @@ interface PresetSelectorProps extends PopoverProps {
   presets?: Preset[]
   getValues: any
   setValue: UseFormSetValue<FormCreationData>
+  setQuestions: Dispatch<SetStateAction<FormQuestion[]>>
+  index: number
 }
 
 export function ResponseType({
   setValue,
+  setQuestions,
   getValues,
+  index,
   ...props
 }: PresetSelectorProps) {
   const [open, setOpen] = React.useState(false)
@@ -111,8 +121,11 @@ export function ResponseType({
                 key={preset.id}
                 onSelect={() => {
                   setSelectedPreset(preset)
-                  const campos = getValues('campos')
-                  setValue('campos', campos)
+                  const perguntas = getValues('perguntas')
+                  console.log(perguntas, index)
+                  perguntas[index].tiporesposta = preset.value
+                  setValue('perguntas', perguntas)
+                  setQuestions(perguntas as FormQuestion[])
                 }}
               >
                 {preset.name}

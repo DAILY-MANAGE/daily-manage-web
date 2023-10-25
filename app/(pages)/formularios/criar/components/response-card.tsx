@@ -5,28 +5,46 @@ import { Card, CardContent, CardFooter } from "@/app/components/Shadcn/card";
 import { Input } from "@/app/components/Shadcn/input";
 import { Label } from "@/app/components/Shadcn/label";
 import { Switch } from "@/app/components/Shadcn/switch";
-import { UseFormSetValue } from "react-hook-form";
+import { Dispatch, SetStateAction } from "react";
+import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import { RxCardStackPlus, RxPlus, RxTrash } from 'react-icons/rx';
-import { FormCreationData, FormType } from '../page';
+import { FormCreationData, FormQuestion } from '../page';
 import { ResponseType } from "./response-type";
 
 interface ResponseCardProps {
-  questions: FormType[]
+  questions: FormQuestion[]
   setValue: UseFormSetValue<FormCreationData>
-  getValues: any
+  getValues: UseFormGetValues<{
+    nome: string;
+    idusuariospermitidos: number[];
+    descricao: string;
+    perguntas: never[];
+  }>
+  setQuestions: Dispatch<SetStateAction<FormQuestion[]>>
   index: number
   callback: () => any
 }
 
-export default function ReponseCard({ index, questions, callback, setValue, getValues }: ResponseCardProps) {
+export default function ReponseCard({ index, questions, callback, setValue, setQuestions, getValues }: ResponseCardProps) {
 
   const duplicateCard = () => {
-
+    setQuestions((state: FormQuestion[]) => {
+      const clone = {
+        ...state[index],
+        id: state[state.length - 1].id + 1 || 1
+      }
+      const aux = [...state, clone]
+      setValue('perguntas', aux as any)
+      return aux
+    })
   }
 
   const deleteCard = () => {
-    let campos = getValues('campos')
-    console.log(campos)
+    setQuestions((state: FormQuestion[]) => {
+      const aux = state.filter((formQuestion: FormQuestion) => formQuestion.id !== state[index].id)
+      setValue('perguntas', aux as any)
+      return aux
+    })
   }
 
   const changeObligatory = (checked: boolean) => {
@@ -43,10 +61,10 @@ export default function ReponseCard({ index, questions, callback, setValue, getV
               placeholder="Qual a temperatura do gerador?"
               className="border-black/20"
               onChange={(e: any) => {
-                let campos = getValues('campos')
-                console.log(campos)
-                campos[0].perguntas[index].descricao = e.target.value
-                setValue("campos", campos)
+                let perguntas = getValues('perguntas') as FormQuestion[]
+                perguntas[index].descricao = e.target.value
+                setValue("perguntas", perguntas as any)
+                setQuestions(perguntas)
               }}
             ></Input>
           </CardContent>
@@ -54,7 +72,7 @@ export default function ReponseCard({ index, questions, callback, setValue, getV
           <CardContent className="w-full gap-6 p-3 pb-4 flex">
             <div className="w-full">
               <Label>Tipo da Resposta</Label>
-              <ResponseType getValues={getValues} setValue={setValue}/>
+              <ResponseType index={index} getValues={getValues} setValue={setValue} setQuestions={setQuestions}/>
             </div>
           </CardContent>
           <hr />
@@ -66,9 +84,11 @@ export default function ReponseCard({ index, questions, callback, setValue, getV
               </div>
             </div>
             <div className="w-1/2 h-full flex justify-end gap-2">
-              <Button type="button" className="transition-all w-10 h-10 px-2 bg-red-700 outline outline-2 outline-red/50 outline-offset-2 shadow-sm hover:outline-dotted" onClick={deleteCard}>
-                <RxTrash className="w-10 h-10" />
-              </Button>
+              { index !== 0 && (
+                <Button type="button" className="transition-all w-10 h-10 px-2 bg-red-700 outline outline-2 outline-red/50 outline-offset-2 shadow-sm hover:outline-dotted" onClick={deleteCard}>
+                  <RxTrash className="w-10 h-10" />
+                </Button>
+              )}
               <Button type="button" className="transition-all w-10 h-10 px-2 bg-lime-700 outline outline-2 outline-lime/50 outline-offset-2 shadow-sm hover:outline-dotted" onClick={duplicateCard}>
                 <RxCardStackPlus className="w-10 h-10" />
               </Button>

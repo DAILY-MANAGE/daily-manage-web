@@ -19,53 +19,35 @@ import { CRIAR_FORMULARIO } from '@/app/utils/EndpointStorage'
 import { Root } from '@/app/components/Root'
 import BackButton from '@/app/components/BackButton'
 
-interface FormQuestion {
+export interface FormQuestion {
+  id: number
   descricao: string
-  unidade: string
+  tiporesposta: string
 }
 
-export interface FormType {
-  nome: string
-  perguntas: FormQuestion[]
-}
-
-export const defaultFormData: FormType = {
-  nome: 'Pergunta',
-  perguntas: [
-    {
-      descricao: 'Pergunta',
-      unidade: 'BOOLEAN',
-    },
-  ],
+export const defaultFormData: FormQuestion = {
+  id: 0,
+  descricao: 'NÃO PREENCHIDO',
+  tiporesposta: 'TEXTO',
 }
 
 const defaultQuestions = [defaultFormData]
 
 const defaultData = {
-  nome: '',
-  idusuariospermitidos: [1],
-  campos: [
-    {
-      nome: 'Não Informado',
-      perguntas: [
-        {
-          descricao: 'Pergunta',
-          unidade: 'BOOLEAN',
-        },
-      ],
-    },
+  nome: "Formulário",
+  idusuariospermitidos: [
+    1, 2
   ],
-  informacoes: [
-    {
-      descricao: 'Informação',
-    },
-  ],
+  descricao: "Esse formulário tem algumas perguntas!!",
+  perguntas: [
+
+  ]
 }
 
 export type FormCreationData = typeof defaultData
 
 export default function Criar() {
-  const [questions, setQuestions] = useState<any[]>(defaultQuestions)
+  const [questions, setQuestions] = useState<FormQuestion[]>(defaultQuestions)
 
   const params = useSearchParams()
 
@@ -92,13 +74,21 @@ export default function Criar() {
 
   const router = useRouter()
 
+  useEffect(() => {
+    console.log('update perguntas')
+    setValue('perguntas', questions as any)
+  }, [])
+
   const callback = () => {
-    setQuestions((state: FormType[]) => {
-      const auxFormData = {
+    setQuestions((state: FormQuestion[]) => {
+      const aux = {
         ...defaultFormData,
+        id: state[state.length - 1].id + 1 || 1
       }
-      const final = [...state, auxFormData]
-      setValue('campos', [...getValues('campos'), auxFormData]) // )
+      console.log(aux)
+      const final = [...state, aux]
+      setValue('perguntas', final as any)
+      console.log(final)
       return final
     })
   }
@@ -106,6 +96,8 @@ export default function Criar() {
   const onSubmit = async (formData: typeof defaultData) => {
     if (!session) return
     formData.idusuariospermitidos.push(session?.id)
+    const filter = formData.perguntas.filter((formQuestion: FormQuestion) => formQuestion.descricao !== 'NÃO PREENCHIDO')
+    formData.perguntas = filter
     const res = await handlePost(formData)
     switch ((res as any).status) {
       case 201:
@@ -172,13 +164,15 @@ export default function Criar() {
 
         <Root.Header title="Perguntas" />
         <Root.Container>
-          {questions.map((data: FormType, index: number) => (
+          {questions.map((_, index: number) => (
             <ResponseCard
+              key={index}
               index={index}
               questions={questions}
               callback={callback}
               setValue={setValue}
               getValues={getValues}
+              setQuestions={setQuestions}
             />
           ))}
         </Root.Container>
