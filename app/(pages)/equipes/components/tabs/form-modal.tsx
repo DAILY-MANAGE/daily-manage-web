@@ -47,7 +47,7 @@ export default function FormModal({ id, teamData }: FormModalProps) {
             Ao ver as respostas, você terá acesso aos dados salvos e insights. Caso deseje preencher, será redirecionado para a página de preenchimento de formulário.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex gap-2">
         <Link
             href={`/formularios/respostas/${teamData.id}?t=${Cookies.get(
               cookieKeyOriginal,
