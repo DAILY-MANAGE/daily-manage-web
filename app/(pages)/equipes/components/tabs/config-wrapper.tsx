@@ -1,4 +1,5 @@
 import { usePermission } from "@/app/hooks/usePermission"
+import { useEffect } from "react"
 import Config from "../config/config"
 
 interface TabContentWrapperProps {
@@ -12,7 +13,11 @@ export default function ConfigWrapper({ equipeId, nomeEquipe }: TabContentWrappe
     return <></>
   }
 
-  const { permissions } = usePermission(undefined, equipeId)
+  const { permissions, refetch } = usePermission(undefined, equipeId)
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   return <>
     {

@@ -1,7 +1,7 @@
 import { TabsContent } from "@/app/components/Shadcn/tabs"
-import { useFetch } from "@/app/hooks/useFetch"
 import { usePermission } from "@/app/hooks/usePermission"
-import { VER_TODAS_PERMISSOES } from "@/app/utils/EndpointStorage"
+import { useEffect } from "react"
+
 import Forms from "./forms"
 import Users from "./users"
 
@@ -11,7 +11,11 @@ interface TabContentWrapperProps {
 }
 
 export default function TabContentWrapper({ equipeId, usuarios }: TabContentWrapperProps) {
-  const { permissions } = usePermission(undefined, equipeId)
+  const { permissions, refetch } = usePermission(undefined, equipeId)
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   return <>
     <TabsContent value="forms" className="space-y-4">

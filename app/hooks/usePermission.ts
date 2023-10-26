@@ -17,18 +17,15 @@ export const usePermission = (permission: string | undefined = undefined, equipe
     if (data && data.data && data.data.includes(permission)) {
       setContains(true)
     }
-    // isso pode dar merda
-    refetch()
     return () => {
       setContains(false)
       refetch()
     }
   }, [])
 
-  console.log(data && data.data)
-
   return {
     contains,
-    permissions: data && data.data
+    permissions: data && data.data,
+    refetch
   }
 }

@@ -11,18 +11,15 @@ import {
   CardTitle,
 } from '@/app/components/Shadcn/card'
 import { useAuth } from '@/app/hooks/useAuth'
-import { useFetch } from '@/app/hooks/useFetch'
 import { User } from '@/app/interfaces/TeamData'
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 import { getInitialLetter } from '@/app/utils/GetInitialLetter'
-import { ToastWrapper } from '@/app/utils/ToastWrapper'
 import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1, RxRocket } from 'react-icons/rx'
 import { Subtitle } from '../subtitle'
 import DeleteButton from './user-buttons/delete-button'
 import EditButton from './user-buttons/edit-button'
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Shadcn/tooltip'
-import { VER_TODAS_PERMISSOES } from '@/app/utils/EndpointStorage'
 
 interface UsersProps {
   userData: User[]

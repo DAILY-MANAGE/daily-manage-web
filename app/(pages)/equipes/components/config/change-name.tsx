@@ -38,7 +38,7 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
   const [isEditing, setIsEditing] = useState(false)
 
   const handleRefresh = () => {
-    router.refresh()
+    router.push('/equipes')
   }
 
   const handleEdit = () => {
