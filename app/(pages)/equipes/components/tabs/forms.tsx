@@ -14,6 +14,7 @@ import { Subtitle } from '../subtitle'
 import { VER_FORMULARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
 import Cookies from 'js-cookie'
 import { cookieKeyOriginal } from '@/app/hooks/useAuth'
+import FormModal from './form-modal'
 
 export default function Forms() {
   const params = useParams()
@@ -33,33 +34,7 @@ export default function Forms() {
         (data as any).data.content &&
         (data as any).data.content.map((teamData: FormData) => {
           return (
-            <Link
-              href={`/formularios/${teamData.id}?t=${Cookies.get(
-                cookieKeyOriginal,
-              )}&equipeId=${params.id}`}
-              key={teamData.id}
-              className="w-full"
-            >
-              <Card
-                key={teamData.id}
-                className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
-              >
-                <CardHeader className="space-y-0 flex flex-row p-6 py-4">
-                  <div className="w-1/2 flex justify-start align-center flex-col gap-1">
-                    <CardTitle>
-                      {`${capitalizeFirstLetter(teamData.nome)}` ||
-                        'Carregando...'}
-                    </CardTitle>
-                    <CardDescription className="leading-none">
-                      {`Identificação: ${teamData.id}` || 'Carregando...'}
-                    </CardDescription>
-                  </div>
-                  <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
-                    <RxChevronRight className="w-6 h-full my-auto group-hover:animate-fade-right" />
-                  </div>
-                </CardHeader>
-              </Card>
-            </Link>
+            <FormModal id={params.id} teamData={teamData}/>
           )
         })}
       {!loading && Array.isArray(data) && data.length > 0 && (

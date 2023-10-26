@@ -22,7 +22,7 @@ export default function TabContentWrapper({ equipeId, usuarios }: TabContentWrap
       <Forms />
     </TabsContent>
     <TabsContent value="users" className="space-y-4">
-      <Users equipeId={equipeId} userPermissions={permissions} userData={usuarios} />
+      <Users refetch={refetch} equipeId={equipeId} userPermissions={permissions} userData={usuarios} />
     </TabsContent>
   </>
 

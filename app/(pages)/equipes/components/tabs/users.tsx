@@ -18,17 +18,22 @@ import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1, RxRocket } from 'react-ic
 import { Subtitle } from '../subtitle'
 import DeleteButton from './user-buttons/delete-button'
 import EditButton from './user-buttons/edit-button'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Shadcn/tooltip'
 
 interface UsersProps {
   userData: User[]
   equipeId: number,
   userPermissions: string[] | undefined
+  refetch: any
 }
 
-export default function Users({ equipeId, userData, userPermissions }: UsersProps) {
+export default function Users({ equipeId, userData, userPermissions, refetch }: UsersProps) {
   const { session } = useAuth()
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   return (
     <div className="flex flex-col gap-2">
@@ -95,7 +100,7 @@ export default function Users({ equipeId, userData, userPermissions }: UsersProp
                         userPermissions && typeof userPermissions === 'object' && (
                           <Fragment>
                               {
-                                (userPermissions.includes("EDITAR_USUARIOS") && !teamData.permissoes.includes("ADMINISTRADOR")) && (
+                                (userPermissions.includes("EDITAR_USUARIOS") || userPermissions.includes("ADMINISTRADOR")) && (
                                   <>
                                     <DeleteButton equipeId={equipeId} usuario={teamData.usuario} />
                                     <EditButton equipeId={equipeId} usuario={teamData.usuario} />

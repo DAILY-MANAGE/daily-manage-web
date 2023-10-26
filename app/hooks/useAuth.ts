@@ -94,12 +94,12 @@ export const useAuth = () => {
       true,
     )
     if (!res) {
-      ToastWrapper.error('Não foi possível realizar login.')
+      ToastWrapper.error('Não foi possível realizar o cadastro.')
       return
     }
     switch (res.status) {
       case 201:
-        ToastWrapper.success('Login realizado com sucesso!')
+        ToastWrapper.success('Cadastro realizado com sucesso!')
         handleLogin(res.data, true, true)
       default:
         break
@@ -153,11 +153,7 @@ export const useAuth = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      if (!session && !isInInitialRoutes()) {
-        router.push('/login')
-      }
-    }, 500)
+
     const token = Cookies.get(cookieKey)
     if (!token) return
     loginWithToken(token)

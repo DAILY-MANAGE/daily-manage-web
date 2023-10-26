@@ -52,11 +52,14 @@ export async function generateMetadata({
 export default function IdFuncionario({ params }: Props) {
 
   return (
-    <Root.Spacing>
-      <FormHeader formId={params.id}/>
-      <Root.Container>
-        <FormWrapper params={params}/>
-      </Root.Container>
-    </Root.Spacing>
+    <div className="md:px-64 min-h-screen bg-gradient-to-b from-blue-100 via-white to-slate-700">
+      <Root.Spacing>
+        <FormHeader formId={params.id}/>
+        <Root.Container>
+          <FormWrapper params={params}/>
+        </Root.Container>
+      </Root.Spacing>
+    </div>
+
   )
 }
