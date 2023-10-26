@@ -80,7 +80,7 @@ export default function Forms() {
           data.data.content.length === 0) && (
           <Subtitle>
             <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
-            formulário foi encontrada.
+            formulário foi encontrado.
           </Subtitle>
         )}
     </div>

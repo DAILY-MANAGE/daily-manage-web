@@ -37,7 +37,7 @@ export const EXCLUIR_RESPOSTA = "/equipes/formularios/respostas/{formularioRespo
 export const FILTRAR_USUARIOS = "/usuarios/procurar";
 export const VER_REGISTROS_DE_UM_USUARIO = "/equipes/{usuarioId}/registros";
 
-export const VER_NOTIFICACOES = "/notificacoes/todos";
+export const VER_NOTIFICACOES = "/notificacoes/todas";
 
 type param = {
   key: string,

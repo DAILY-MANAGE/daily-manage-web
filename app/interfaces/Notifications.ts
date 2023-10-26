@@ -1,6 +1,9 @@
 export interface Notifications {
-  idNotificacao: number
-  fonte: string
-  data: number
+  id: number
   mensagem: string
+  equipeid: number
+  conviteid: number
+  tipo: string
+  uri: string
+  data?: number
 }

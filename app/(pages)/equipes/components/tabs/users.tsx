@@ -16,49 +16,46 @@ import { User } from '@/app/interfaces/TeamData'
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 import { getInitialLetter } from '@/app/utils/GetInitialLetter'
 import { ToastWrapper } from '@/app/utils/ToastWrapper'
-import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1 } from 'react-icons/rx'
+import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1, RxRocket } from 'react-icons/rx'
 import { Subtitle } from '../subtitle'
 import DeleteButton from './user-buttons/delete-button'
 import EditButton from './user-buttons/edit-button'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Shadcn/tooltip'
+import { VER_TODAS_PERMISSOES } from '@/app/utils/EndpointStorage'
 
 interface UsersProps {
-  data: User[]
+  userData: User[]
   equipeId: number
 }
 
-export default function Users({ equipeId, data }: UsersProps) {
+export default function Users({ equipeId, userData }: UsersProps) {
   const { session } = useAuth()
 
-  useEffect(() => {
-    const containsTestUser = () =>
-      data.filter((data: User) => data.usuario === 'Usuário de Teste')
-    if (containsTestUser().length > 0) {
-      return
+  const { data } = useFetch({
+    url: VER_TODAS_PERMISSOES,
+    isGet: true,
+    header: {
+      Equipe: equipeId
     }
-    data.push({
-      usuario: 'Usuário de Teste',
-      nome: 'Usuário Teste',
-      permissoes: [],
-    })
   })
 
   return (
     <div className="flex flex-col gap-2">
-      {(!data || data.length === 0) && (
+      {(!userData || userData.length === 0) && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
           usuário foi encontrado.
         </Subtitle>
       )}
-      {data && (
+      {userData && (
         <Subtitle>
-          <RxAvatar className="w-4 h-4 my-auto leading-none" /> {data.length}{' '}
-          usuário{data.length > 1 && 's'} encontrado{data.length > 1 && 's'}.
+          <RxAvatar className="w-4 h-4 my-auto leading-none" /> {userData.length}{' '}
+          usuário{userData.length > 1 && 's'} encontrado{userData.length > 1 && 's'}.
         </Subtitle>
       )}
-      {data &&
-        data.map((teamData: User) => {
+      {userData &&
+        userData.map((teamData: User) => {
           return (
             <Card
               key={teamData.usuario}
@@ -75,8 +72,26 @@ export default function Users({ equipeId, data }: UsersProps) {
                 </div>
                 <div className="w-1/2 flex justify-start align-center flex-col gap-1">
                   <CardTitle className="flex gap-2">
-                    {`${capitalizeFirstLetter(teamData.usuario)}` ||
-                      'Carregando...'}
+                    {
+                      teamData.permissoes.includes("ADMINISTRADOR") ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button className='flex gap-2'>{`${capitalizeFirstLetter(teamData.usuario)}` ||
+                      'Carregando...'} <RxRocket className='w-4 h-4 my-auto'/></button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Este usuário é um administrador.</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : (
+                        <>
+                        {`${capitalizeFirstLetter(teamData.usuario)}` ||
+                    'Carregando...'}
+                      </>
+                      )
+                    }
                   </CardTitle>
                   <CardDescription className="flex gap-2">
                     {`(${capitalizeFirstLetter(teamData.nome)})` ||
@@ -86,8 +101,20 @@ export default function Users({ equipeId, data }: UsersProps) {
                 <div className="w-1/2 flex align-center items-center justify-end m-0 p-0 gap-2">
                   {teamData.usuario !== session?.usuario && (
                     <>
-                      <DeleteButton equipeId={equipeId} usuario={teamData.usuario} />
-                      <EditButton equipeId={equipeId} usuario={teamData.usuario} />
+                      {
+                        data && data.data && (
+                          <Fragment>
+                              {
+                                (data.data.includes("EDITAR_USUARIOS") && !teamData.permissoes.includes("ADMINISTRADOR")) && (
+                                  <>
+                                    <DeleteButton equipeId={equipeId} usuario={teamData.usuario} />
+                                    <EditButton equipeId={equipeId} usuario={teamData.usuario} />
+                                  </>
+                                )
+                              }
+                          </Fragment>
+                        )
+                      }
                     </>
                   )}
                 </div>

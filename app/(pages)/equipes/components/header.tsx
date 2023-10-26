@@ -18,11 +18,13 @@ import { useFetch } from '@/app/hooks/useFetch'
 import Forms from './tabs/forms'
 import Users from './tabs/users'
 
-import { RxAvatar, RxClipboard } from 'react-icons/rx'
+import { RxAvatar, RxClipboard, RxPerson } from 'react-icons/rx'
 
 import Config from './config/config'
 import Link from 'next/link'
 import { VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage'
+import { useState } from 'react'
+import { AddMemberModal } from './modal/add-member-modal'
 
 export default function Equipes() {
   const params = useParams()
@@ -34,6 +36,12 @@ export default function Equipes() {
     }
   })
 
+  const [tab, setTab] = useState("forms")
+
+  const tabsChanged = (newTab: string) => {
+    setTab(newTab)
+  }
+
   return (
     <>
       <Root.Spacing>
@@ -44,34 +52,52 @@ export default function Equipes() {
           }
         >
           <BackButton />
-          <Link href={`/formularios/criar?equipeid=${params.id}`}>
-            <Button
-              className="flex gap-2 bg-white text-black border flex items-center justify-center gap-2 border-black/20 mt-2 md:mt-0 font-semibold"
-              variant={'outline'}
-            >
-              Criar Formulário <RxClipboard className="w-4 h-4" />
-            </Button>
-          </Link>
           <Config
             nomeEquipe={data && data.data && data.data.nome}
             idEquipe={data && data.data && data.data.id}
           />
         </Root.Header>
-        <Tabs defaultValue="forms" className="space-y-4">
-          <TabsList className="gap-2 h-fit grid grid-cols-1 md:flex md:justify-start">
-            <TabsTrigger value="forms" className="flex gap-2 flex-row">
-              <RxClipboard className="w-4 h-4" /> Formulários
-            </TabsTrigger>
-            <TabsTrigger value="users" className="flex gap-2 flex-row">
-              <RxAvatar className="w-4 h-4" />
-              Usuários
-            </TabsTrigger>
+        <Tabs defaultValue={tab} className="space-y-4" onValueChange={tabsChanged}>
+          <TabsList className="flex gap-2 h-fit flex-col md:flex-row">
+            <div className='w-full md:w-1/2 h-fit gap-2 h-fit grid grid-cols-1 md:flex md:justify-start'>
+              <TabsTrigger value="forms" className="flex gap-2 flex-row">
+                <RxClipboard className="w-4 h-4" /> Formulários
+              </TabsTrigger>
+              <TabsTrigger value="users" className="flex gap-2 flex-row">
+                <RxAvatar className="w-4 h-4" />
+                Usuários
+              </TabsTrigger>
+            </div>
+            <div className='w-full h-px mt-2 bg-black/20 md:hidden'/>
+            <div className='w-full md:w-1/2 h-full gap-2 h-fit grid grid-cols-1 md:flex md:justify-end'>
+              {
+                tab === "forms" ? (
+                  <Link href={`/formularios/criar?equipeid=${params.id}`}>
+                    <Button
+                      className="flex gap-2 bg-white text-black border flex items-center justify-center gap-2 border-black/20 mt-2 md:mt-0 font-semibold w-full md:w-fit"
+                      variant={'outline'}
+                    >
+                      Criar Formulário <RxClipboard className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                ) : (
+                  <AddMemberModal>
+                    <Button
+                      className="flex gap-2 bg-white text-black border flex items-center justify-center gap-2 border-black/20 mt-2 md:mt-0 font-semibold"
+                      variant={'outline'}
+                    >
+                      Adicionar Usuário <RxPerson className="w-4 h-4" />
+                    </Button>
+                  </AddMemberModal>
+                )
+              }
+            </div>
           </TabsList>
           <TabsContent value="forms" className="space-y-4">
             <Forms />
           </TabsContent>
           <TabsContent value="users" className="space-y-4">
-            <Users equipeId={data && data.data && data.data.id} data={data && data.data && data.data.usuarios} />
+            <Users equipeId={data && data.data && data.data.id} userData={data && data.data && data.data.usuarios} />
           </TabsContent>
         </Tabs>
       </Root.Spacing>

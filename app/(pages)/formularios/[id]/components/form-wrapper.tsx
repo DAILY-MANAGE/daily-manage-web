@@ -8,6 +8,7 @@ import SendButton from './send-button';
 import { FormQuestion } from '../../criar/page';
 import { Input } from '@/app/components/Shadcn/input';
 import { Label } from '@/app/components/Shadcn/label';
+import { Card, CardContent, CardHeader } from '@/app/components/Shadcn/card';
 
 type Props = {
   params: { id: number }
@@ -43,16 +44,20 @@ export default function FormWrapper({ params }: Props) {
   }
 
   return <>
-    <Form.Root>
+    <Form.Root className='flex flex-col gap-2 w-full'>
       <SendButton />
       {
         data && data.data && (
           <>
-            {data.data.respostas.map((formData: FormQuestion) => {
-              return <div>
-                <Label>{formData.descricao}</Label>
-                <Input placeholder="Sua resposta..."/>
-              </div>
+            {data.data.perguntas.map((formData: FormQuestion) => {
+              return <Card>
+                <CardHeader>
+                  <Label>{formData.descricao}</Label>
+                </CardHeader>
+                <CardContent>
+                  <Input placeholder="Sua resposta..."/>
+                </CardContent>
+              </Card>
             })}
           </>
         )

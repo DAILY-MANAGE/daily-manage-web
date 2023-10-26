@@ -31,11 +31,14 @@ export default function NavNotification() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const notificationsDefault: Notifications[] = [
     {
-      idNotificacao: 1,
-      fonte: 'Sistema',
-      data: 1251251251,
-      mensagem: 'Seu formulário foi revisado.',
-    },
+      id: 1,
+      mensagem: 'Mensagem Template',
+      equipeid: 1,
+      conviteid: 1,
+      tipo: 'TEXTO',
+      uri: '/equipes/convites/2',
+      data: 1251251251
+    }
   ]
 
   const { data, error, loading } = useFetch(
@@ -102,15 +105,12 @@ export default function NavNotification() {
           {notificationChunk.map(
             (notificationData: Notifications, index: number) => {
               return (
-                <Fragment key={notificationData.idNotificacao}>
+                <Fragment key={notificationData.id}>
                   <div>
                     <DropdownMenuItem className="flex items-center justify-start gap-2">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-semibold leading-none">
-                          {notificationData.fonte}
-                        </p>
                         <p className="text-zinc-500 text-xs">
-                          {formatNotificationTimestamp(notificationData.data)}
+                          {notificationData.data && formatNotificationTimestamp(notificationData.data)}
                         </p>
                         <p className="text-sm">{notificationData.mensagem}</p>
                       </div>

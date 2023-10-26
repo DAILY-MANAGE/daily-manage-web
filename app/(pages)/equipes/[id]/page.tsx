@@ -12,7 +12,7 @@ export async function generateMetadata({
 }: any): Promise<Metadata> {
   const id = params.id
   const defaultMetadata = {
-    title: `Equipe ${id} | Daily Manage`,
+    title: `${id} | Daily Manage`,
   }
 
   const token = searchParams.t
@@ -35,7 +35,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Equipe ${capitalizeFirstLetter(product.data.nome)} | Daily Manage`,
+    title: `${capitalizeFirstLetter(product.data.nome)} | Daily Manage`,
   }
 }
 

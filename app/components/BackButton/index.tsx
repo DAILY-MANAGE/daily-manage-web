@@ -8,6 +8,7 @@ export default function BackButton() {
   return <Button
     className="border flex items-center justify-center gap-2 border-black/20 mt-2 md:mt-0 font-semibold"
     variant={'outline'}
+    type="button"
     onClick={() => router.back()}
   >
     <RxArrowLeft className="w-4 h-4" /> Voltar
