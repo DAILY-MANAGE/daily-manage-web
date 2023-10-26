@@ -19,7 +19,7 @@ import DeleteTeam from "./delete-team";
 
 export interface ConfigProps {
   nomeEquipe: string
-  idEquipe: number
+  idEquipe: number | undefined
 }
 
 function Loading() {

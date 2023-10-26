@@ -3,6 +3,7 @@ import { Button } from '@/app/components/Shadcn/button'
 import { Input } from '@/app/components/Shadcn/input'
 import { useFetch } from '@/app/hooks/useFetch'
 import { EDITAR_EQUIPE } from '@/app/utils/EndpointStorage'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
 import { useRouter } from 'next/navigation'
 import { SyntheticEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -46,15 +47,19 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
   }
 
   const onSubmit = async (nameData: typeof nameValues) => {
-    console.log('submit')
-    const res = await handlePatch({
+    if (!idEquipe) return
+    const res: any = await handlePatch({
       id: idEquipe,
       patchData: nameData,
     })
-    console.log(res)
+    if (!res) {
+      ToastWrapper.error("Não foi possível alterar o nome da equipe.")
+      return
+    }
     switch ((res as any).status) {
       case 200:
         handleRefresh()
+        ToastWrapper.success("Nome alterado com sucesso!")
         break
       default:
         break

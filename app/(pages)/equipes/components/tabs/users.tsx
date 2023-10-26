@@ -26,19 +26,12 @@ import { VER_TODAS_PERMISSOES } from '@/app/utils/EndpointStorage'
 
 interface UsersProps {
   userData: User[]
-  equipeId: number
+  equipeId: number,
+  userPermissions: string[] | undefined
 }
 
-export default function Users({ equipeId, userData }: UsersProps) {
+export default function Users({ equipeId, userData, userPermissions }: UsersProps) {
   const { session } = useAuth()
-
-  const { data } = useFetch({
-    url: VER_TODAS_PERMISSOES,
-    isGet: true,
-    header: {
-      Equipe: equipeId
-    }
-  })
 
   return (
     <div className="flex flex-col gap-2">
@@ -102,10 +95,10 @@ export default function Users({ equipeId, userData }: UsersProps) {
                   {teamData.usuario !== session?.usuario && (
                     <>
                       {
-                        data && data.data && (
+                        userPermissions && typeof userPermissions === 'object' && (
                           <Fragment>
                               {
-                                (data.data.includes("EDITAR_USUARIOS") && !teamData.permissoes.includes("ADMINISTRADOR")) && (
+                                (userPermissions.includes("EDITAR_USUARIOS") && !teamData.permissoes.includes("ADMINISTRADOR")) && (
                                   <>
                                     <DeleteButton equipeId={equipeId} usuario={teamData.usuario} />
                                     <EditButton equipeId={equipeId} usuario={teamData.usuario} />

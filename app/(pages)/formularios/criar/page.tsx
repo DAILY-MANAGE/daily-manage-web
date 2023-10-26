@@ -90,7 +90,8 @@ export default function Criar() {
 
   const onSubmit = async (formData: typeof defaultData) => {
     if (!session) return
-    formData.idusuariospermitidos.push(session?.id as never)
+    // criador ganha acesso ao form
+    //formData.idusuariospermitidos.push(session?.id as never)
     const filter = formData.perguntas.filter((formQuestion: FormQuestion) => formQuestion.descricao !== 'NÃO PREENCHIDO')
     formData.perguntas = filter
     console.log(formData)

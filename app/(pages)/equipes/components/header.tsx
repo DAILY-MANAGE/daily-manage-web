@@ -25,6 +25,8 @@ import Link from 'next/link'
 import { VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage'
 import { useState } from 'react'
 import { AddMemberModal } from './modal/add-member-modal'
+import TabContentWrapper from './tabs/tab-content-wrapper'
+import ConfigWrapper from './tabs/config-wrapper'
 
 export default function Equipes() {
   const params = useParams()
@@ -52,10 +54,7 @@ export default function Equipes() {
           }
         >
           <BackButton />
-          <Config
-            nomeEquipe={data && data.data && data.data.nome}
-            idEquipe={data && data.data && data.data.id}
-          />
+          <ConfigWrapper equipeId={params.id && parseInt(params.id as string) || undefined} nomeEquipe={data && data.data && data.data.nome}/>
         </Root.Header>
         <Tabs defaultValue={tab} className="space-y-4" onValueChange={tabsChanged}>
           <TabsList className="flex gap-2 h-fit flex-col md:flex-row">
@@ -93,12 +92,7 @@ export default function Equipes() {
               }
             </div>
           </TabsList>
-          <TabsContent value="forms" className="space-y-4">
-            <Forms />
-          </TabsContent>
-          <TabsContent value="users" className="space-y-4">
-            <Users equipeId={data && data.data && data.data.id} userData={data && data.data && data.data.usuarios} />
-          </TabsContent>
+          <TabContentWrapper usuarios={data && data.data && data.data.usuarios} equipeId={data && data.data && data.data.id}/>
         </Tabs>
       </Root.Spacing>
     </>

@@ -6,6 +6,7 @@ export const REGISTRO = "/auth/registro";
 export const LOGIN = "/auth/login";
 export const RENOVAR_TOKEN = "/auth/renovarToken";
 export const VER_TODAS_PERMISSOES = "/permissoes/todas";
+export const VER_TODAS_PERMISSOES_DO_USUARIO_LOGADO_NA_EQUIPE = "/equipes/usuarios/permissoes";
 
 export const CRIAR_EQUIPE = "/equipes/criar";
 export const VER_EQUIPES_CRIADAS = "/equipes/todas/criadas";
