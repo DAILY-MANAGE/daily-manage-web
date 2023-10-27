@@ -31,13 +31,10 @@ export default function FormResponse({ formData, errors, register, getValues, se
           aria-invalid={errors[formData.id.toString()] ? 'true' : 'false'}
           error={errors[formData.id.toString()]}
 
-          onInvalid={(e: SyntheticEvent) => {
-            e.preventDefault()
-          }}
+          required
 
           onChange={(e: any) => {
-            console.log(getValues(`resposta.${formData.id}.resposta`))
-            setValue(`resposta.${formData.id}.resposta`, e.target.value)
+            setValue(`respostas.${formData.id}.resposta`, e.target.value)
             if ((e.target.value === '' || e.target.value === null) && !formData.opcional) {
               if (!errors.includes('O campo é obrigatório')) {
                 errors.push('O campo é obrigatório')

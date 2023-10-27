@@ -20,8 +20,6 @@ export default function FormHeader({ formId }: { formId: number}) {
     }
   })
 
-  console.log(data)
-
   return <>
     <Root.Header title={data && data.data && data.data.nome}>
       <BackButton />

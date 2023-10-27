@@ -80,7 +80,7 @@ export default function Equipes() {
                     </Button>
                   </Link>
                 ) : (
-                  <AddMemberModal>
+                  <AddMemberModal equipeid={params.id.toString()}>
                     <Button
                       className="flex gap-2 bg-white text-black border flex items-center justify-center gap-2 border-black/20 mt-2 md:mt-0 font-semibold"
                       variant={'outline'}

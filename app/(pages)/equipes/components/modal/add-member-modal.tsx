@@ -23,8 +23,10 @@ import { AxiosResponse } from 'axios';
 import Cookies from "js-cookie"
 import { cookieKeyOriginal } from "@/app/hooks/useAuth"
 import { CRIAR_EQUIPE } from "@/app/utils/EndpointStorage"
+import { AddUsers } from "./add-users"
 
 interface CreateTeamModalProps {
+  equipeid: string
   children: ReactNode
 }
 
@@ -36,11 +38,12 @@ const teamValues: TeamProps = {
   nome: ''
 }
 
-export function AddMemberModal({ children }: CreateTeamModalProps) {
+export function AddMemberModal({ equipeid, children }: CreateTeamModalProps) {
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -90,34 +93,8 @@ export function AddMemberModal({ children }: CreateTeamModalProps) {
         <div className="grid gap-4 py-1 pt-0">
           <Form.Root onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-start flex-col flex-row">
-              <Label htmlFor="name" className="text-left w-full mb-2">
-                Nome
-              </Label>
-              <Input
-                id="name"
-                placeholder="Entre com o nome da equipe"
-                className="col-span-3"
-                autoComplete="usuario"
-                htmlFor="usuario"
-                error={errors.nome}
-                aria-invalid={errors.nome ? 'true' : 'false'}
-                data-invalid={errors.nome}
-                onInvalid={(e: SyntheticEvent) => {
-                  e.preventDefault()
-                }}
-                type="text"
-                {...register('nome', {
-                  required: 'Nome da Equipe é obrigatório',
-                  maxLength: {
-                    value: 30,
-                    message: 'Número máximo de caractéres é 30',
-                  },
-                  minLength: {
-                    value: 5,
-                    message: 'Número mínimo de caractéres é 5',
-                  },
-                })}
-              />
+              <Form.Label label="Usuário" className="mt-0"/>
+              <AddUsers setValue={setValue} equipeid={equipeid}/>
               <Form.Error message={errors.nome?.message} />
             </div>
             </Form.Root>
