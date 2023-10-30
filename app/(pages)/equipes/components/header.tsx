@@ -24,7 +24,7 @@ import Config from './config/config'
 import Link from 'next/link'
 import { VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage'
 import { useState } from 'react'
-import { AddMemberModal } from './modal/add-member-modal'
+import { AddMemberModal } from './modal/add-member/add-member-modal'
 import TabContentWrapper from './tabs/tab-content-wrapper'
 import ConfigWrapper from './tabs/config-wrapper'
 

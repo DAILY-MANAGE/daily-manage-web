@@ -79,13 +79,14 @@ export default function FormWrapper({ params }: Props) {
   return <>
     <Form.Root className='flex flex-col gap-2 w-full' onSubmit={handleSubmit(midtermSubmit)}>
       <SendButton />
+      <div className='flex flex-col gap-4'>
       {
         data && data.data && (
           <>
             {data.data.perguntas.map((formData: FormQuestion, index: number) => {
-              return <Card key={index}>
+              return <Card key={index} className={"outline outline-offset-1 outline-2 outline-red-600"}>
                 <CardHeader className='pb-2'>
-                  <Label>{formData.descricao}</Label>
+                  <Label>{formData.descricao} {!formData.opcional && (<span className='text-xs text-red-900'>(obrigatório)</span>)}</Label>
                 </CardHeader>
                 <CardContent>
                   <FormResponse formData={formData} errors={errors} register={register} getValues={getValues} setValue={setValue} />
@@ -95,6 +96,7 @@ export default function FormWrapper({ params }: Props) {
           </>
         )
       }
+      </div>
     </Form.Root>
   </>
 }
