@@ -19,10 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/app/components/Shadcn/popover'
-import { UseFormSetValue } from 'react-hook-form'
-import { useEffect } from 'react';
-import { useFetch } from '@/app/hooks/useFetch'
-import { FILTRAR_USUARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
 
 export interface Preset {
   id: number
@@ -32,13 +29,33 @@ export interface Preset {
 
 interface PresetSelectorProps extends PopoverProps {
   setValue: UseFormSetValue<any>
+  getValues: UseFormGetValues<any>
   equipeid: string | null
   presets?: Preset[]
+  defaultValue?: string[]
 }
 
-export function MultiPermissionSelector({ setValue, equipeid, presets, ...props }: PresetSelectorProps) {
+export function MultiPermissionSelector({ setValue, getValues, equipeid, presets, defaultValue, ...props }: PresetSelectorProps) {
+  const getDefaultValueFromPresets = () => {
+    if (!presets) {
+      return []
+    }
+    if (defaultValue) {
+      const defaultValueFromPresets: Preset[] = []
+      defaultValue.map((permission: string) => {
+        const preset = presets.filter((userPreset: Preset) => userPreset.value === permission)
+        if (preset.length > 0 ){
+          defaultValueFromPresets.push(preset[0])
+        }
+      })
+      console.log(defaultValueFromPresets)
+      return defaultValueFromPresets
+    }
+    return []
+  }
+
   const [open, setOpen] = React.useState(false)
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>([])
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>(getDefaultValueFromPresets())
 
   const formatUsers = () => {
     let formattedUsers = ''
@@ -50,13 +67,37 @@ export function MultiPermissionSelector({ setValue, equipeid, presets, ...props 
       }
     })
     if (formattedUsers === '') {
-      formattedUsers = 'Selecionar usuários'
+      formattedUsers = 'Selecionar permissões'
     }
     return formattedUsers
   }
 
   const openChanged = (open: boolean) => {
     setOpen(open)
+  }
+
+  const onCommandSelect = (preset: Preset) => {
+    const auxPermitted: any = getValues("permissoes")
+    const isValid = selectedPreset.filter(
+      (userPreset: Preset) => userPreset.id === preset.id,
+    )
+
+    if (isValid.length > 0) {
+      const removedUsers = selectedPreset.filter(
+        (userPreset: Preset) => userPreset.id !== preset.id,
+      )
+      const removedUsersWithValues = auxPermitted.filter(
+        (permission: string) => permission !== preset.value
+      )
+      setSelectedPreset(removedUsers)
+      setValue("permissoes", removedUsersWithValues)
+    } else {
+      const auxSelectedPreset = [...selectedPreset]
+      auxSelectedPreset.push(preset)
+      setSelectedPreset(auxSelectedPreset)
+      auxPermitted.push(preset.value)
+      setValue('permissoes', auxPermitted)
+    }
   }
 
   return (
@@ -66,7 +107,8 @@ export function MultiPermissionSelector({ setValue, equipeid, presets, ...props 
           <Button
             variant="outline"
             role="combobox"
-            aria-label="Selecionar usuários"
+            type="button"
+            aria-label="Selecionar permissões"
             aria-expanded={open}
             className="flex-1 justify-between w-full shadow border-black/20"
           >
@@ -76,35 +118,15 @@ export function MultiPermissionSelector({ setValue, equipeid, presets, ...props 
         </PopoverTrigger>
         <PopoverContent className="w-full block p-0 border-black/20">
           <Command>
-            <CommandInput placeholder="Pesquisar usuários..." />
-            <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
-            <CommandGroup heading="Usuários">
+            <CommandInput placeholder="Pesquisar permissões..." />
+            <CommandEmpty>Nenhuma permissão foi encontrada.</CommandEmpty>
+            <CommandGroup heading="Permissões">
               {presets && presets.map((preset: Preset) => (
                 <CommandItem
                   value={preset.nome}
                   key={preset.id}
                   onSelect={() => {
-                    const isValid = selectedPreset.filter(
-                      (userPreset: Preset) => userPreset.id === preset.id,
-                    )
-                    const auxPermitted: any = []
-                    if (isValid.length > 0) {
-                      const removedUsers = selectedPreset.filter(
-                        (userPreset: Preset) => userPreset.id !== preset.id,
-                      )
-                      setSelectedPreset(removedUsers)
-                    } else {
-                      const auxSelectedPreset = [...selectedPreset]
-                      auxSelectedPreset.push(preset)
-                      setSelectedPreset(auxSelectedPreset)
-                      auxPermitted.push(preset.id)
-                    }
-                    selectedPreset.map((userPreset: Preset) => {
-                      auxPermitted.push(userPreset.id)
-                      return userPreset
-                    })
-                    console.log(auxPermitted)
-                    setValue('idusuariospermitidos', auxPermitted)
+                    onCommandSelect(preset)
                   }}
                 >
                   {preset.nome}
