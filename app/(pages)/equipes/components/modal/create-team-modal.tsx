@@ -120,11 +120,11 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
               />
               <Form.Error message={errors.nome?.message} />
             </div>
+            <DialogFooter className="mt-4">
+              <Button type="submit">Criar Equipe</Button>
+            </DialogFooter>
             </Form.Root>
         </div>
-        <DialogFooter>
-          <Button type="submit">Criar Equipe</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

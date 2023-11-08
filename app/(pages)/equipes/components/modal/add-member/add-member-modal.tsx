@@ -71,7 +71,7 @@ export function AddMemberModal({ equipeid, children }: CreateTeamModalProps) {
         console.log(response)
         router.push(`/equipes/${equipeid}?t=${getClientCookie(cookieKeyOriginal)}`)
       default:
-        ToastWrapper.error("Não foi possível convidar o membro.")
+        //ToastWrapper.error("Não foi possível convidar o membro.")
         break
     }
   }

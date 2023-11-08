@@ -69,11 +69,11 @@ export function EditUserPermissionsModal({ equipeid, usuario, children }: Create
     console.log(response)
     switch((response as any).status) {
       case 200:
-        ToastWrapper.success("O membro foi convidado com sucesso!")
+        ToastWrapper.success("As permissões do membro foram alteradas com sucesso!")
         console.log(response)
         router.push(`/equipes/${equipeid}?t=${getClientCookie(cookieKeyOriginal)}`)
       default:
-        ToastWrapper.error("Não foi possível convidar o membro.")
+        ToastWrapper.error("Não foi possível editar as permissões do membro.")
         break
     }
   }

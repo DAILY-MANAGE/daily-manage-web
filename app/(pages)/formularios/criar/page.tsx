@@ -38,7 +38,7 @@ const defaultQuestions = [defaultFormData]
 const defaultData = {
   nome: "Formulário",
   idusuariospermitidos: [],
-  descricao: "Esse formulário tem algumas perguntas!!",
+  descricao: "",
   perguntas: []
 }
 
@@ -145,6 +145,31 @@ export default function Criar() {
                   })}
                 ></Input>
                 <Form.Error message={errors.nome?.message} />
+              </CardContent>
+              <CardContent className="w-full p-3">
+                <Label>Descrição</Label>
+                <Input
+                  placeholder="Entre com a descrição do formulário"
+                  className="shadow border-black/20"
+                  autoComplete="descricao"
+                  htmlFor="descricao"
+                  error={errors.descricao}
+                  aria-invalid={errors.descricao ? 'true' : 'false'}
+                  onInvalid={(e: SyntheticEvent) => {
+                    e.preventDefault()
+                  }}
+                  type="text"
+                  id="bine"
+                  {...register('descricao', {
+                    required: 'Descrição do Formulário é obrigatório',
+
+                    minLength: {
+                      value: 5,
+                      message: 'Descrição mínima de caractéres é 5',
+                    },
+                  })}
+                ></Input>
+                <Form.Error message={errors.descricao?.message} />
               </CardContent>
               <CardContent className="w-full p-3 flex flex-col">
                 <Label>Pessoas Permitidas</Label>

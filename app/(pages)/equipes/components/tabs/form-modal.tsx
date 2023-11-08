@@ -31,7 +31,7 @@ export default function FormModal({ id, teamData }: FormModalProps) {
                   'Carregando...'}
               </CardTitle>
               <CardDescription className="leading-none">
-                {`Identificação: ${teamData.id}` || 'Carregando...'}
+                {teamData.descricao || 'Carregando...'}
               </CardDescription>
             </div>
             <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
