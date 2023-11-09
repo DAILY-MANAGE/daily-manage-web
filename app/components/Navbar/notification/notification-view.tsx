@@ -14,7 +14,7 @@ export default function NotificationView({ children, refetch, notificationId, no
     url: VISUALIZAR_NOTIFICACAO.replace("{notificacaoId}", notificationId.toString()),
     isGet: false
   })
-  return <button onClick={async () => {
+  return <button className="w-fit h-max" onClick={async () => {
     if (notificationType === "CONVITE") {
       return
     }

@@ -13,12 +13,15 @@ import Link from 'next/link'
 
 import { SyntheticEvent } from 'react'
 import { useAuth } from '@/app/hooks/useAuth'
+import { Checkbox } from '@/app/components/Shadcn/checkbox'
+import { CheckedState } from '@radix-ui/react-checkbox'
 
 export default function RegisterForm() {
   const {
     register,
     watch,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -29,6 +32,7 @@ export default function RegisterForm() {
       nome: '',
       confirmarSenha: '',
       permissoes: [],
+      aceitaTermos: false,
     },
   })
 
@@ -152,6 +156,30 @@ export default function RegisterForm() {
         id="confirmarSenha"
       />
       <Form.Error message={errors.confirmarSenha?.message} />
+      <div className="flex w-full h-4 mt-3 mb-0">
+        <div className="w-full h-full flex justify-start items-center gap-2">
+          <Checkbox
+            className="border border-black/50 m-0 rounded my-auto shadow"
+            {...register('aceitaTermos', {
+              required: 'Aceitar os termos é obrigatório'}
+              )
+            }
+            onCheckedChange={(checked: CheckedState) => {
+              if (typeof checked !== 'boolean') return
+              setValue('aceitaTermos', checked)
+            }}
+          />
+          <span className="text-sm my-auto h-full leading-[1.1rem] flex gap-1">
+            Aceitar <Link href="/termos" rel="noopener noreferrer" target="_blank">
+            <p className="text-zinc-500 underline underline-offset-2">
+              termos e condições
+              </p>
+            </Link>
+          </span>
+        </div>
+      </div>
+      <Form.Error message={errors.aceitaTermos?.message} />
+
 
       <Button
         size="full"

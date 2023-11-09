@@ -24,6 +24,7 @@ import { VER_NOTIFICACOES } from '@/app/utils/EndpointStorage'
 import NotificationView from './notification-view'
 import Accept from './options/accept'
 import Deny from './options/deny'
+import Link from 'next/link'
 
 const notificationsToLoad = 5
 
@@ -79,7 +80,7 @@ export default function NavNotification() {
               )}
             </div>
           </DropdownMenuLabel>
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator className='mb-0' />
           {!content || content.length === 0 && (
             <p className="w-full text-center text-sm font-semibold py-4">
               Nenhuma notificação encontrada.
@@ -101,7 +102,7 @@ export default function NavNotification() {
                           <p className="text-sm">{notificationData.mensagem}</p>
                           {
                             notificationData.tipo === 'CONVITE' && (
-                              <div className='grid grid-cols-[.49fr_.49fr] gap-2'>
+                              <div className='grid grid-cols-[.49fr_.49fr] gap-2 items-center w-full mx-auto pt-1'>
                                 <Accept inviteId={notificationData.conviteid} refetch={refetch} />
                                 <Deny inviteId={notificationData.conviteid} refetch={refetch} />
                               </div>
@@ -114,29 +115,25 @@ export default function NavNotification() {
                       index === content.length - 1 && (
                         <>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            onSelect={(event: Event) => {
-                              event.preventDefault()
-                            }}
-                          >
-                            <Button
-                              variant={'ghost'}
-                              className="h-4 p-0 text-zinc-500 flex items-center justify-start gap-2"
-                            >
-                              <p>Ver Mais</p>
-                            </Button>
-                          </DropdownMenuItem>
                         </>
                       )) ||
                       (index < content.length - 1 && (
                         <DropdownMenuSeparator />
                       ))}
                   </div>
-
                 </Fragment>
               )
             },
           )}
+          {
+            (content && content.length > 0) && (
+              <div className='px-2 py-2'>
+                <Link href="/notificacoes" className='no-underline'>
+                  <Button variant={'outline'} className="w-full">Ver Mais</Button>
+                </Link>
+              </div>
+            )
+          }
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

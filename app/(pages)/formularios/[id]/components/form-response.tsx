@@ -27,8 +27,8 @@ export default function FormResponse({ formData, errors, register, getValues, se
   return <>
     {
       <Fragment>
-        {
-          formData.tipoResposta == "INTEIRO" && (
+                {
+          formData.tipoResposta == "TEXTO" && (
             <Input
               className="shadow"
 
@@ -38,7 +38,40 @@ export default function FormResponse({ formData, errors, register, getValues, se
               aria-invalid={errors[formData.id.toString()] ? 'true' : 'false'}
               error={errors[formData.id.toString()]}
 
-              required
+              required={!formData.opcional}
+
+              onChange={(e: any) => {
+                console.log(e.target.value.length)
+                if (e.target.value.length < 5) {
+                  hasError = "O tamanho mínimo é 5."
+                }
+                if (e.target.value.length > 255) {
+                  hasError = "O tamanho máximo é 255."
+                }
+                setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                setValue(`respostas.${formData.id}.resposta`, e.target.value)
+                if ((e.target.value === '' || e.target.value === null) && !formData.opcional) {
+                  if (!errors.includes('O campo é obrigatório')) {
+                    errors.push('O campo é obrigatório')
+                  }
+                }
+              }}
+
+            />
+          )
+        }
+        {
+          formData.tipoResposta == "INTEIRO" && (
+            <Input
+              className="shadow"
+
+              type="number"
+              placeholder="Entre com a resposta..."
+
+              aria-invalid={errors[formData.id.toString()] ? 'true' : 'false'}
+              error={errors[formData.id.toString()]}
+
+              required={!formData.opcional}
 
               onChange={(e: any) => {
                 console.log(e.target.value.length)
@@ -65,13 +98,13 @@ export default function FormResponse({ formData, errors, register, getValues, se
             <Input
               className="shadow"
 
-              type="text"
+              type="number"
               placeholder="Entre com a resposta..."
 
               aria-invalid={errors[formData.id.toString()] ? 'true' : 'false'}
               error={errors[formData.id.toString()]}
 
-              required
+              required={!formData.opcional}
               step=".01"
 
               onChange={(e: any) => {
@@ -97,23 +130,23 @@ export default function FormResponse({ formData, errors, register, getValues, se
         {
           formData.tipoResposta == "BOOLEANO" && (
             <>
-              <div className="flex gap-2 flex-col">
+              <div className="flex gap-2 flex-col gap-2">
                 <hr />
-                <Label className="flex justify-start gap-2">
-                  Sim
+                <Label className="flex justify-start items-center gap-2">
                   <Checkbox className="shadow-sm" checked={boolean === true} onCheckedChange={(checked: boolean) => {
                     setBoolean(true)
                     setValue(`respostas.${formData.id}.idpergunta`, formData.id)
                     setValue(`respostas.${formData.id}.resposta`, "Sim")
-                  }}/>
+                  }} />
+                  <p>Sim</p>
                 </Label>
-                <Label className="flex justify-start gap-2">
-                  Não
+                <Label className="flex justify-start items-center gap-2">
                   <Checkbox className="shadow-sm" checked={boolean === false} onCheckedChange={(checked: boolean) => {
                     setBoolean(false)
                     setValue(`respostas.${formData.id}.idpergunta`, formData.id)
                     setValue(`respostas.${formData.id}.resposta`, "Não")
-                  }}/>
+                  }} />
+                  <p>Não</p>
                 </Label>
               </div>
             </>

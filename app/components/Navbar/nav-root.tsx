@@ -18,7 +18,9 @@ export default function NavRoot() {
     pathname.includes('dashboard') ||
     pathname.includes('formularios') ||
     pathname.includes('configuracoes') ||
-    pathname.includes('equipes')
+    pathname.includes('equipes') ||
+    pathname.includes('notificacoes')
+
 
   return (
     (canShowNavbar() && (

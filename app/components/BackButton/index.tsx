@@ -1,3 +1,5 @@
+'use client'
+
 import { useRouter } from "next/navigation";
 import { RxArrowLeft } from "react-icons/rx";
 import { Button } from "../Shadcn/button";
