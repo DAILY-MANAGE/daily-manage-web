@@ -15,10 +15,11 @@ export const usePermission = (permission: string | undefined = undefined, equipe
   }
 
   const { data, refetch } = useFetch({
-    url: usuario ? VER_TODAS_PERMISSOES_POR_EQUIPE.replace("{usuarioId}", usuario) : VER_TODAS_PERMISSOES_DO_USUARIO_LOGADO_NA_EQUIPE,
+    url: VER_TODAS_PERMISSOES_POR_EQUIPE,
     isGet: true,
     header: {
       Equipe: equipeId,
+      Usuario: usuario
     }
   })
 

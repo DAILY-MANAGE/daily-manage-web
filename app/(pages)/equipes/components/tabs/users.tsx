@@ -26,9 +26,10 @@ interface UsersProps {
   equipeId: number,
   userPermissions: string[] | undefined
   refetch: any
+  teamCreator: string
 }
 
-export default function Users({ equipeId, userData, userPermissions, refetch }: UsersProps) {
+export default function Users({ equipeId, userData, userPermissions, refetch, teamCreator }: UsersProps) {
   const { session } = useAuth()
 
   useEffect(() => {
@@ -94,7 +95,7 @@ export default function Users({ equipeId, userData, userPermissions, refetch }: 
                   </CardDescription>
                 </div>
                 <div className="w-1/2 flex align-center items-center justify-end m-0 p-0 gap-2">
-                  {teamData.usuario !== session?.usuario && (
+                  {(teamData.usuario !== session?.usuario && teamData.usuario !== teamCreator) && (
                     <>
                       {
                         userPermissions && typeof userPermissions === 'object' && (

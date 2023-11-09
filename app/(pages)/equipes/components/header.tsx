@@ -92,7 +92,7 @@ export default function Equipes() {
               }
             </div>
           </TabsList>
-          <TabContentWrapper usuarios={data && data.data && data.data.usuarios} equipeId={data && data.data && data.data.id}/>
+          <TabContentWrapper usuarios={data && data.data && data.data.usuarios} equipeId={data && data.data && data.data.id} teamCreator={data && data.data && data.data.criador.usuario}/>
         </Tabs>
       </Root.Spacing>
     </>

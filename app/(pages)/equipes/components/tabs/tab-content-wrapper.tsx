@@ -8,9 +8,10 @@ import Users from "./users"
 interface TabContentWrapperProps {
   equipeId: number
   usuarios: any
+  teamCreator: string
 }
 
-export default function TabContentWrapper({ equipeId, usuarios }: TabContentWrapperProps) {
+export default function TabContentWrapper({ equipeId, usuarios, teamCreator }: TabContentWrapperProps) {
   const { permissions, refetch } = usePermission(undefined, equipeId)
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function TabContentWrapper({ equipeId, usuarios }: TabContentWrap
       <Forms />
     </TabsContent>
     <TabsContent value="users" className="space-y-4">
-      <Users refetch={refetch} equipeId={equipeId} userPermissions={permissions} userData={usuarios} />
+      <Users refetch={refetch} equipeId={equipeId} userPermissions={permissions} userData={usuarios} teamCreator={teamCreator}/>
     </TabsContent>
   </>
 
