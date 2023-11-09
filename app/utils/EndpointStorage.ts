@@ -9,6 +9,8 @@ export const VER_TODAS_PERMISSOES = "/permissoes/todas";
 export const VER_TODAS_PERMISSOES_DO_USUARIO_LOGADO_NA_EQUIPE = "/equipes/usuarios/permissoes";
 export const VER_TODAS_PERMISSOES_POR_EQUIPE = "/equipes/usuarios/usuario/permissoes"
 
+export const EDITAR_NOME_USUARIO = "/usuario/editar"
+
 export const CRIAR_EQUIPE = "/equipes/criar";
 export const VER_EQUIPES_CRIADAS = "/equipes/todas/criadas";
 export const VER_EQUIPES_MEMBRO = "/equipes/todas/membro";
@@ -40,6 +42,8 @@ export const FILTRAR_USUARIOS = "/usuarios/procurar";
 export const VER_REGISTROS_DE_UM_USUARIO = "/equipes/{usuarioId}/registros";
 
 export const VER_NOTIFICACOES = "/notificacoes/todas";
+export const VISUALIZAR_NOTIFICACAO = "/notificacoes/visualizar/{notificacaoId}"
+export const OPCOES_CONVITE = "/equipes/convites/{conviteId}"
 
 type param = {
   key: string,

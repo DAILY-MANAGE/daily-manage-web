@@ -9,7 +9,7 @@ import Logo from '../Logo'
 
 import { usePathname } from 'next/navigation'
 
-import NavNotification from './nav-notification'
+import NavNotification from './notification/nav-notification'
 
 export default function NavRoot() {
   const pathname = usePathname()

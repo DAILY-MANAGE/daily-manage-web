@@ -23,6 +23,7 @@ export interface FormQuestion {
   id: number
   descricao: string
   tiporesposta: string
+  tipoResposta?: string
   opcional: boolean
 }
 
@@ -162,7 +163,10 @@ export default function Criar() {
                   id="bine"
                   {...register('descricao', {
                     required: 'Descrição do Formulário é obrigatório',
-
+                    maxLength: {
+                      value: 200,
+                      message: 'Número máximo de caractéres é 200',
+                    },
                     minLength: {
                       value: 5,
                       message: 'Descrição mínima de caractéres é 5',

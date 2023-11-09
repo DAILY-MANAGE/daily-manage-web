@@ -43,7 +43,6 @@ export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
       id: idEquipe,
       patchData: nameData,
     })
-    console.log(res)
     switch ((res as any).status) {
       case 200:
         handleRefresh()
