@@ -73,13 +73,20 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       setLoading(true)
       if (!token) return
       const header = getDefaultHeader(token)
-      const response = await requestInstance
-        .get(url, header)
-        .catch(handleAxiosError)
-      setLoading(false)
-      if (response) {
-        handleResponseErrors(response, setError)
-        return response
+      try {
+        const response = await requestInstance
+          .get(url, header)
+          .catch(handleAxiosError)
+        setLoading(false)
+        if (response) {
+          if (response.status === 403) {
+            setError(["Não tem permissão."])
+          }
+          handleResponseErrors(response, setError)
+          return response
+        }
+      } catch(e) {
+
       }
     }
 
@@ -118,6 +125,9 @@ export function useFetch<T = unknown>(options: FetchOptions) {
       // @ts-ignore
       response = await callback(...params, header)
       if (!response) return
+      if (response.status === 403) {
+        setError(["Não possui permissão."])
+      }
       handleResponseErrors(response, setError)
     } catch (error) {
       handleResponseErrors((error as any).response, setError)
@@ -139,16 +149,9 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     },
   })
 
-  const putMutation = useMutation<
-    PutDataResponse,
-    unknown,
-    { id: number; putData: any }
-  >({
-    mutationFn: async (params: { id: number; putData: any }) =>
-      handleRequest(requestInstance.put, [
-        `${url}/${params.id}`,
-        params.putData,
-      ]),
+  const putMutation = useMutation<PutDataResponse, unknown, unknown>({
+    mutationFn: async (putData: any) =>
+      handleRequest(requestInstance.put, [url, putData]),
     onSuccess: () => {
       refetch()
     },
@@ -188,7 +191,7 @@ export function useFetch<T = unknown>(options: FetchOptions) {
     >,
     handlePut: putMutation.mutateAsync as MutationFunction<
       PutDataResponse,
-      { id: number; putData: any }
+      unknown
     >,
     handlePatch: patchMutation.mutateAsync as MutationFunction<
       PatchDataResponse,

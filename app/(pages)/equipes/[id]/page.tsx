@@ -21,21 +21,27 @@ export async function generateMetadata({
     return defaultMetadata
   }
 
-  const product = await axios.get(`${ENDPOINT}${VER_EQUIPE_POR_ID.replace("{equipeId}", id)}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-      Equipe: id
-    },
-    data: {},
-  })
+  console.log(token)
 
-  if (!product) {
+  try {
+    const product = await axios.get(`${ENDPOINT}${VER_EQUIPE_POR_ID.replace("{equipeId}", id)}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        Equipe: id
+      },
+      data: {},
+    })
+
+    if (!product || !product.data || product.status === 403) {
+      return defaultMetadata
+    }
+
+    return {
+      title: `${capitalizeFirstLetter(product.data.nome)} | Daily Manage`,
+    }
+  } catch (e) {
     return defaultMetadata
-  }
-
-  return {
-    title: `${capitalizeFirstLetter(product.data.nome)} | Daily Manage`,
   }
 }
 

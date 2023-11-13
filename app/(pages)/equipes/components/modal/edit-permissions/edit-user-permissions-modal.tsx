@@ -28,6 +28,7 @@ interface CreateTeamModalProps {
   equipeid: string
   usuario: string
   children: ReactNode
+  refetch: any
 }
 
 interface TeamProps {
@@ -38,7 +39,7 @@ const teamValues: TeamProps = {
   permissoes: []
 }
 
-export function EditUserPermissionsModal({ equipeid, usuario, children }: CreateTeamModalProps) {
+export function EditUserPermissionsModal({ equipeid, usuario, children, refetch }: CreateTeamModalProps) {
 
   const {
     handleSubmit,
@@ -53,7 +54,7 @@ export function EditUserPermissionsModal({ equipeid, usuario, children }: Create
 
   const router = useRouter()
 
-  const { handlePost } = useFetch({
+  const { handlePut } = useFetch({
     url: EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO,
     isGet: false,
     header: {
@@ -63,19 +64,17 @@ export function EditUserPermissionsModal({ equipeid, usuario, children }: Create
   })
 
   const onSubmit = async (teamData: TeamProps) => {
-    router.refresh()
     setOpen(false)
-    const response = await handlePost(teamData)
-    console.log(response)
+    const response = await handlePut(teamData)
     switch((response as any).status) {
       case 200:
         ToastWrapper.success("As permissões do membro foram alteradas com sucesso!")
-        console.log(response)
-        router.push(`/equipes/${equipeid}?t=${getClientCookie(cookieKeyOriginal)}`)
+        //router.push(`/equipes/${equipeid}?t=${getClientCookie(cookieKeyOriginal)}`)
       default:
         ToastWrapper.error("Não foi possível editar as permissões do membro.")
         break
     }
+    refetch()
   }
 
   const permissions: string[] = []
@@ -95,7 +94,7 @@ export function EditUserPermissionsModal({ equipeid, usuario, children }: Create
           </DialogHeader>
           <PermissionsProvider usuario={usuario} equipeid={equipeid} setValue={setValue} getValues={getValues}/>
           <DialogFooter className="mt-4 mb-0">
-            <Button type="submit">Adicionar Membro</Button>
+            <Button type="submit">Alterar Permissões</Button>
           </DialogFooter>
           </Form.Root>
         </DialogContent>

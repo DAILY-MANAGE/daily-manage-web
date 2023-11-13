@@ -95,7 +95,6 @@ export default function Criar() {
     //formData.idusuariospermitidos.push(session?.id as never)
     const filter = formData.perguntas.filter((formQuestion: FormQuestion) => formQuestion.descricao !== 'NÃO PREENCHIDO')
     formData.perguntas = filter
-    console.log(formData)
     const res = await handlePost(formData)
     switch ((res as any).status) {
       case 201:

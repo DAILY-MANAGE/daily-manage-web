@@ -20,6 +20,7 @@ import DeleteButton from './user-buttons/delete-button'
 import EditButton from './user-buttons/edit-button'
 import { Fragment, useEffect } from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Shadcn/tooltip'
+import LogsButton from './user-buttons/logs-button'
 
 interface UsersProps {
   userData: User[]
@@ -103,8 +104,9 @@ export default function Users({ equipeId, userData, userPermissions, refetch, te
                               {
                                 (userPermissions.includes("EDITAR_USUARIOS") || userPermissions.includes("ADMINISTRADOR")) && (
                                   <>
-                                    <DeleteButton equipeId={equipeId} usuario={teamData.usuario} />
+                                    <DeleteButton equipeId={equipeId} usuario={teamData.usuario} refetch={refetch} />
                                     <EditButton equipeId={equipeId} usuario={teamData.usuario} />
+                                    <LogsButton equipeId={equipeId} usuario={teamData.usuario} />
                                   </>
                                 )
                               }

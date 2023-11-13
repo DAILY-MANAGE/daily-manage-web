@@ -6,11 +6,12 @@ import { REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO } from '@/app/utils/EndpointStora
 import { useRouter } from "next/navigation";
 
 interface DeleteButtonProps {
-  usuario: string,
+  usuario: string
   equipeId: number
+  refetch: any
 }
 
-export default function DeleteButton({ usuario, equipeId }: DeleteButtonProps) {
+export default function DeleteButton({ usuario, equipeId, refetch }: DeleteButtonProps) {
 
   const router = useRouter()
 
@@ -39,7 +40,7 @@ export default function DeleteButton({ usuario, equipeId }: DeleteButtonProps) {
         ToastWrapper.error("Não foi possível deletar esse usuário.")
         break
     }
-    router.refresh()
+    refetch()
   }
 
   return <Button variant={'outline'} className="w-12 h-12 aspect-square px-2 py-1 bg-red-600 hover:bg-red-800" onClick={removeUser}>

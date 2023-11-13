@@ -9,36 +9,12 @@ import { EditUserPermissionsModal } from "../../modal/edit-permissions/edit-user
 interface EditButtonProps {
   usuario: string
   equipeId: number
+  refetch: any
 }
 
-export default function EditButton({ usuario, equipeId }: EditButtonProps) {
-
-  const { handlePatch } = useFetch({
-    url: EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO,
-    isGet: false,
-    header: {
-      Equipe: equipeId,
-      Usuario: usuario
-    }
-  })
-
-  const editUser = async (usuario: string) => {
-    const res = await handlePatch({
-      id: 1,
-      patchData: {
-        usuario: usuario
-      }
-    })
-    switch((res as any).status) {
-      case 200:
-        ToastWrapper.success("Usuário editado com sucesso.")
-      default:
-        break
-    }
-  }
-
-  return <EditUserPermissionsModal equipeid={equipeId.toString()} usuario={usuario}>
-    <Button variant={'outline'} type="button" className="w-12 h-12 aspect-square px-2 py-1 bg-orange-600 hover:bg-orange-800" onClick={() => editUser(usuario)}>
+export default function EditButton({ usuario, equipeId, refetch }: EditButtonProps) {
+  return <EditUserPermissionsModal equipeid={equipeId.toString()} usuario={usuario} refetch={refetch}>
+    <Button type="button" variant={'outline'}  className="w-12 h-12 aspect-square px-2 py-1 bg-orange-600 hover:bg-orange-800">
       <RxPencil1 className="w-6 h-6 my-auto text-white" />
     </Button>
   </EditUserPermissionsModal>
