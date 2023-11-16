@@ -40,11 +40,6 @@ export default function NavNotification() {
     }
   )
 
-  const formatNotificationTimestamp = (timeStamp: number) => {
-    register('pt_BR', ptbrLocale)
-    return format(Date.now() - timeStamp, 'pt_BR')
-  }
-
   const content = data && data.data && data.data.content
 
   return (
@@ -96,8 +91,8 @@ export default function NavNotification() {
                         event.preventDefault()
                       }} className="flex items-center justify-start gap-2">
                         <div className="flex flex-col space-y-1">
-                          <p className="text-zinc-500 text-xs">
-                            {notificationData.data && formatNotificationTimestamp(notificationData.data)}
+                          <p className="text-zinc-500 text-xs text-left">
+                            {notificationData.horario}
                           </p>
                           <p className="text-sm">{notificationData.mensagem}</p>
                           {

@@ -18,9 +18,12 @@ import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1, RxRocket } from 'react-ic
 import { Subtitle } from '../subtitle'
 import DeleteButton from './user-buttons/delete-button'
 import EditButton from './user-buttons/edit-button'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/app/components/Shadcn/tooltip'
 import LogsButton from './user-buttons/logs-button'
+import { Input } from '@/app/components/Shadcn/input'
+import { useFetch } from '@/app/hooks/useFetch'
+import { FILTRAR_USUARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
 
 interface UsersProps {
   userData: User[]
@@ -30,29 +33,46 @@ interface UsersProps {
   teamCreator: string
 }
 
-export default function Users({ equipeId, userData, userPermissions, refetch, teamCreator }: UsersProps) {
+export default function Users({ equipeId, userPermissions, refetch, teamCreator }: UsersProps) {
+  const [page, setPage] = useState(0)
+  const [search, setSearch] = useState("")
   const { session } = useAuth()
 
-  useEffect(() => {
-    refetch()
-  }, [])
+  const { data, loading, error } = useFetch({
+    url: `${FILTRAR_USUARIOS_DA_EQUIPE}?page=${page}&size=5&nome=${search}`,
+    isGet: true,
+    header: {
+      Equipe: equipeId
+    }
+  })
+
+  const dataInner = data && data.data
+  const content = dataInner && dataInner.content
 
   return (
-    <div className="flex flex-col gap-2">
-      {(!userData || userData.length === 0) && (
+    <>
+      <Input
+        placeholder="Filtrar usuários..."
+        onChange={(event: any) =>
+          setSearch(event.target.value)
+        }
+        className="h-8 w-[23rem] border border-black/20 shadow focus:outline focus:outline-1 outline-offset-2"
+      />
+      <div className="flex flex-col gap-2">
+      {(!content || content.length === 0) && (
         <Subtitle>
           <RxCrossCircled className="w-4 h-4 my-auto leading-none" /> Nenhum
           usuário foi encontrado.
         </Subtitle>
       )}
-      {userData && (
+      {content && (
         <Subtitle>
-          <RxAvatar className="w-4 h-4 my-auto leading-none" /> {userData.length}{' '}
-          usuário{userData.length > 1 && 's'} encontrado{userData.length > 1 && 's'}.
+          <RxAvatar className="w-4 h-4 my-auto leading-none" /> {content.length}{' '}
+          usuário{content.length > 1 && 's'} encontrado{content.length > 1 && 's'}.
         </Subtitle>
       )}
-      {userData &&
-        userData.map((teamData: User) => {
+      {content &&
+        content.map((teamData: User) => {
           return (
             <Card
               key={teamData.usuario}
@@ -99,13 +119,13 @@ export default function Users({ equipeId, userData, userPermissions, refetch, te
                   {(teamData.usuario !== session?.usuario && teamData.usuario !== teamCreator) && (
                     <>
                       {
-                        userPermissions && typeof userPermissions === 'object' && (
+                        teamData.permissoes && typeof teamData.permissoes === 'object' && (
                           <Fragment>
                               {
-                                (userPermissions.includes("EDITAR_USUARIOS") || userPermissions.includes("ADMINISTRADOR")) && (
+                                (teamData.permissoes.includes("EDITAR_USUARIOS") || teamData.permissoes.includes("ADMINISTRADOR")) && (
                                   <>
                                     <DeleteButton equipeId={equipeId} usuario={teamData.usuario} refetch={refetch} />
-                                    <EditButton equipeId={equipeId} usuario={teamData.usuario} />
+                                    <EditButton refetch={refetch} equipeId={equipeId} usuario={teamData.usuario} />
                                     <LogsButton equipeId={equipeId} usuario={teamData.usuario} />
                                   </>
                                 )
@@ -121,5 +141,6 @@ export default function Users({ equipeId, userData, userPermissions, refetch, te
           )
         })}
     </div>
+    </>
   )
 }

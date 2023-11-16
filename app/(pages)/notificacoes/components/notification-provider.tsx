@@ -18,11 +18,11 @@ import { format, register } from 'timeago.js'
 import ptbrLocale from 'timeago.js/lib/lang/pt_BR'
 
 export default function NotificationProvider() {
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
 
   const { data, refetch } = useFetch(
     {
-      url: `${VER_NOTIFICACOES}?page=${page}?size=5`,
+      url: `${VER_NOTIFICACOES}?page=${page}&size=13`,
       isGet: true
     }
   )
@@ -50,7 +50,7 @@ export default function NotificationProvider() {
                 <CardHeader className="w-full p-0 flex flex-col">
                   <div className="flex flex-col space-y-1 w-fit">
                     <p className="text-zinc-500 text-left text-xs">
-                      {notificationData.horario && formatNotificationTimestamp(notificationData.horario)}
+                      {notificationData.horario}
                     </p>
                     <p className="text-sm">{notificationData.mensagem}</p>
                   </div>
@@ -73,14 +73,14 @@ export default function NotificationProvider() {
     )}
     <div className="w-full min-h-10 flex gap-2 items-center">
       <div className="w-1/2 flex justify-start items-center">
-        <p className="font-semibold">Página {page} de {dataInner ? dataInner.totalPages : 'Carregando...'}</p>
+        <p className="font-semibold">Página {page+1} de {dataInner ? dataInner.totalPages : 'Carregando...'}</p>
       </div>
       <div className="w-1/2 flex justify-end items-center gap-2">
         <Button variant={'outline'} className="border border-black/20 shadow" disabled={dataInner && dataInner.first} onClick={() => {
           if (dataInner.first) {
             return
           }
-          if (page - 1 <= 0) {
+          if (page - 1 < 0) {
             return
           }
           setPage((state) => state - 1)
