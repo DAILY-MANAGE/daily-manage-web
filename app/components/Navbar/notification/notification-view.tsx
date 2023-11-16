@@ -7,14 +7,15 @@ interface NotificationViewProps {
   refetch: any
   notificationId: number
   notificationType: string
+  width?: string
 }
 
-export default function NotificationView({ children, refetch, notificationId, notificationType }: NotificationViewProps) {
+export default function NotificationView({ children, refetch, notificationId, notificationType, width }: NotificationViewProps) {
   const { handlePost } = useFetch({
     url: VISUALIZAR_NOTIFICACAO.replace("{notificacaoId}", notificationId.toString()),
     isGet: false
   })
-  return <button className="w-fit h-max" onClick={async () => {
+  return <button className={`w-${width ? width : 'fit'} h-max`} onClick={async () => {
     if (notificationType === "CONVITE") {
       return
     }

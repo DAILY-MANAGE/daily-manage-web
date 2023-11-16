@@ -7,7 +7,7 @@ import { capitalizeFirstLetter } from "@/app/utils/CapitalizeFirstLetter";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useState } from "react";
-import { RxChevronRight } from "react-icons/rx";
+import { RxCheck, RxChevronRight, RxEyeOpen } from "react-icons/rx";
 
 interface FormModalProps {
   id: string | string[]
@@ -49,22 +49,22 @@ export default function FormModal({ id, teamData }: FormModalProps) {
         </DialogHeader>
         <DialogFooter className="flex gap-2">
         <Link
-            href={`/formularios/respostas/${teamData.id}?t=${Cookies.get(
-              cookieKeyOriginal,
-            )}&equipeId=${id}`}
-            key={teamData.id}
-            className="w-full"
-          >
-              <Button type="button" className="w-full">Ver Respostas</Button>
-          </Link>
-          <Link
             href={`/formularios/${teamData.id}?t=${Cookies.get(
               cookieKeyOriginal,
             )}&equipeId=${id}`}
             key={teamData.id}
             className="w-full"
           >
-              <Button type="button" className="w-full bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-900">Responder Formulário</Button>
+              <Button type="button" className="w-full bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-900 flex gap-2 pl-1"><RxCheck className="w-6 h-6"/> Responder</Button>
+          </Link>
+          <Link
+            href={`/formularios/respostas/${teamData.id}?t=${Cookies.get(
+              cookieKeyOriginal,
+            )}&equipeId=${id}`}
+            key={teamData.id}
+            className="w-full"
+          >
+              <Button type="button" className="w-full flex gap-2 pl-1"><RxEyeOpen className="w-6 h-6"/> Ver Respostas</Button>
           </Link>
         </DialogFooter>
       </DialogContent>

@@ -5,5 +5,5 @@ export interface Notifications {
   conviteid: number
   tipo: string
   uri: string
-  data?: number
+  horario?: number
 }
