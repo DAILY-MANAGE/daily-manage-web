@@ -4,8 +4,7 @@ const nextConfig = {
     domains: ['source.unsplash.com'],
   },
   experimental: {
-    appDir: true,
-    serverComponentsExternalPackages: ["@prisma/client", "bcryptjs"]
+    serverComponentsExternalPackages: []
   },
 };
 
