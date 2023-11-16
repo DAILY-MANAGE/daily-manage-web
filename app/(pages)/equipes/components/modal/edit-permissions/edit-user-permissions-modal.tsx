@@ -52,8 +52,6 @@ export function EditUserPermissionsModal({ equipeid, usuario, children, refetch 
 
   const [open, setOpen] = useState(false)
 
-  const router = useRouter()
-
   const { handlePut } = useFetch({
     url: EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO,
     isGet: false,
@@ -64,6 +62,7 @@ export function EditUserPermissionsModal({ equipeid, usuario, children, refetch 
   })
 
   const onSubmit = async (teamData: TeamProps) => {
+    console.log(teamData)
     setOpen(false)
     const response = await handlePut(teamData)
     switch((response as any).status) {
@@ -76,8 +75,6 @@ export function EditUserPermissionsModal({ equipeid, usuario, children, refetch 
     }
     refetch()
   }
-
-  const permissions: string[] = []
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

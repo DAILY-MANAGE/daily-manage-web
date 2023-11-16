@@ -11,10 +11,11 @@ import { RegisterData } from '@/app/interfaces/RegisterData'
 
 import Link from 'next/link'
 
-import { SyntheticEvent } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import { useAuth } from '@/app/hooks/useAuth'
 import { Checkbox } from '@/app/components/Shadcn/checkbox'
 import { CheckedState } from '@radix-ui/react-checkbox'
+import { RxReload } from 'react-icons/rx';
 
 export default function RegisterForm() {
   const {
@@ -37,9 +38,14 @@ export default function RegisterForm() {
   })
 
   const { signIn } = useAuth()
+  const [pending, setPending] = useState(false)
 
   const onSubmit = (data: RegisterData) => {
+    setPending(true)
     signIn(data)
+    setTimeout(() => {
+      setPending(false)
+    }, 5000)
   }
 
   return (
@@ -180,13 +186,18 @@ export default function RegisterForm() {
       </div>
       <Form.Error message={errors.aceitaTermos?.message} />
 
-
       <Button
         size="full"
         type="submit"
         className="mt-4 flex items-center justify-center bg-zinc-900 text-white"
       >
-        Cadastrar
+        {
+          pending && (
+            <RxReload className='w-5 h-5 animate-spin'/>
+          ) || (
+            <>Cadastrar</>
+          )
+        }
       </Button>
 
       <Link

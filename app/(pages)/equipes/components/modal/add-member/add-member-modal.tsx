@@ -109,7 +109,7 @@ export function AddMemberModal({ equipeid, children }: CreateTeamModalProps) {
                     <MultiPermissionSelector setValue={setValue} getValues={getValues} equipeid={equipeid} presets={[{id: 1, nome: 'Editar', value: "EDITAR_USUARIOS"}]} />
                     <hr className="mt-4 mb-2"/>
                     <Form.Label label="Equipe" className="mt-0"/>
-                    <MultiPermissionSelector setValue={setValue} getValues={getValues} equipeid={equipeid} presets={[{id: 1, nome: 'Visualizar', value: "VISUALIZAR_EQUIPE"},{id: 2, nome: 'Editar', value: "EDITAR_EQUIPE"},{id: 3, nome: 'Excluir', value: "EXCLUIR_EQUIPE"}]} />
+                    <MultiPermissionSelector setValue={setValue} getValues={getValues} equipeid={equipeid} presets={[{id: 2, nome: 'Editar', value: "EDITAR_EQUIPE"},{id: 3, nome: 'Excluir', value: "EXCLUIR_EQUIPE"}]} />
                     <hr />
                   </CardContent>
                 </Card>

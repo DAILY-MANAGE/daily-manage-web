@@ -152,6 +152,39 @@ export default function FormResponse({ formData, errors, register, getValues, se
             </>
           )
         }
+        {
+          formData.tipoResposta == "CELCIUS" && (
+            <Input
+              className="shadow"
+
+              type="number"
+              placeholder="Entre com a resposta (graus Celcius)..."
+
+              aria-invalid={errors[formData.id.toString()] ? 'true' : 'false'}
+              error={errors[formData.id.toString()]}
+
+              required={!formData.opcional}
+
+              onChange={(e: any) => {
+                console.log(e.target.value.length)
+                if (e.target.value.length < 5) {
+                  hasError = "O tamanho mínimo é 5."
+                }
+                if (e.target.value.length > 255) {
+                  hasError = "O tamanho máximo é 255."
+                }
+                setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                setValue(`respostas.${formData.id}.resposta`, e.target.value)
+                if ((e.target.value === '' || e.target.value === null) && !formData.opcional) {
+                  if (!errors.includes('O campo é obrigatório')) {
+                    errors.push('O campo é obrigatório')
+                  }
+                }
+              }}
+
+            />
+          )
+        }
         {hasError}
         <Form.Error message={hasError} />
       </Fragment>

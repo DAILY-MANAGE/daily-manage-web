@@ -22,6 +22,6 @@ export default function RootWrapper({ formId }: RootWrapperProps) {
   })
 
   return <Root.Header title={(data && data.data) ? `Respostas - ${data.data.nome}` : 'Carregando...'}>
-  <BackButton />
-</Root.Header>
+    <BackButton />
+  </Root.Header>
 }

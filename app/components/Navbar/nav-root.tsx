@@ -19,7 +19,8 @@ export default function NavRoot() {
     pathname.includes('formularios') ||
     pathname.includes('configuracoes') ||
     pathname.includes('equipes') ||
-    pathname.includes('notificacoes')
+    pathname.includes('notificacoes') ||
+    pathname.includes('registros')
 
 
   return (

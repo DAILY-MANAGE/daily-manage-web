@@ -31,7 +31,7 @@ export default function FormModal({ id, teamData }: FormModalProps) {
                   'Carregando...'}
               </CardTitle>
               <CardDescription className="leading-none">
-                {teamData.descricao || 'Carregando...'}
+                {teamData.descricao || 'Não possui descrição'}
               </CardDescription>
             </div>
             <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
@@ -55,7 +55,7 @@ export default function FormModal({ id, teamData }: FormModalProps) {
             key={teamData.id}
             className="w-full"
           >
-              <Button type="button" className="w-full bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-900 flex gap-2 pl-1"><RxCheck className="w-6 h-6"/> Responder</Button>
+              <Button type="button" className="w-full flex gap-2 pl-1"><RxCheck className="w-6 h-6"/> Responder</Button>
           </Link>
           <Link
             href={`/formularios/respostas/${teamData.id}?t=${Cookies.get(
@@ -64,7 +64,7 @@ export default function FormModal({ id, teamData }: FormModalProps) {
             key={teamData.id}
             className="w-full"
           >
-              <Button type="button" className="w-full flex gap-2 pl-1"><RxEyeOpen className="w-6 h-6"/> Ver Respostas</Button>
+              <Button type="button" className="w-full flex gap-2 pl-1 bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-900 flex gap-2 pl-1"><RxEyeOpen className="w-6 h-6"/> Ver Respostas</Button>
           </Link>
         </DialogFooter>
       </DialogContent>

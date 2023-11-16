@@ -41,6 +41,7 @@ export const EXCLUIR_RESPOSTA = "/equipes/formularios/respostas/{formularioRespo
 export const FILTRAR_USUARIOS = "/usuarios/procurar";
 export const VER_REGISTROS_DE_UM_USUARIO = "/equipes/{usuarioId}/registros";
 export const VER_REGISTROS_DA_EQUIPE = "/equipes/registros";
+export const VER_REGISTROS_DE_USUARIO_POR_EQUIPE = "/equipes/registros/usuario";
 
 export const VER_NOTIFICACOES = "/notificacoes/todas";
 export const VISUALIZAR_NOTIFICACAO = "/notificacoes/visualizar/{notificacaoId}"

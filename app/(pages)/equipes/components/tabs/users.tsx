@@ -14,7 +14,7 @@ import { useAuth } from '@/app/hooks/useAuth'
 import { User } from '@/app/interfaces/TeamData'
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 import { getInitialLetter } from '@/app/utils/GetInitialLetter'
-import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1, RxRocket } from 'react-icons/rx'
+import { RxCrossCircled, RxAvatar, RxTrash, RxPencil1, RxRocket, RxChevronLeft, RxChevronRight, RxReload } from 'react-icons/rx'
 import { Subtitle } from '../subtitle'
 import DeleteButton from './user-buttons/delete-button'
 import EditButton from './user-buttons/edit-button'
@@ -65,15 +65,23 @@ export default function Users({ equipeId, userPermissions, refetch, teamCreator 
           usuário foi encontrado.
         </Subtitle>
       )}
-      {content && (
+      {loading && (
+        <Subtitle>
+          <RxReload className="w-4 h-4 my-auto leading-none animate-spin" />
+          Carregando usuários...
+        </Subtitle>
+      )}
+      {(content && content.length > 0) && (
         <Subtitle>
           <RxAvatar className="w-4 h-4 my-auto leading-none" /> {content.length}{' '}
           usuário{content.length > 1 && 's'} encontrado{content.length > 1 && 's'}.
         </Subtitle>
       )}
+
       {content &&
         content.map((teamData: User) => {
           return (
+
             <Card
               key={teamData.usuario}
               className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
@@ -94,7 +102,7 @@ export default function Users({ equipeId, userPermissions, refetch, teamCreator 
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <button className='flex gap-2'>{`${capitalizeFirstLetter(teamData.usuario)}` ||
+                              <button className='flex gap-2'>{`${capitalizeFirstLetter(teamData.nome)}` ||
                       'Carregando...'} <RxRocket className='w-4 h-4 my-auto'/></button>
                             </TooltipTrigger>
                             <TooltipContent>
@@ -104,14 +112,14 @@ export default function Users({ equipeId, userPermissions, refetch, teamCreator 
                         </TooltipProvider>
                       ) : (
                         <>
-                        {`${capitalizeFirstLetter(teamData.usuario)}` ||
+                        {`${capitalizeFirstLetter(teamData.nome)}` ||
                     'Carregando...'}
                       </>
                       )
                     }
                   </CardTitle>
                   <CardDescription className="flex gap-2">
-                    {`(${capitalizeFirstLetter(teamData.nome)})` ||
+                    {`(${capitalizeFirstLetter(teamData.usuario)})` ||
                       'Carregando...'}
                   </CardDescription>
                 </div>
@@ -121,6 +129,7 @@ export default function Users({ equipeId, userPermissions, refetch, teamCreator 
                       {
                         teamData.permissoes && typeof teamData.permissoes === 'object' && (
                           <Fragment>
+                            {JSON.stringify(teamData.permissoes)}
                               {
                                 (teamData.permissoes.includes("EDITAR_USUARIOS") || teamData.permissoes.includes("ADMINISTRADOR")) && (
                                   <>
@@ -140,6 +149,31 @@ export default function Users({ equipeId, userPermissions, refetch, teamCreator 
             </Card>
           )
         })}
+    </div>
+    <div className="w-full min-h-10 flex gap-2 items-center">
+      <div className="w-1/2 flex justify-start items-center">
+        <p className="font-semibold">Página {page+1} de {dataInner ? dataInner.totalPages : 'Carregando...'}</p>
+      </div>
+      <div className="w-1/2 flex justify-end items-center gap-2">
+        <Button variant={'outline'} className="border border-black/20 shadow" disabled={dataInner && dataInner.first} onClick={() => {
+          if (dataInner.first) {
+            return
+          }
+          if (page - 1 < 0) {
+            return
+          }
+          setPage((state) => state - 1)
+        }}><RxChevronLeft className="w-5 h-5" /></Button>
+        <Button variant={'outline'} className="border border-black/20 shadow" disabled={dataInner && dataInner.last} onClick={() => {
+          if (dataInner.last) {
+            return
+          }
+          if (page + 1 > dataInner.totalPages) {
+            return
+          }
+          setPage((state) => state + 1)
+        }}><RxChevronRight className="w-5 h-5" /></Button>
+      </div>
     </div>
     </>
   )

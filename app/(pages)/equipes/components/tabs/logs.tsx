@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/app/components/Shad
 import { Input } from "@/app/components/Shadcn/input"
 import { useFetch } from "@/app/hooks/useFetch"
 import { usePermission } from "@/app/hooks/usePermission"
-import { VER_REGISTROS_DA_EQUIPE } from "@/app/utils/EndpointStorage"
+import { VER_REGISTROS_DA_EQUIPE, VER_REGISTROS_DE_USUARIO_POR_EQUIPE } from "@/app/utils/EndpointStorage"
 import { getInitialLetter } from "@/app/utils/GetInitialLetter"
 import { Fragment, useState } from "react"
 import { RxChevronLeft, RxChevronRight, RxCrossCircled, RxReader, RxReload } from "react-icons/rx"
@@ -12,6 +12,7 @@ import { Subtitle } from "../subtitle"
 
 interface LogsProps {
   equipeId: number
+  username?: string
 }
 
 interface UserLogData {
@@ -34,24 +35,23 @@ interface Log {
   equipe: TeamLogData
 }
 
-export default function Logs({equipeId}: LogsProps) {
+export default function Logs({ equipeId, username }: LogsProps) {
   const [page, setPage] = useState(0)
   const [search, setSearch] = useState("")
 
-  const { permissions } = usePermission(undefined, equipeId)
-
   const { data, loading, error } = useFetch({
-    url: `${VER_REGISTROS_DA_EQUIPE}?page=${page}&size=5&acao=${search}`,
+    url: username ? `${VER_REGISTROS_DE_USUARIO_POR_EQUIPE}?page=${page}&size=5&acao=${search}` : `${VER_REGISTROS_DA_EQUIPE}?page=${page}&size=5&acao=${search}`,
     isGet: true,
     header: {
-      Equipe: equipeId
+      Equipe: equipeId,
+      Usuario: username
     }
   })
 
   const dataInner = data && data.data
   const content = dataInner && dataInner.content
 
-  return <>
+  return <div className="w-full gap-2 flex flex-col">
       <Input
         placeholder="Filtrar registros..."
         onChange={(event: any) =>
@@ -59,7 +59,7 @@ export default function Logs({equipeId}: LogsProps) {
         }
         className="h-8 w-[23rem] border border-black/20 shadow focus:outline focus:outline-1 outline-offset-2"
       />
-      {!loading && content && content.length > 0 && (
+    {!loading && content && content.length > 0 && (
         <Subtitle>{`${content.length} Registro${content.length > 1 ? 's' : ''
           } encontrado${content.length > 1 ? 's' : ''}`}</Subtitle>
       )}
@@ -77,15 +77,16 @@ export default function Logs({equipeId}: LogsProps) {
             registro foi encontrado.
           </Subtitle>
         )}
+    <div className="flex flex-col gap-2">
     {
       content && content.map(
         (logData: Log) => {
           return <Fragment key={logData.id}>
             <Card className="shadow border border-black/20">
-              <CardHeader>
+              <CardHeader className="pb-2">
                 <h1 className="font-bold">{logData.acao}</h1>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pb-2">
               <div className="flex items-center gap-2">
               <Avatar className="h-9 w-9">
                 <AvatarImage src="/avatars/01.png" alt="Avatar" />
@@ -102,6 +103,7 @@ export default function Logs({equipeId}: LogsProps) {
         }
       )
     }
+    </div>
     <div className="w-full min-h-10 flex gap-2 items-center">
       <div className="w-1/2 flex justify-start items-center">
         <p className="font-semibold">Página {page+1} de {dataInner ? dataInner.totalPages : 'Carregando...'}</p>
@@ -127,5 +129,5 @@ export default function Logs({equipeId}: LogsProps) {
         }}><RxChevronRight className="w-5 h-5" /></Button>
       </div>
     </div>
-  </>
+  </div>
 }

@@ -1,7 +1,7 @@
 import { Root } from "@/app/components/Root"
 import RequiresAuth from "@/app/providers/requires-auth"
 import { Metadata } from "next"
-import NavNotification from '../../components/Navbar/notification/nav-notification';
+
 import NotificationProvider from "./components/notification-provider";
 
 export const metadata: Metadata = {

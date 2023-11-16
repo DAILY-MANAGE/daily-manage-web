@@ -33,9 +33,10 @@ interface PresetSelectorProps extends PopoverProps {
   equipeid: string | null
   presets?: Preset[]
   defaultValue?: string[]
+  callback?: any
 }
 
-export function MultiPermissionSelector({ setValue, getValues, equipeid, presets, defaultValue, ...props }: PresetSelectorProps) {
+export function MultiPermissionSelector({ setValue, getValues, equipeid, presets, defaultValue, callback, ...props }: PresetSelectorProps) {
   const getDefaultValueFromPresets = () => {
     if (!presets) {
       return []
@@ -48,7 +49,6 @@ export function MultiPermissionSelector({ setValue, getValues, equipeid, presets
           defaultValueFromPresets.push(preset[0])
         }
       })
-      console.log(defaultValueFromPresets)
       return defaultValueFromPresets
     }
     return []
@@ -73,6 +73,9 @@ export function MultiPermissionSelector({ setValue, getValues, equipeid, presets
   }
 
   const openChanged = (open: boolean) => {
+    if (callback) {
+      callback()
+    }
     setOpen(open)
   }
 
