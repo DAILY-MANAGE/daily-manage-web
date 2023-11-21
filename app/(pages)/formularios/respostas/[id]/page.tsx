@@ -1,5 +1,7 @@
 import BackButton from '@/app/components/BackButton';
 import { Root } from '@/app/components/Root'
+import { Button } from '@/app/components/Shadcn/button';
+import { Card, CardContent, CardFooter, CardHeader } from '@/app/components/Shadcn/card';
 import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter';
 import { ENDPOINT, VER_FORMULARIO_POR_ID } from '@/app/utils/EndpointStorage';
 
@@ -7,6 +9,8 @@ import axios from 'axios';
 import type { Metadata } from 'next'
 import FormHeader from '../../[id]/components/form-header';
 import RootWrapper from './components/root-wrapper';
+import { SiGooglesheets } from 'react-icons/si'
+import HeaderFunctions from './components/header-functions';
 
 type Props = {
   params: { id: number }
@@ -54,8 +58,6 @@ export default function IdRespostaFormulario({ params }: Props) {
     <div className="md:px-64 min-h-screen bg-gradient-to-b from-blue-100 via-white to-slate-700">
       <Root.Spacing>
         <RootWrapper formId={params.id}/>
-        <Root.Container>
-        </Root.Container>
       </Root.Spacing>
     </div>
 

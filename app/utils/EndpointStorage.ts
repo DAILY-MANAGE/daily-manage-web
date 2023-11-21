@@ -37,6 +37,7 @@ export const VER_RESPOSTAS_DE_UM_FORMULARIO = "/equipes/formularios/{formularioI
 export const VER_RESPOSTA_POR_ID = "/equipes/formularios/respostas/{formularioRespondidoId}";
 export const EDITAR_RESPOSTA = "/equipes/formularios/respostas/{formularioRespondidoId}";
 export const EXCLUIR_RESPOSTA = "/equipes/formularios/respostas/{formularioRespondidoId}";
+export const VER_ESTATISTICA_FORMULARIO = "/equipes/formularios/{formularioId}/estatisticas"
 
 export const FILTRAR_USUARIOS = "/usuarios/procurar";
 export const VER_REGISTROS_DE_UM_USUARIO = "/equipes/{usuarioId}/registros";

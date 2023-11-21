@@ -3,8 +3,9 @@
 import BackButton from "@/app/components/BackButton";
 import { Root } from "@/app/components/Root";
 import { useFetch } from "@/app/hooks/useFetch";
-import { VER_FORMULARIO_POR_ID } from "@/app/utils/EndpointStorage";
+import { VER_FORMULARIO_POR_ID, VER_RESPOSTAS_DE_UM_FORMULARIO } from "@/app/utils/EndpointStorage";
 import { useSearchParams } from "next/navigation";
+import HeaderFunctions from "./header-functions";
 
 interface RootWrapperProps {
   formId: number
@@ -21,7 +22,15 @@ export default function RootWrapper({ formId }: RootWrapperProps) {
     }
   })
 
-  return <Root.Header title={(data && data.data) ? `Respostas - ${data.data.nome}` : 'Carregando...'}>
-    <BackButton />
-  </Root.Header>
+  const dataInner = data && data.data
+
+  return <>
+    <Root.Header title={dataInner ? `Respostas - ${dataInner.nome}` : 'Carregando...'}>
+      <BackButton />
+    </Root.Header>
+    <Root.Container>
+      <HeaderFunctions formId={formId} />
+    </Root.Container>
+  </>
+
 }

@@ -95,7 +95,7 @@ export default function Equipes() {
             <div className='w-full h-px mt-2 bg-black/20 md:hidden'/>
             <div className='w-full md:w-1/2 h-full gap-2 h-fit grid grid-cols-1 md:flex md:justify-end'>
               {
-                tab === "forms" && (
+                tab != "" && (
                   <>
                     {
                       (permissions && (permissions.includes("CRIAR_FORMULARIO") || permissions.includes("ADMINISTRADOR"))) ? (
@@ -115,7 +115,7 @@ export default function Equipes() {
                 )
               }
               {
-                tab === "users" && (
+                tab != "" && (
                   (
                     <>
                       {
@@ -133,13 +133,6 @@ export default function Equipes() {
                         )
                       }
                     </>
-                  )
-                )
-              }
-              {
-                tab === "logs" && (
-                  (
-                    <div className='w-20 h-10'></div>
                   )
                 )
               }
