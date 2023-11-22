@@ -29,16 +29,16 @@ interface UsersProps {
   userData: User[]
   equipeId: number,
   userPermissions: string[] | undefined
-  refetch: any
+  refetchTeamData: any
   teamCreator: string
 }
 
-export default function Users({ equipeId, userPermissions, refetch, teamCreator }: UsersProps) {
+export default function Users({ equipeId, userPermissions, refetchTeamData, teamCreator }: UsersProps) {
   const [page, setPage] = useState(0)
   const [search, setSearch] = useState("")
   const { session } = useAuth()
 
-  const { data, loading, error } = useFetch({
+  const { data, loading, error, refetch } = useFetch({
     url: `${FILTRAR_USUARIOS_DA_EQUIPE}?page=${page}&size=5&nome=${search}`,
     isGet: true,
     header: {
@@ -129,12 +129,11 @@ export default function Users({ equipeId, userPermissions, refetch, teamCreator 
                       {
                         teamData.permissoes && typeof teamData.permissoes === 'object' && (
                           <Fragment>
-                            {JSON.stringify(teamData.permissoes)}
                               {
                                 (teamData.permissoes.includes("EDITAR_USUARIOS") || teamData.permissoes.includes("ADMINISTRADOR")) && (
                                   <>
                                     <DeleteButton equipeId={equipeId} usuario={teamData.usuario} refetch={refetch} />
-                                    <EditButton refetch={refetch} equipeId={equipeId} usuario={teamData.usuario} />
+                                    <EditButton refetch={refetchTeamData} equipeId={equipeId} usuario={teamData.usuario} />
                                     <LogsButton equipeId={equipeId} usuario={teamData.usuario} />
                                   </>
                                 )

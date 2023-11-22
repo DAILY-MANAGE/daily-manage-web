@@ -31,7 +31,7 @@ export default function TabContentWrapper({ equipeId, usuarios, teamCreator, ref
     <TabsContent value="users" className="space-y-4">
       {
         (permissions && (permissions.includes("EDITAR_USUARIOS") || permissions.includes("ADMINISTRADOR"))) ? (
-          <Users refetch={refetchTeamData} equipeId={equipeId} userPermissions={permissions} userData={usuarios} teamCreator={teamCreator}/>
+          <Users refetchTeamData={refetchTeamData} equipeId={equipeId} userPermissions={permissions} userData={usuarios} teamCreator={teamCreator}/>
         ) : <p>Você não possui permissão para ver os formulários dessa equipe.</p>
       }
     </TabsContent>

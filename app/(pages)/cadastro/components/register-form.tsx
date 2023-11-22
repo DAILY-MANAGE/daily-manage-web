@@ -177,7 +177,7 @@ export default function RegisterForm() {
           />
           <span className="text-sm my-auto h-full leading-[1.1rem] flex gap-1">
             Aceitar <Link href="/termos" rel="noopener noreferrer" target="_blank">
-            <p className="text-zinc-500 underline underline-offset-2">
+            <p className="text-zinc-500 hover:underline underline-offset-2">
               termos e condições
               </p>
             </Link>
@@ -200,14 +200,14 @@ export default function RegisterForm() {
         }
       </Button>
 
-      <Link
-        href="/login"
-        className="mt-2 w-full flex items-center justify-center"
+      <div
+        className="mt-2 w-full flex items-center justify-center gap-1"
       >
-        <p className="text-zinc-500 underline underline-offset-2">
+        <span>
           Já possui conta?
-        </p>
-      </Link>
+        </span>
+        <Link href="/login" className='text-zinc-500 underline underline-offset-2'>Fazer login</Link>
+      </div>
     </Form.Root>
   )
 }

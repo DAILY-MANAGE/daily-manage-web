@@ -74,7 +74,7 @@ export default function LoginForm() {
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <Form.Label label="Usuário" />
+      <Form.Label label="Usuário" className='mt-4'/>
       <Input
         autoComplete="usuario"
         htmlFor="usuario"
@@ -124,7 +124,7 @@ export default function LoginForm() {
         </button>
       </div>
       <Form.Error message={errors.senha?.message} />
-      <div className="flex w-full h-4 mt-3 mb-8">
+      <div className="flex w-full h-4 mt-3 mb-4">
         <div className="w-1/2 h-full flex justify-start items-center gap-2">
           <Checkbox
             className="border border-black/50 m-0 rounded my-auto shadow"
@@ -143,7 +143,7 @@ export default function LoginForm() {
       <Button
         size="full"
         type="submit"
-        className="mt-4 flex items-center justify-center gap-2 data-[loginloadingdelay=true]:opacity-50 bg-zinc-950 text-white"
+        className="flex items-center justify-center gap-2 data-[loginloadingdelay=true]:opacity-50 bg-zinc-950 text-white"
       >
         <span>Entrar</span>
       </Button>

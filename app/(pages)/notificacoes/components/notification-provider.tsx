@@ -27,11 +27,6 @@ export default function NotificationProvider() {
     }
   )
 
-  const formatNotificationTimestamp = (timeStamp: number) => {
-    register('pt_BR', ptbrLocale)
-    return format(Date.now() - timeStamp, 'pt_BR')
-  }
-
   const dataInner = data && data.data
   const content = dataInner && dataInner.content
 

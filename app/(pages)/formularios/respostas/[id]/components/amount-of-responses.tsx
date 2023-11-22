@@ -29,7 +29,7 @@ export default function AmountOfResponses({ formId }: AmountOfResponsesProps) {
         </>
       ) : (
         <>
-          Carregando...
+          (0 respostas)
         </>
       )
     }</p>

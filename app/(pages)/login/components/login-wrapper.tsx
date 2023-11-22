@@ -5,7 +5,7 @@ export function LoginWrapper() {
   return (
     <>
       <h1 className="font-bold text-lg mb-1">Bem-vindo de volta!</h1>
-      <p className="text-sm mb-2 text-gray-900">Entre na sua conta.</p>
+      <p className="text-sm mb-0 text-gray-900">Entre na sua conta.</p>
       <LoginForm />
       <GoToRegister />
     </>
