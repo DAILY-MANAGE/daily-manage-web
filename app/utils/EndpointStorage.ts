@@ -9,7 +9,7 @@ export const VER_TODAS_PERMISSOES = "/permissoes/todas";
 export const VER_TODAS_PERMISSOES_DO_USUARIO_LOGADO_NA_EQUIPE = "/equipes/usuarios/permissoes";
 export const VER_TODAS_PERMISSOES_POR_EQUIPE = "/equipes/usuarios/usuario/permissoes"
 
-export const EDITAR_NOME_USUARIO = "/usuario/editar"
+export const EDITAR_NOME_USUARIO = "/usuario/alterarDados"
 
 export const CRIAR_EQUIPE = "/equipes/criar";
 export const VER_EQUIPES_CRIADAS = "/equipes/todas/criadas";

@@ -151,7 +151,7 @@ export default function Users({ equipeId, userPermissions, refetchTeamData, team
     </div>
     <div className="w-full min-h-10 flex gap-2 items-center">
       <div className="w-1/2 flex justify-start items-center">
-        <p className="font-semibold">Página {page+1} de {dataInner ? dataInner.totalPages : 'Carregando...'}</p>
+      <p className="font-semibold">Página {dataInner ? (dataInner.totalPages > 0 ? page + 1 : 0) : 0} de {dataInner ? dataInner.totalPages : '0'}</p>
       </div>
       <div className="w-1/2 flex justify-end items-center gap-2">
         <Button variant={'outline'} className="border border-black/20 shadow" disabled={dataInner && dataInner.first} onClick={() => {

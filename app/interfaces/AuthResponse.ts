@@ -8,7 +8,7 @@ interface User {
   id: number
   email: string
   usuario: string
-  nome?: string
+  nome: string
   formularios?: Form[]
 }
 

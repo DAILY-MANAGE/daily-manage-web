@@ -32,6 +32,7 @@ interface SessionData {
   id: number
   usuario: string
   email: string
+  nome: string
 }
 
 export const useAuth = () => {
@@ -75,6 +76,7 @@ export const useAuth = () => {
       id: responseData.usuario.id,
       usuario: responseData.usuario.usuario,
       email: responseData.usuario.email,
+      nome: responseData.usuario.nome
     }
     setSession(loginPayload)
     localStorage.setItem(sessionKey, JSON.stringify(loginPayload))
