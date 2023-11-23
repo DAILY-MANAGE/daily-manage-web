@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/navigation';
-import { RxArrowLeft } from 'react-icons/rx';
-import { Button } from '../Shadcn/button';
+import { useRouter } from 'next/navigation'
+import { RxArrowLeft } from 'react-icons/rx'
+import { Button } from '../Shadcn/button'
 
 export default function BackButton() {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <Button
@@ -16,5 +16,5 @@ export default function BackButton() {
     >
       <RxArrowLeft className="w-4 h-4" /> Voltar
     </Button>
-  );
+  )
 }

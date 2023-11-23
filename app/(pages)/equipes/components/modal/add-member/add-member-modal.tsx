@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { Form } from '@/app/components/Form';
-import { Button } from '@/app/components/Shadcn/button';
+import { Form } from '@/app/components/Form'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Dialog,
   DialogContent,
@@ -10,45 +10,44 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/components/Shadcn/dialog';
-import { getClientCookie, useFetch } from '@/app/hooks/useFetch';
-import { ReactNode } from 'react';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
-import { cookieKeyOriginal } from '@/app/hooks/useAuth';
+} from '@/app/components/Shadcn/dialog'
+import { getClientCookie, useFetch } from '@/app/hooks/useFetch'
+import { ReactNode, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import { cookieKeyOriginal } from '@/app/hooks/useAuth'
 import {
   ADICONAR_USUARIO_A_EQUIPE,
   CRIAR_EQUIPE,
-} from '@/app/utils/EndpointStorage';
-import { AddUsers } from '../add-users';
-import { Card, CardContent } from '@/app/components/Shadcn/card';
-import { MultiPermissionSelector } from './multi-permission-selector';
+} from '@/app/utils/EndpointStorage'
+import { AddUsers } from '../add-users'
+import { Card, CardContent } from '@/app/components/Shadcn/card'
+import { MultiPermissionSelector } from './multi-permission-selector'
 
 interface CreateTeamModalProps {
-  equipeid: string;
-  children: ReactNode;
+  equipeid: string
+  children: ReactNode
 }
 
 interface TeamProps {
-  permissoes: string[];
+  permissoes: string[]
 }
 
 const teamValues: TeamProps = {
   permissoes: [],
-};
+}
 
 export function AddMemberModal({ equipeid, children }: CreateTeamModalProps) {
   const { handleSubmit, setValue, getValues } = useForm({
     mode: 'onChange',
     defaultValues: teamValues,
-  });
+  })
 
-  const [open, setOpen] = useState(false);
-  const [userId, setUserId] = useState<number | undefined>();
+  const [open, setOpen] = useState(false)
+  const [userId, setUserId] = useState<number | undefined>()
 
-  const router = useRouter();
+  const router = useRouter()
 
   const { handlePost } = useFetch({
     url: ADICONAR_USUARIO_A_EQUIPE.replace('{usuarioId}', userId as any),
@@ -56,25 +55,25 @@ export function AddMemberModal({ equipeid, children }: CreateTeamModalProps) {
     header: {
       Equipe: equipeid,
     },
-  });
+  })
 
   const onSubmit = async (teamData: TeamProps) => {
-    router.refresh();
-    setOpen(false);
-    const response = await handlePost(teamData);
-    console.log(response);
+    router.refresh()
+    setOpen(false)
+    const response = await handlePost(teamData)
+    console.log(response)
     switch ((response as any).status) {
       case 200:
-        ToastWrapper.success('O membro foi convidado com sucesso!');
-        console.log(response);
+        ToastWrapper.success('O membro foi convidado com sucesso!')
+        console.log(response)
         router.push(
           `/equipes/${equipeid}?t=${getClientCookie(cookieKeyOriginal)}`,
-        );
+        )
       default:
-        //ToastWrapper.error("Não foi possível convidar o membro.")
-        break;
+        // ToastWrapper.error("Não foi possível convidar o membro.")
+        break
     }
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -164,5 +163,5 @@ export function AddMemberModal({ equipeid, children }: CreateTeamModalProps) {
         </Form.Root>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

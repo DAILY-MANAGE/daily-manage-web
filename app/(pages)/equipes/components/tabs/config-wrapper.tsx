@@ -1,10 +1,10 @@
-import { usePermission } from '@/app/hooks/usePermission';
-import { useEffect } from 'react';
-import Config from '../config/config';
+import { usePermission } from '@/app/hooks/usePermission'
+import { useEffect } from 'react'
+import Config from '../config/config'
 
 interface TabContentWrapperProps {
-  equipeId: number | undefined;
-  nomeEquipe: string;
+  equipeId: number | undefined
+  nomeEquipe: string
 }
 
 export default function ConfigWrapper({
@@ -12,14 +12,14 @@ export default function ConfigWrapper({
   nomeEquipe,
 }: TabContentWrapperProps) {
   if (!equipeId) {
-    return <></>;
+    return <></>
   }
 
-  const { permissions, refetch } = usePermission(undefined, equipeId);
+  const { permissions, refetch } = usePermission(undefined, equipeId)
 
   useEffect(() => {
-    refetch();
-  }, []);
+    refetch()
+  }, [])
 
   return (
     <>
@@ -29,5 +29,5 @@ export default function ConfigWrapper({
           <Config nomeEquipe={nomeEquipe} idEquipe={equipeId} />
         )}
     </>
-  );
+  )
 }

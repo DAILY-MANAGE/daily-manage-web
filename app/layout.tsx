@@ -1,26 +1,26 @@
-import './globals.scss';
+import './globals.scss'
 
-import { Inter } from 'next/font/google';
-import { ToastContainer } from 'react-toastify';
+import { Inter } from 'next/font/google'
+import { ToastContainer } from 'react-toastify'
 
-import NavRoot from './components/Navbar/nav-root';
-import QueryClientProviderHandler from './components/QueryClientProviderHandler';
-import UnloadProvider from './providers/unload-provider';
+import NavRoot from './components/Navbar/nav-root'
+import QueryClientProviderHandler from './components/QueryClientProviderHandler'
+import UnloadProvider from './providers/unload-provider'
 
 const inter = Inter({
   weight: ['300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
-});
+})
 
 export const metadata = {
   title: 'Daily Manage',
   description: 'Aplicação que auxilia na criação de formulários rotineiros',
-};
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="pt-br">
@@ -33,5 +33,5 @@ export default function RootLayout({
         </QueryClientProviderHandler>
       </body>
     </html>
-  );
+  )
 }

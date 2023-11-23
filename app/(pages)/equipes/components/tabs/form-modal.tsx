@@ -1,10 +1,10 @@
-import { Button } from '@/app/components/Shadcn/button';
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card';
+} from '@/app/components/Shadcn/card'
 import {
   Dialog,
   DialogContent,
@@ -13,22 +13,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/components/Shadcn/dialog';
-import { cookieKeyOriginal } from '@/app/hooks/useAuth';
-import { FormData } from '@/app/interfaces/FormData';
-import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter';
-import Cookies from 'js-cookie';
-import Link from 'next/link';
-import { useState } from 'react';
-import { RxCheck, RxChevronRight, RxEyeOpen } from 'react-icons/rx';
+} from '@/app/components/Shadcn/dialog'
+import { cookieKeyOriginal } from '@/app/hooks/useAuth'
+import { FormData } from '@/app/interfaces/FormData'
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
+import Cookies from 'js-cookie'
+import Link from 'next/link'
+import { useState } from 'react'
+import { RxCheck, RxChevronRight, RxEyeOpen } from 'react-icons/rx'
 
 interface FormModalProps {
-  id: string | string[];
-  teamData: FormData;
+  id: string | string[]
+  teamData: FormData
 }
 
 export default function FormModal({ id, teamData }: FormModalProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -92,5 +92,5 @@ export default function FormModal({ id, teamData }: FormModalProps) {
         </DialogContent>
       </Dialog>
     </>
-  );
+  )
 }

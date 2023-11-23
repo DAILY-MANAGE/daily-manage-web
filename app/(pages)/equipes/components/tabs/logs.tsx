@@ -2,60 +2,60 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@/app/components/Shadcn/avatar';
-import { Button } from '@/app/components/Shadcn/button';
+} from '@/app/components/Shadcn/avatar'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/app/components/Shadcn/card';
-import { Input } from '@/app/components/Shadcn/input';
-import { useFetch } from '@/app/hooks/useFetch';
-import { usePermission } from '@/app/hooks/usePermission';
+} from '@/app/components/Shadcn/card'
+import { Input } from '@/app/components/Shadcn/input'
+import { useFetch } from '@/app/hooks/useFetch'
+import { usePermission } from '@/app/hooks/usePermission'
 import {
   VER_REGISTROS_DA_EQUIPE,
   VER_REGISTROS_DE_USUARIO_POR_EQUIPE,
-} from '@/app/utils/EndpointStorage';
-import { getInitialLetter } from '@/app/utils/GetInitialLetter';
-import { Fragment, useState } from 'react';
+} from '@/app/utils/EndpointStorage'
+import { getInitialLetter } from '@/app/utils/GetInitialLetter'
+import { Fragment, useState } from 'react'
 import {
   RxChevronLeft,
   RxChevronRight,
   RxCrossCircled,
   RxReader,
   RxReload,
-} from 'react-icons/rx';
-import { Subtitle } from '../subtitle';
+} from 'react-icons/rx'
+import { Subtitle } from '../subtitle'
 
 interface LogsProps {
-  equipeId: number;
-  username?: string;
+  equipeId: number
+  username?: string
 }
 
 interface UserLogData {
-  id: number;
-  nome: string;
-  usuario: string;
-  email: string;
+  id: number
+  nome: string
+  usuario: string
+  email: string
 }
 
 interface TeamLogData {
-  id: number;
-  nome: string;
+  id: number
+  nome: string
 }
 
 interface Log {
-  id: number;
-  acao: string;
-  horario: string;
-  usuario: UserLogData;
-  equipe: TeamLogData;
+  id: number
+  acao: string
+  horario: string
+  usuario: UserLogData
+  equipe: TeamLogData
 }
 
 export default function Logs({ equipeId, username }: LogsProps) {
-  const [page, setPage] = useState(0);
-  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(0)
+  const [search, setSearch] = useState('')
 
   const { data, loading, error } = useFetch({
     url: username
@@ -66,10 +66,10 @@ export default function Logs({ equipeId, username }: LogsProps) {
       Equipe: equipeId,
       Usuario: username,
     },
-  });
+  })
 
-  const dataInner = data && data.data;
-  const content = dataInner && dataInner.content;
+  const dataInner = data && data.data
+  const content = dataInner && dataInner.content
 
   return (
     <div className="w-full gap-2 flex flex-col">
@@ -118,7 +118,7 @@ export default function Logs({ equipeId, username }: LogsProps) {
                   <CardFooter>{logData.horario}</CardFooter>
                 </Card>
               </Fragment>
-            );
+            )
           })}
       </div>
       <div className="w-full min-h-10 flex gap-2 items-center">
@@ -135,12 +135,12 @@ export default function Logs({ equipeId, username }: LogsProps) {
             disabled={dataInner && dataInner.first}
             onClick={() => {
               if (dataInner.first) {
-                return;
+                return
               }
               if (page - 1 < 0) {
-                return;
+                return
               }
-              setPage((state) => state - 1);
+              setPage((state) => state - 1)
             }}
           >
             <RxChevronLeft className="w-5 h-5" />
@@ -151,12 +151,12 @@ export default function Logs({ equipeId, username }: LogsProps) {
             disabled={dataInner && dataInner.last}
             onClick={() => {
               if (dataInner.last) {
-                return;
+                return
               }
               if (page + 1 > dataInner.totalPages) {
-                return;
+                return
               }
-              setPage((state) => state + 1);
+              setPage((state) => state + 1)
             }}
           >
             <RxChevronRight className="w-5 h-5" />
@@ -164,5 +164,5 @@ export default function Logs({ equipeId, username }: LogsProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

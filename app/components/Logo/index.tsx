@@ -1,13 +1,13 @@
-'use client';
+'use client'
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 interface LogoProps {
-  width: number;
-  height: number;
-  defaultImage?: string;
+  width: number
+  height: number
+  defaultImage?: string
 }
 
 export default function Logo({
@@ -15,13 +15,13 @@ export default function Logo({
   height = 100,
   defaultImage = '/logos/dark.png',
 }: LogoProps) {
-  const [specific, setSpecific] = useState(null);
+  const [specific, setSpecific] = useState(null)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const reloadPage = () => {
-    router.refresh();
-  };
+    router.refresh()
+  }
 
   return (
     <>
@@ -58,5 +58,5 @@ export default function Logo({
           ))}
       </button>
     </>
-  );
+  )
 }

@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import { Form } from '../../../components/Form';
+import { Form } from '../../../components/Form'
 
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 
-import { Input } from '@/app/components/Shadcn/input';
-import { Button } from '@/app/components/Shadcn/button';
+import { Input } from '@/app/components/Shadcn/input'
+import { Button } from '@/app/components/Shadcn/button'
 
-import { RegisterData } from '@/app/interfaces/RegisterData';
+import { RegisterData } from '@/app/interfaces/RegisterData'
 
-import Link from 'next/link';
+import Link from 'next/link'
 
-import { SyntheticEvent, useState } from 'react';
-import { useAuth } from '@/app/hooks/useAuth';
-import { Checkbox } from '@/app/components/Shadcn/checkbox';
-import { CheckedState } from '@radix-ui/react-checkbox';
-import { RxReload } from 'react-icons/rx';
+import { SyntheticEvent, useState } from 'react'
+import { useAuth } from '@/app/hooks/useAuth'
+import { Checkbox } from '@/app/components/Shadcn/checkbox'
+import { CheckedState } from '@radix-ui/react-checkbox'
+import { RxReload } from 'react-icons/rx'
 
 export default function RegisterForm() {
   const {
@@ -35,18 +35,18 @@ export default function RegisterForm() {
       permissoes: [],
       aceitaTermos: false,
     },
-  });
+  })
 
-  const { signIn } = useAuth();
-  const [pending, setPending] = useState(false);
+  const { signIn } = useAuth()
+  const [pending, setPending] = useState(false)
 
   const onSubmit = (data: RegisterData) => {
-    setPending(true);
-    signIn(data);
+    setPending(true)
+    signIn(data)
     setTimeout(() => {
-      setPending(false);
-    }, 5000);
-  };
+      setPending(false)
+    }, 5000)
+  }
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +59,7 @@ export default function RegisterForm() {
         aria-invalid={errors.usuario ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: SyntheticEvent) => {
-          e.preventDefault();
+          e.preventDefault()
         }}
         {...register('usuario', {
           required: 'Usuario é obrigatório',
@@ -78,7 +78,7 @@ export default function RegisterForm() {
         aria-invalid={errors.nome ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: SyntheticEvent) => {
-          e.preventDefault();
+          e.preventDefault()
         }}
         {...register('nome', {
           required: 'Nome é obrigatório',
@@ -97,7 +97,7 @@ export default function RegisterForm() {
         aria-invalid={errors.email ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: SyntheticEvent) => {
-          e.preventDefault();
+          e.preventDefault()
         }}
         {...register('email', {
           required: 'E-mail é obrigatório',
@@ -121,7 +121,7 @@ export default function RegisterForm() {
         aria-invalid={errors.senha ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: SyntheticEvent) => {
-          e.preventDefault();
+          e.preventDefault()
         }}
         {...register('senha', {
           required: 'Senha é obrigatória',
@@ -148,13 +148,13 @@ export default function RegisterForm() {
         aria-invalid={errors.confirmarSenha ? 'true' : 'false'}
         className="shadow"
         onInvalid={(e: SyntheticEvent) => {
-          e.preventDefault();
+          e.preventDefault()
         }}
         {...register('confirmarSenha', {
           required: 'Confirmar a senha é obrigatório',
           validate: (val: string) => {
             if (watch('senha') !== val) {
-              return 'As senhas não são iguais';
+              return 'As senhas não são iguais'
             }
           },
         })}
@@ -170,8 +170,8 @@ export default function RegisterForm() {
               required: 'Aceitar os termos é obrigatório',
             })}
             onCheckedChange={(checked: CheckedState) => {
-              if (typeof checked !== 'boolean') return;
-              setValue('aceitaTermos', checked);
+              if (typeof checked !== 'boolean') return
+              setValue('aceitaTermos', checked)
             }}
           />
           <span className="text-sm my-auto h-full leading-[1.1rem] flex gap-1">
@@ -206,5 +206,5 @@ export default function RegisterForm() {
         </Link>
       </div>
     </Form.Root>
-  );
+  )
 }

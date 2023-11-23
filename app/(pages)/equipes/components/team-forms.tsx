@@ -1,27 +1,27 @@
-'use client';
+'use client'
 
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card';
-import { useFetch } from '@/app/hooks/useFetch';
-import { TeamData } from '@/app/interfaces/TeamData';
-import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter';
-import { Subtitle } from './subtitle';
+} from '@/app/components/Shadcn/card'
+import { useFetch } from '@/app/hooks/useFetch'
+import { TeamData } from '@/app/interfaces/TeamData'
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
+import { Subtitle } from './subtitle'
 
-import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx';
-import Link from 'next/link';
-import { cookieKeyOriginal } from '@/app/hooks/useAuth';
-import Cookies from 'js-cookie';
+import { RxChevronRight, RxCrossCircled, RxReload } from 'react-icons/rx'
+import Link from 'next/link'
+import { cookieKeyOriginal } from '@/app/hooks/useAuth'
+import Cookies from 'js-cookie'
 
 interface TeamFormsProps {
-  endpoint: string;
+  endpoint: string
 }
 
 export function TeamForms({ endpoint }: TeamFormsProps) {
-  const { data, error, loading } = useFetch({ url: endpoint, isGet: true });
+  const { data, error, loading } = useFetch({ url: endpoint, isGet: true })
 
   return (
     <>
@@ -57,7 +57,7 @@ export function TeamForms({ endpoint }: TeamFormsProps) {
                 </CardHeader>
               </Card>
             </Link>
-          );
+          )
         })}
       {!loading && Array.isArray(data) && data.length > 0 && (
         <Subtitle>{`${data.length} Equipe${
@@ -87,5 +87,5 @@ export function TeamForms({ endpoint }: TeamFormsProps) {
         </Subtitle>
       )}
     </>
-  );
+  )
 }

@@ -1,31 +1,31 @@
-import { Form } from '@/app/components/Form';
-import { Card, CardContent, CardHeader } from '@/app/components/Shadcn/card';
-import { Label } from '@/app/components/Shadcn/label';
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
-import { ReactNode } from 'react';
-import { useForm } from 'react-hook-form';
-import { FormQuestion } from '../../criar/page';
+import { Form } from '@/app/components/Form'
+import { Card, CardContent, CardHeader } from '@/app/components/Shadcn/card'
+import { Label } from '@/app/components/Shadcn/label'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import { ReactNode } from 'react'
+import { useForm } from 'react-hook-form'
+import { FormQuestion } from '../../criar/page'
 
-import FormResponse from './form-response';
-import SendButton from './send-button';
+import FormResponse from './form-response'
+import SendButton from './send-button'
 
-import { useSearchParams } from 'next/navigation';
-import Props from '../components/form-wrapper';
-import { useFetch } from '@/app/hooks/useFetch';
-import { RESPONDER_FORMULARIO } from '@/app/utils/EndpointStorage';
+import { useSearchParams } from 'next/navigation'
+import Props from '../components/form-wrapper'
+import { useFetch } from '@/app/hooks/useFetch'
+import { RESPONDER_FORMULARIO } from '@/app/utils/EndpointStorage'
 
 interface FormSubmitterProps {
-  data: any;
-  params: any;
+  data: any
+  params: any
 }
 
 const defaultForm = {
   respostas: [],
-};
+}
 
 interface InnerData {
-  idpergunta: number;
-  resposta: string;
+  idpergunta: number
+  resposta: string
 }
 
 export default function FormSubmitter({ data, params }: FormSubmitterProps) {
@@ -38,9 +38,9 @@ export default function FormSubmitter({ data, params }: FormSubmitterProps) {
   } = useForm({
     mode: 'onChange',
     defaultValues: data && data.data ? data.data : defaultForm,
-  });
+  })
 
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
   const { handlePost } = useFetch({
     url: RESPONDER_FORMULARIO.replace('{formularioId}', params.id.toString()),
@@ -48,34 +48,34 @@ export default function FormSubmitter({ data, params }: FormSubmitterProps) {
     header: {
       Equipe: searchParams.get('equipeId'),
     },
-  });
+  })
 
   const midtermSubmit = async (data: typeof defaultForm) => {
     if (data.respostas.length === 0) {
       ToastWrapper.error(
         'Todas as perguntas (obrigatórias) devem ser respondidas.',
-      );
-      return;
+      )
+      return
     }
     const submitData = {
       respostas: data.respostas.filter(
         (data: InnerData | undefined) => data?.idpergunta,
       ),
-    };
-    const res: any = await handlePost(submitData);
+    }
+    const res: any = await handlePost(submitData)
     if (!res) {
-      ToastWrapper.error('Não foi possível enviar o formulário.');
-      return;
+      ToastWrapper.error('Não foi possível enviar o formulário.')
+      return
     }
     switch ((res as any).status) {
       case 201:
-        ToastWrapper.success('Formulário preenchido com sucesso.');
-        break;
+        ToastWrapper.success('Formulário preenchido com sucesso.')
+        break
       default:
-        ToastWrapper.warn('Algo deu errado no preenchimento do formulário');
-        break;
+        ToastWrapper.warn('Algo deu errado no preenchimento do formulário')
+        break
     }
-  };
+  }
 
   return (
     <>
@@ -89,7 +89,7 @@ export default function FormSubmitter({ data, params }: FormSubmitterProps) {
             <>
               {data.data.perguntas.map(
                 (formData: FormQuestion, index: number) => {
-                  let hasError = undefined;
+                  const hasError = undefined
                   return (
                     <Card
                       key={index}
@@ -120,7 +120,7 @@ export default function FormSubmitter({ data, params }: FormSubmitterProps) {
                         />
                       </CardContent>
                     </Card>
-                  );
+                  )
                 },
               )}
             </>
@@ -128,5 +128,5 @@ export default function FormSubmitter({ data, params }: FormSubmitterProps) {
         </div>
       </Form.Root>
     </>
-  );
+  )
 }

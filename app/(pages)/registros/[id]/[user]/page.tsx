@@ -1,13 +1,13 @@
-import BackButton from '@/app/components/BackButton';
-import { Root } from '@/app/components/Root';
-import RequiresAuth from '@/app/providers/requires-auth';
-import { Metadata } from 'next';
-import UserLogsProvider from './components/user-logs-provider';
+import BackButton from '@/app/components/BackButton'
+import { Root } from '@/app/components/Root'
+import RequiresAuth from '@/app/providers/requires-auth'
+import { Metadata } from 'next'
+import UserLogsProvider from './components/user-logs-provider'
 
 export const metadata: Metadata = {
   title: 'Registros | Daily Manage',
   description: 'Lista de registros de um usuário.',
-};
+}
 
 export default function UserLogs() {
   return (
@@ -21,5 +21,5 @@ export default function UserLogs() {
         </Root.Container>
       </Root.Spacing>
     </RequiresAuth>
-  );
+  )
 }

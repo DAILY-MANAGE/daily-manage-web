@@ -1,16 +1,16 @@
-import { TabsContent } from '@/app/components/Shadcn/tabs';
-import { usePermission } from '@/app/hooks/usePermission';
-import { useEffect } from 'react';
+import { TabsContent } from '@/app/components/Shadcn/tabs'
+import { usePermission } from '@/app/hooks/usePermission'
+import { useEffect } from 'react'
 
-import Forms from './forms';
-import Logs from './logs';
-import Users from './users';
+import Forms from './forms'
+import Logs from './logs'
+import Users from './users'
 
 interface TabContentWrapperProps {
-  equipeId: number;
-  usuarios: any;
-  teamCreator: string;
-  refetchTeamData: any;
+  equipeId: number
+  usuarios: any
+  teamCreator: string
+  refetchTeamData: any
 }
 
 export default function TabContentWrapper({
@@ -19,11 +19,11 @@ export default function TabContentWrapper({
   teamCreator,
   refetchTeamData,
 }: TabContentWrapperProps) {
-  const { permissions, refetch } = usePermission(undefined, equipeId);
+  const { permissions, refetch } = usePermission(undefined, equipeId)
 
   useEffect(() => {
-    refetch();
-  }, []);
+    refetch()
+  }, [])
 
   return (
     <>
@@ -61,5 +61,5 @@ export default function TabContentWrapper({
         )}
       </TabsContent>
     </>
-  );
+  )
 }

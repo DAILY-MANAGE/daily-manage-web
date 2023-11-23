@@ -1,25 +1,25 @@
-import { useFetch } from '@/app/hooks/useFetch';
-import { useParams } from 'next/navigation';
-import { FormData } from '@/app/interfaces/FormData';
+import { useFetch } from '@/app/hooks/useFetch'
+import { useParams } from 'next/navigation'
+import { FormData } from '@/app/interfaces/FormData'
 import {
   RxChevronLeft,
   RxChevronRight,
   RxCrossCircled,
   RxMagnifyingGlass,
   RxReload,
-} from 'react-icons/rx';
-import { Subtitle } from '../subtitle';
-import { VER_FORMULARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage';
-import FormModal from './form-modal';
-import { Button } from '@/app/components/Shadcn/button';
-import { useState } from 'react';
-import { Input } from '@/app/components/Shadcn/input';
+} from 'react-icons/rx'
+import { Subtitle } from '../subtitle'
+import { VER_FORMULARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
+import FormModal from './form-modal'
+import { Button } from '@/app/components/Shadcn/button'
+import { useState } from 'react'
+import { Input } from '@/app/components/Shadcn/input'
 
 export default function Forms() {
-  const [page, setPage] = useState(0);
-  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(0)
+  const [search, setSearch] = useState('')
 
-  const params = useParams();
+  const params = useParams()
 
   const { data, loading } = useFetch({
     url: `${VER_FORMULARIOS_DA_EQUIPE}?page=${page}&nome=${search}`,
@@ -27,10 +27,10 @@ export default function Forms() {
     header: {
       Equipe: params.id,
     },
-  });
+  })
 
-  const dataInner = data && data.data;
-  const content = dataInner && dataInner.content;
+  const dataInner = data && data.data
+  const content = dataInner && dataInner.content
 
   return (
     <div className="flex flex-col gap-2">
@@ -44,7 +44,7 @@ export default function Forms() {
         !loading &&
         content &&
         content.map((teamData: FormData) => {
-          return <FormModal id={params.id} teamData={teamData} />;
+          return <FormModal id={params.id} teamData={teamData} />
         })}
       {!loading && Array.isArray(data) && data.length > 0 && (
         <Subtitle>{`${data.length} Formulário${
@@ -81,12 +81,12 @@ export default function Forms() {
             disabled={dataInner && dataInner.first}
             onClick={() => {
               if (dataInner.first) {
-                return;
+                return
               }
               if (page - 1 < 0) {
-                return;
+                return
               }
-              setPage((state) => state - 1);
+              setPage((state) => state - 1)
             }}
           >
             <RxChevronLeft className="w-5 h-5" />
@@ -97,12 +97,12 @@ export default function Forms() {
             disabled={dataInner && dataInner.last}
             onClick={() => {
               if (dataInner.last) {
-                return;
+                return
               }
               if (page + 1 > dataInner.totalPages) {
-                return;
+                return
               }
-              setPage((state) => state + 1);
+              setPage((state) => state + 1)
             }}
           >
             <RxChevronRight className="w-5 h-5" />
@@ -110,5 +110,5 @@ export default function Forms() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   Card,
@@ -6,33 +6,33 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card';
-import { Label } from '@/app/components/Shadcn/label';
-import { Input } from '@/app/components/Shadcn/input';
-import { Root } from '@/app/components/Root';
+} from '@/app/components/Shadcn/card'
+import { Label } from '@/app/components/Shadcn/label'
+import { Input } from '@/app/components/Shadcn/input'
+import { Root } from '@/app/components/Root'
 
-import Exit from '../components/exit';
-import SaveButton from '../components/save-button';
-import { Form } from '@/app/components/Form';
-import { useForm } from 'react-hook-form';
-import { SyntheticEvent, useState } from 'react';
-import { useFetch } from '@/app/hooks/useFetch';
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
-import { EDITAR_NOME_USUARIO } from '@/app/utils/EndpointStorage';
-import { RxAvatar, RxPencil1 } from 'react-icons/rx';
-import { VscSave } from 'react-icons/vsc';
-import { Button } from '@/app/components/Shadcn/button';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/hooks/useAuth';
+import Exit from '../components/exit'
+import SaveButton from '../components/save-button'
+import { Form } from '@/app/components/Form'
+import { useForm } from 'react-hook-form'
+import { SyntheticEvent, useState } from 'react'
+import { useFetch } from '@/app/hooks/useFetch'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import { EDITAR_NOME_USUARIO } from '@/app/utils/EndpointStorage'
+import { RxAvatar, RxPencil1 } from 'react-icons/rx'
+import { VscSave } from 'react-icons/vsc'
+import { Button } from '@/app/components/Shadcn/button'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/app/hooks/useAuth'
 
 export default function ConfigWrapper() {
-  const { session, signOut } = useAuth();
+  const { session, signOut } = useAuth()
 
   const defaultValue = {
     usuario: session?.usuario,
     nome: session?.nome,
     email: session?.email,
-  };
+  }
 
   const {
     register,
@@ -41,73 +41,73 @@ export default function ConfigWrapper() {
   } = useForm({
     mode: 'onChange',
     defaultValues: defaultValue,
-  });
+  })
 
   const { handlePatch } = useFetch({
     url: EDITAR_NOME_USUARIO,
     isGet: false,
-  });
+  })
 
   const onSubmit = async (data: typeof defaultValue) => {
     if (data.usuario === session?.usuario) {
-      delete data.usuario;
+      delete data.usuario
     }
     if (data.nome === session?.nome) {
-      delete data.nome;
+      delete data.nome
     }
     if (data.email === session?.email) {
-      delete data.email;
+      delete data.email
     }
     if (!session) {
       ToastWrapper.error(
         'Não foi possível autenticar o usuário, tente logar novamente.',
-      );
+      )
     }
     const res = await handlePatch({
       id: session?.id || 1,
       patchData: data,
-    });
+    })
     switch ((res as any).status) {
       case 200:
-        ToastWrapper.success('Dados alterados com sucesso!');
+        ToastWrapper.success('Dados alterados com sucesso!')
         ToastWrapper.info(
           'Por questões de segurança, realize o login novamente.',
-        );
+        )
         setTimeout(() => {
-          signOut();
-        }, 3000);
-        break;
+          signOut()
+        }, 3000)
+        break
       default:
-        ToastWrapper.error('Não foi possível alterar os dados do usuário!');
-        break;
+        ToastWrapper.error('Não foi possível alterar os dados do usuário!')
+        break
     }
-    handleRefresh();
-  };
+    handleRefresh()
+  }
 
-  const router = useRouter();
+  const router = useRouter()
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [isEditing2, setIsEditing2] = useState(false);
-  const [isEditing3, setIsEditing3] = useState(false);
+  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing2, setIsEditing2] = useState(false)
+  const [isEditing3, setIsEditing3] = useState(false)
 
   const handleRefresh = () => {
-    router.push('/equipes');
-  };
+    router.push('/equipes')
+  }
 
   const handleEditName = () => {
-    if (errors.nome?.message) return;
-    setIsEditing((state) => !state);
-  };
+    if (errors.nome?.message) return
+    setIsEditing((state) => !state)
+  }
 
   const handleEditUser = () => {
-    if (errors.usuario?.message) return;
-    setIsEditing2((state) => !state);
-  };
+    if (errors.usuario?.message) return
+    setIsEditing2((state) => !state)
+  }
 
   const handleEditEmail = () => {
-    if (errors.email?.message) return;
-    setIsEditing3((state) => !state);
-  };
+    if (errors.email?.message) return
+    setIsEditing3((state) => !state)
+  }
 
   return (
     <>
@@ -135,7 +135,7 @@ export default function ConfigWrapper() {
                   aria-invalid={errors.nome ? 'true' : 'false'}
                   data-invalid={errors.nome}
                   onInvalid={(e: SyntheticEvent) => {
-                    e.preventDefault();
+                    e.preventDefault()
                   }}
                   {...register('nome', {
                     required: 'Nome é obrigatório',
@@ -181,7 +181,7 @@ export default function ConfigWrapper() {
                   aria-invalid={errors.usuario ? 'true' : 'false'}
                   data-invalid={errors.usuario}
                   onInvalid={(e: SyntheticEvent) => {
-                    e.preventDefault();
+                    e.preventDefault()
                   }}
                   {...register('usuario', {
                     required: 'Usuário é obrigatório',
@@ -227,7 +227,7 @@ export default function ConfigWrapper() {
                   aria-invalid={errors.email ? 'true' : 'false'}
                   data-invalid={errors.email}
                   onInvalid={(e: SyntheticEvent) => {
-                    e.preventDefault();
+                    e.preventDefault()
                   }}
                   {...register('email', {
                     required: 'Usuário é obrigatório',
@@ -266,5 +266,5 @@ export default function ConfigWrapper() {
         </div>
       </Form.Root>
     </>
-  );
+  )
 }

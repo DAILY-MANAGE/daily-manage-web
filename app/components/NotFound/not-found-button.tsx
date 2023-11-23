@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
 interface NotFoundButtonProps {
-  text: string;
-  callback: () => void;
+  text: string
+  callback: () => void
 }
 
 export default function NotFoundButton({
@@ -15,5 +15,5 @@ export default function NotFoundButton({
         <span className="font-medium group-hover:text-zinc-700">{text}</span>
       </button>
     </div>
-  );
+  )
 }

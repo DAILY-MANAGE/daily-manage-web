@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React from 'react'
 
-import Link from 'next/link';
+import Link from 'next/link'
 
 export default function GoToRegister() {
   return (
@@ -15,5 +15,5 @@ export default function GoToRegister() {
         Fazer cadastro
       </Link>
     </div>
-  );
+  )
 }

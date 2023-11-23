@@ -1,4 +1,4 @@
-import { Button } from '@/app/components/Shadcn/button';
+import { Button } from '@/app/components/Shadcn/button'
 
 import {
   Dialog,
@@ -8,17 +8,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/components/Shadcn/dialog';
-import { RxClipboard, RxGear, RxReload } from 'react-icons/rx';
+} from '@/app/components/Shadcn/dialog'
+import { RxClipboard, RxGear, RxReload } from 'react-icons/rx'
 
-import { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react'
 
-import { Subtitle } from '../subtitle';
-import FormName from './form-name';
+import { Subtitle } from '../subtitle'
+import FormName from './form-name'
 
 export interface ConfigProps {
-  nomeEquipe: string;
-  idEquipe: number;
+  nomeEquipe: string
+  idEquipe: number
 }
 
 function Loading() {
@@ -27,11 +27,11 @@ function Loading() {
       <RxReload className="w-4 h-4 my-auto leading-none animate-spin" />
       Carregando informações...
     </Subtitle>
-  );
+  )
 }
 
 export default function CreateForm({ nomeEquipe, idEquipe }: ConfigProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -64,5 +64,5 @@ export default function CreateForm({ nomeEquipe, idEquipe }: ConfigProps) {
         </DialogContent>
       </Dialog>
     </>
-  );
+  )
 }

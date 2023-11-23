@@ -1,14 +1,14 @@
-import { Form } from '@/app/components/Form';
-import { Button } from '@/app/components/Shadcn/button';
-import { Input } from '@/app/components/Shadcn/input';
-import { useFetch } from '@/app/hooks/useFetch';
-import { EDITAR_EQUIPE } from '@/app/utils/EndpointStorage';
+import { Form } from '@/app/components/Form'
+import { Button } from '@/app/components/Shadcn/button'
+import { Input } from '@/app/components/Shadcn/input'
+import { useFetch } from '@/app/hooks/useFetch'
+import { EDITAR_EQUIPE } from '@/app/utils/EndpointStorage'
 
-import { ConfigProps } from './create-form';
+import { ConfigProps } from './create-form'
 
-import { useRouter } from 'next/navigation';
-import { SyntheticEvent } from 'react';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation'
+import { SyntheticEvent } from 'react'
+import { useForm } from 'react-hook-form'
 
 export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
   const { handlePost } = useFetch({
@@ -17,11 +17,11 @@ export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
     header: {
       Equipe: idEquipe,
     },
-  });
+  })
 
   const nameValues = {
     nome: nomeEquipe,
-  };
+  }
 
   const {
     register,
@@ -30,27 +30,27 @@ export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
   } = useForm({
     mode: 'onChange',
     defaultValues: nameValues,
-  });
+  })
 
-  const router = useRouter();
+  const router = useRouter()
 
   const handleRefresh = () => {
-    router.refresh();
-  };
+    router.refresh()
+  }
 
   const onSubmit = async (nameData: typeof nameValues) => {
     const res = await handlePost({
       id: idEquipe,
       patchData: nameData,
-    });
+    })
     switch ((res as any).status) {
       case 200:
-        handleRefresh();
-        break;
+        handleRefresh()
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -66,7 +66,7 @@ export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
           aria-invalid={errors.nome ? 'true' : 'false'}
           data-invalid={errors.nome}
           onInvalid={(e: SyntheticEvent) => {
-            e.preventDefault();
+            e.preventDefault()
           }}
           {...register('nome', {
             required: 'Nome do Formulário é obrigatório',
@@ -86,5 +86,5 @@ export default function FormName({ nomeEquipe, idEquipe }: ConfigProps) {
         Criar Formulários
       </Button>
     </Form.Root>
-  );
+  )
 }

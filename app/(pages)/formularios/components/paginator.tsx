@@ -1,14 +1,14 @@
-import { Button } from '@/app/components/Shadcn/button';
+import { Button } from '@/app/components/Shadcn/button'
 import {
   RxDoubleArrowLeft,
   RxChevronLeft,
   RxChevronRight,
   RxDoubleArrowRight,
-} from 'react-icons/rx';
+} from 'react-icons/rx'
 
 interface PaginatorProps {
-  currentPage?: number;
-  amountOfPages?: number;
+  currentPage?: number
+  amountOfPages?: number
 }
 
 export function Paginator({
@@ -39,5 +39,5 @@ export function Paginator({
         </Button>
       </div>
     </div>
-  );
+  )
 }

@@ -1,15 +1,15 @@
-import { Form } from '@/app/components/Form';
-import { Button } from '@/app/components/Shadcn/button';
-import { Input } from '@/app/components/Shadcn/input';
-import { useFetch } from '@/app/hooks/useFetch';
-import { EDITAR_EQUIPE } from '@/app/utils/EndpointStorage';
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
-import { useRouter } from 'next/navigation';
-import { SyntheticEvent, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { RxPencil1 } from 'react-icons/rx';
-import { VscSave } from 'react-icons/vsc';
-import { ConfigProps } from './config';
+import { Form } from '@/app/components/Form'
+import { Button } from '@/app/components/Shadcn/button'
+import { Input } from '@/app/components/Shadcn/input'
+import { useFetch } from '@/app/hooks/useFetch'
+import { EDITAR_EQUIPE } from '@/app/utils/EndpointStorage'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import { useRouter } from 'next/navigation'
+import { SyntheticEvent, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { RxPencil1 } from 'react-icons/rx'
+import { VscSave } from 'react-icons/vsc'
+import { ConfigProps } from './config'
 
 export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
   const { handlePatch } = useFetch({
@@ -18,11 +18,11 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
     header: {
       Equipe: idEquipe,
     },
-  });
+  })
 
   const nameValues = {
     nome: nomeEquipe,
-  };
+  }
 
   const {
     register,
@@ -31,40 +31,40 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
   } = useForm({
     mode: 'onChange',
     defaultValues: nameValues,
-  });
+  })
 
-  const router = useRouter();
+  const router = useRouter()
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false)
 
   const handleRefresh = () => {
-    router.push('/equipes');
-  };
+    router.push('/equipes')
+  }
 
   const handleEdit = () => {
-    if (errors.nome?.message) return;
-    setIsEditing((state) => !state);
-  };
+    if (errors.nome?.message) return
+    setIsEditing((state) => !state)
+  }
 
   const onSubmit = async (nameData: typeof nameValues) => {
-    if (!idEquipe) return;
+    if (!idEquipe) return
     const res: any = await handlePatch({
       id: idEquipe,
       patchData: nameData,
-    });
+    })
     if (!res) {
-      ToastWrapper.error('Não foi possível alterar o nome da equipe.');
-      return;
+      ToastWrapper.error('Não foi possível alterar o nome da equipe.')
+      return
     }
     switch ((res as any).status) {
       case 200:
-        handleRefresh();
-        ToastWrapper.success('Nome alterado com sucesso!');
-        break;
+        handleRefresh()
+        ToastWrapper.success('Nome alterado com sucesso!')
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -80,7 +80,7 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
           aria-invalid={errors.nome ? 'true' : 'false'}
           data-invalid={errors.nome}
           onInvalid={(e: SyntheticEvent) => {
-            e.preventDefault();
+            e.preventDefault()
           }}
           {...register('nome', {
             required: 'Nome da Equipe é obrigatório',
@@ -115,5 +115,5 @@ export default function ChangeName({ nomeEquipe, idEquipe }: ConfigProps) {
       </div>
       <Form.Error message={errors.nome?.message} />
     </Form.Root>
-  );
+  )
 }

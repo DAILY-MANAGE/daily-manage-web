@@ -1,4 +1,4 @@
-import { Button } from '@/app/components/Shadcn/button';
+import { Button } from '@/app/components/Shadcn/button'
 
 import {
   Dialog,
@@ -8,18 +8,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/components/Shadcn/dialog';
-import { RxGear, RxReload } from 'react-icons/rx';
+} from '@/app/components/Shadcn/dialog'
+import { RxGear, RxReload } from 'react-icons/rx'
 
-import { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react'
 
-import { Subtitle } from '../subtitle';
-import ChangeName from './change-name';
-import DeleteTeam from './delete-team';
+import { Subtitle } from '../subtitle'
+import ChangeName from './change-name'
+import DeleteTeam from './delete-team'
 
 export interface ConfigProps {
-  nomeEquipe: string;
-  idEquipe: number | undefined;
+  nomeEquipe: string
+  idEquipe: number | undefined
 }
 
 function Loading() {
@@ -28,11 +28,11 @@ function Loading() {
       <RxReload className="w-4 h-4 my-auto leading-none animate-spin" />
       Carregando configurações...
     </Subtitle>
-  );
+  )
 }
 
 export default function Config({ nomeEquipe, idEquipe }: ConfigProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -66,5 +66,5 @@ export default function Config({ nomeEquipe, idEquipe }: ConfigProps) {
         </DialogContent>
       </Dialog>
     </>
-  );
+  )
 }

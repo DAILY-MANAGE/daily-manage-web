@@ -1,8 +1,8 @@
-import React, { LabelHTMLAttributes } from 'react';
-import { twMerge } from 'tailwind-merge';
+import React, { LabelHTMLAttributes } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 interface FormInputProps extends LabelHTMLAttributes<HTMLLabelElement> {
-  label?: string;
+  label?: string
 }
 
 export default function FormLabel({ ...props }: FormInputProps) {
@@ -16,5 +16,5 @@ export default function FormLabel({ ...props }: FormInputProps) {
     >
       {props.label}
     </label>
-  );
+  )
 }

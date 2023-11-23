@@ -1,56 +1,56 @@
-'use client';
+'use client'
 
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@/app/components/Shadcn/tabs';
-import { Root } from '@/app/components/Root';
-import BackButton from '@/app/components/BackButton';
+} from '@/app/components/Shadcn/tabs'
+import { Root } from '@/app/components/Root'
+import BackButton from '@/app/components/BackButton'
 
-import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter';
-import { Button } from '@/app/components/Shadcn/button';
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
+import { Button } from '@/app/components/Shadcn/button'
 
-import { useParams, useRouter } from 'next/navigation';
-import { useFetch } from '@/app/hooks/useFetch';
+import { useParams, useRouter } from 'next/navigation'
+import { useFetch } from '@/app/hooks/useFetch'
 
-import Forms from './tabs/forms';
-import Users from './tabs/users';
+import Forms from './tabs/forms'
+import Users from './tabs/users'
 
-import { RxAvatar, RxClipboard, RxPerson, RxReader } from 'react-icons/rx';
+import { RxAvatar, RxClipboard, RxPerson, RxReader } from 'react-icons/rx'
 
-import Config from './config/config';
-import Link from 'next/link';
-import { VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage';
-import { useState } from 'react';
-import { AddMemberModal } from './modal/add-member/add-member-modal';
-import TabContentWrapper from './tabs/tab-content-wrapper';
-import ConfigWrapper from './tabs/config-wrapper';
-import { usePermission } from '@/app/hooks/usePermission';
+import Config from './config/config'
+import Link from 'next/link'
+import { VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage'
+import { useState } from 'react'
+import { AddMemberModal } from './modal/add-member/add-member-modal'
+import TabContentWrapper from './tabs/tab-content-wrapper'
+import ConfigWrapper from './tabs/config-wrapper'
+import { usePermission } from '@/app/hooks/usePermission'
 
 export default function Equipes() {
-  const params = useParams();
+  const params = useParams()
   const { data, refetch, error } = useFetch({
     url: VER_EQUIPE_POR_ID.replace('{equipeId}', params.id as string),
     isGet: true,
     header: {
       Equipe: params.id,
     },
-  });
+  })
 
-  const [tab, setTab] = useState('forms');
+  const [tab, setTab] = useState('forms')
 
   const tabsChanged = (newTab: string) => {
-    setTab(newTab);
-  };
+    setTab(newTab)
+  }
 
-  const { permissions } = usePermission(undefined, params.id as any);
+  const { permissions } = usePermission(undefined, params.id as any)
 
-  const router = useRouter();
+  const router = useRouter()
 
   if (error && error.length > 0) {
-    router.push('/equipes');
+    router.push('/equipes')
   }
 
   return (
@@ -148,5 +148,5 @@ export default function Equipes() {
         </Tabs>
       </Root.Spacing>
     </>
-  );
+  )
 }

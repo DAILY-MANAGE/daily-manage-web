@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { Form } from '@/app/components/Form';
-import { Button } from '@/app/components/Shadcn/button';
+import { Form } from '@/app/components/Form'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Dialog,
   DialogContent,
@@ -10,31 +10,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/components/Shadcn/dialog';
-import { Input } from '@/app/components/Shadcn/input';
-import { Label } from '@/app/components/Shadcn/label';
-import { getClientCookie, useFetch } from '@/app/hooks/useFetch';
-import { ReactNode, SyntheticEvent } from 'react';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
-import { AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
-import { cookieKeyOriginal } from '@/app/hooks/useAuth';
-import { CRIAR_EQUIPE } from '@/app/utils/EndpointStorage';
+} from '@/app/components/Shadcn/dialog'
+import { Input } from '@/app/components/Shadcn/input'
+import { Label } from '@/app/components/Shadcn/label'
+import { getClientCookie, useFetch } from '@/app/hooks/useFetch'
+import { ReactNode, SyntheticEvent, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import { AxiosResponse } from 'axios'
+import Cookies from 'js-cookie'
+import { cookieKeyOriginal } from '@/app/hooks/useAuth'
+import { CRIAR_EQUIPE } from '@/app/utils/EndpointStorage'
 
 interface CreateTeamModalProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 interface TeamProps {
-  nome: string;
+  nome: string
 }
 
 const teamValues: TeamProps = {
   nome: '',
-};
+}
 
 export function CreateTeamModal({ children }: CreateTeamModalProps) {
   const {
@@ -44,39 +43,39 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
   } = useForm({
     mode: 'onChange',
     defaultValues: teamValues,
-  });
+  })
 
   const { handlePost } = useFetch({
     url: CRIAR_EQUIPE,
     isGet: false,
-  });
+  })
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const handleRefresh = () => {
-    router.refresh();
-  };
+    router.refresh()
+  }
 
   const onSubmit = async (teamData: TeamProps) => {
-    handleRefresh();
-    setOpen(false);
-    const response = await handlePost(teamData);
-    console.log(response);
+    handleRefresh()
+    setOpen(false)
+    const response = await handlePost(teamData)
+    console.log(response)
     switch ((response as any).status) {
       case 201:
-        ToastWrapper.success('Equipe criada com sucesso!');
-        console.log(response);
+        ToastWrapper.success('Equipe criada com sucesso!')
+        console.log(response)
         router.push(
           `/equipes/${(response as any).data.id}?t=${getClientCookie(
             cookieKeyOriginal,
           )}`,
-        );
+        )
       default:
-        break;
+        break
     }
-  };
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -105,7 +104,7 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
                 aria-invalid={errors.nome ? 'true' : 'false'}
                 data-invalid={errors.nome}
                 onInvalid={(e: SyntheticEvent) => {
-                  e.preventDefault();
+                  e.preventDefault()
                 }}
                 type="text"
                 {...register('nome', {
@@ -129,5 +128,5 @@ export function CreateTeamModal({ children }: CreateTeamModalProps) {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

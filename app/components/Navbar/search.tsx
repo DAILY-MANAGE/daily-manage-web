@@ -1,4 +1,4 @@
-import { Input } from '@/app/components/Shadcn/input';
+import { Input } from '@/app/components/Shadcn/input'
 
 export function Search() {
   return (
@@ -9,5 +9,5 @@ export function Search() {
         className="md:w-[100px] lg:w-[300px] shadow-sm"
       />
     </div>
-  );
+  )
 }

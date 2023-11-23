@@ -2,8 +2,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@/app/components/Shadcn/avatar';
-import { Button } from '@/app/components/Shadcn/button';
+} from '@/app/components/Shadcn/avatar'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,16 +12,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/components/Shadcn/dropdown-menu';
-import { useAuth } from '@/app/hooks/useAuth';
-import { getInitialLetter } from '@/app/utils/GetInitialLetter';
+} from '@/app/components/Shadcn/dropdown-menu'
+import { useAuth } from '@/app/hooks/useAuth'
+import { getInitialLetter } from '@/app/utils/GetInitialLetter'
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export function UserNav() {
-  const pathname = usePathname();
-  const { session, signOut } = useAuth();
+  const pathname = usePathname()
+  const { session, signOut } = useAuth()
 
   return (
     <>
@@ -67,5 +67,5 @@ export function UserNav() {
         </DropdownMenu>
       )}
     </>
-  );
+  )
 }

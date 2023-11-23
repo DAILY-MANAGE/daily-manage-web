@@ -1,11 +1,11 @@
-import { Button } from '@/app/components/Shadcn/button';
-import { useFetch } from '@/app/hooks/useFetch';
-import { OPCOES_CONVITE } from '@/app/utils/EndpointStorage';
-import { RxCheck, RxCross2 } from 'react-icons/rx';
+import { Button } from '@/app/components/Shadcn/button'
+import { useFetch } from '@/app/hooks/useFetch'
+import { OPCOES_CONVITE } from '@/app/utils/EndpointStorage'
+import { RxCheck, RxCross2 } from 'react-icons/rx'
 
 interface DenyProps {
-  inviteId: number;
-  refetch: any;
+  inviteId: number
+  refetch: any
 }
 
 export default function Deny({ inviteId, refetch }: DenyProps) {
@@ -15,24 +15,24 @@ export default function Deny({ inviteId, refetch }: DenyProps) {
       inviteId.toString(),
     ),
     isGet: false,
-  });
+  })
 
   return (
     <Button
       className="bg-red-500 flex gap-2 pl-2 h-8"
       onClick={async () => {
-        const res = await handlePost([]);
+        const res = await handlePost([])
         switch ((res as any).status) {
           case 200:
-            refetch();
-            break;
+            refetch()
+            break
           default:
-            break;
+            break
         }
       }}
     >
       <RxCross2 className="w-4 h-4" />
       Rejeitar
     </Button>
-  );
+  )
 }

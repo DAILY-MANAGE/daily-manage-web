@@ -1,15 +1,15 @@
-import { Button } from '@/app/components/Shadcn/button';
-import { useFetch } from '@/app/hooks/useFetch';
-import { EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO } from '@/app/utils/EndpointStorage';
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
+import { Button } from '@/app/components/Shadcn/button'
+import { useFetch } from '@/app/hooks/useFetch'
+import { EDITAR_PERMISSOES_DE_UM_USUARIO_POR_USUARIO } from '@/app/utils/EndpointStorage'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
 
-import { RxPencil1 } from 'react-icons/rx';
-import { EditUserPermissionsModal } from '../../modal/edit-permissions/edit-user-permissions-modal';
+import { RxPencil1 } from 'react-icons/rx'
+import { EditUserPermissionsModal } from '../../modal/edit-permissions/edit-user-permissions-modal'
 
 interface EditButtonProps {
-  usuario: string;
-  equipeId: number;
-  refetch: any;
+  usuario: string
+  equipeId: number
+  refetch: any
 }
 
 export default function EditButton({
@@ -31,5 +31,5 @@ export default function EditButton({
         <RxPencil1 className="w-6 h-6 my-auto text-white" />
       </Button>
     </EditUserPermissionsModal>
-  );
+  )
 }

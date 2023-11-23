@@ -1,41 +1,41 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { RxCaretSort, RxCheck } from 'react-icons/rx';
-import { PopoverProps } from '@radix-ui/react-popover';
+import * as React from 'react'
+import { useRouter } from 'next/navigation'
+import { RxCaretSort, RxCheck } from 'react-icons/rx'
+import { PopoverProps } from '@radix-ui/react-popover'
 
-import { cn } from '../../../../utils/utils';
-import { Button } from '@/app/components/Shadcn/button';
+import { cn } from '../../../../utils/utils'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/app/components/Shadcn/command';
+} from '@/app/components/Shadcn/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/app/components/Shadcn/popover';
-import { FormCreationData } from '../page';
-import { UseFormSetValue } from 'react-hook-form';
-import { useEffect } from 'react';
-import { useFetch } from '@/app/hooks/useFetch';
-import { FILTRAR_USUARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage';
-import { useAuth } from '../../../../hooks/useAuth';
+} from '@/app/components/Shadcn/popover'
+import { FormCreationData } from '../page'
+import { UseFormSetValue } from 'react-hook-form'
+import { useEffect } from 'react'
+import { useFetch } from '@/app/hooks/useFetch'
+import { FILTRAR_USUARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
+import { useAuth } from '../../../../hooks/useAuth'
 
 export interface Preset {
-  id: number;
-  usuario: string;
-  nome: string;
+  id: number
+  usuario: string
+  nome: string
 }
 
 interface PresetSelectorProps extends PopoverProps {
-  setValue: UseFormSetValue<FormCreationData>;
-  equipeid: string | null;
-  presets?: Preset[];
+  setValue: UseFormSetValue<FormCreationData>
+  equipeid: string | null
+  presets?: Preset[]
 }
 
 export function PermittedUsers({
@@ -43,12 +43,12 @@ export function PermittedUsers({
   equipeid,
   ...props
 }: PresetSelectorProps) {
-  const [open, setOpen] = React.useState(false);
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>([]);
+  const [open, setOpen] = React.useState(false)
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>([])
 
-  const [search, setSearch] = React.useState<string | null>();
+  const [search, setSearch] = React.useState<string | null>()
 
-  const auxPermitted1: any = [];
+  const auxPermitted1: any = []
 
   const { data, loading, error, refetch } = useFetch({
     url: `${FILTRAR_USUARIOS_DA_EQUIPE}${search ? '?nome=' + search : ''}`,
@@ -61,36 +61,36 @@ export function PermittedUsers({
         content: auxPermitted1,
       },
     },
-  });
+  })
 
   const formatUsers = () => {
-    let formattedUsers = '';
+    let formattedUsers = ''
     selectedPreset.forEach((userPreset: Preset, index: number) => {
       if (index === selectedPreset.length - 1) {
-        formattedUsers += userPreset.nome;
+        formattedUsers += userPreset.nome
       } else {
-        formattedUsers += `${userPreset.nome}, `;
+        formattedUsers += `${userPreset.nome}, `
       }
-    });
+    })
     if (formattedUsers === '') {
-      formattedUsers = 'Selecionar usuários';
+      formattedUsers = 'Selecionar usuários'
     }
-    return formattedUsers;
-  };
+    return formattedUsers
+  }
 
   const openChanged = (open: boolean) => {
-    setOpen(open);
+    setOpen(open)
     if (open) {
-      refetch();
+      refetch()
     }
-  };
+  }
 
   useEffect(() => {
     selectedPreset.forEach((userPreset: Preset) => {
-      auxPermitted1.push(userPreset.id);
-    });
-    setValue('idusuariospermitidos', auxPermitted1);
-  }, []);
+      auxPermitted1.push(userPreset.id)
+    })
+    setValue('idusuariospermitidos', auxPermitted1)
+  }, [])
 
   return (
     <>
@@ -112,12 +112,12 @@ export function PermittedUsers({
             <CommandInput
               placeholder="Pesquisar usuários..."
               onInput={(e: any) => {
-                let value = e.target.value;
+                let value = e.target.value
                 if (value === '') {
-                  value = null;
+                  value = null
                 }
-                setSearch(value);
-                refetch();
+                setSearch(value)
+                refetch()
               }}
             />
             <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
@@ -132,25 +132,25 @@ export function PermittedUsers({
                     onSelect={() => {
                       const isValid = selectedPreset.filter(
                         (userPreset: Preset) => userPreset.id === preset.id,
-                      );
-                      const auxPermitted: any = [];
+                      )
+                      const auxPermitted: any = []
                       if (isValid.length > 0) {
                         const removedUsers = selectedPreset.filter(
                           (userPreset: Preset) => userPreset.id !== preset.id,
-                        );
-                        setSelectedPreset(removedUsers);
+                        )
+                        setSelectedPreset(removedUsers)
                       } else {
-                        const auxSelectedPreset = [...selectedPreset];
-                        auxSelectedPreset.push(preset);
-                        setSelectedPreset(auxSelectedPreset);
-                        auxPermitted.push(preset.id);
+                        const auxSelectedPreset = [...selectedPreset]
+                        auxSelectedPreset.push(preset)
+                        setSelectedPreset(auxSelectedPreset)
+                        auxPermitted.push(preset.id)
                       }
                       selectedPreset.map((userPreset: Preset) => {
-                        auxPermitted.push(userPreset.id);
-                        return userPreset;
-                      });
-                      console.log(auxPermitted);
-                      setValue('idusuariospermitidos', auxPermitted);
+                        auxPermitted.push(userPreset.id)
+                        return userPreset
+                      })
+                      console.log(auxPermitted)
+                      setValue('idusuariospermitidos', auxPermitted)
                     }}
                   >
                     {preset.nome}
@@ -171,5 +171,5 @@ export function PermittedUsers({
         </PopoverContent>
       </Popover>
     </>
-  );
+  )
 }

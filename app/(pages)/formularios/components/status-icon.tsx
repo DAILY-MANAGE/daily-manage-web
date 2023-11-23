@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 
 interface StatusIconProps {
-  icon: ReactNode;
+  icon: ReactNode
 }
 
 export default function StatusIcon({ icon: Icon }: StatusIconProps) {
-  return <Icon className="w-4 h-4" />;
+  return <Icon className="w-4 h-4" />
 }

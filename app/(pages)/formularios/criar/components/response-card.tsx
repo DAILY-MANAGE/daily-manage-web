@@ -1,23 +1,23 @@
-'use client';
+'use client'
 
-import { Button } from '@/app/components/Shadcn/button';
-import { Card, CardContent, CardFooter } from '@/app/components/Shadcn/card';
-import { Input } from '@/app/components/Shadcn/input';
-import { Label } from '@/app/components/Shadcn/label';
-import { Switch } from '@/app/components/Shadcn/switch';
-import { Dispatch, SetStateAction } from 'react';
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-import { RxCardStackPlus, RxPlus, RxTrash } from 'react-icons/rx';
-import { FormCreationData, FormQuestion } from '../page';
-import { ResponseType } from './response-type';
+import { Button } from '@/app/components/Shadcn/button'
+import { Card, CardContent, CardFooter } from '@/app/components/Shadcn/card'
+import { Input } from '@/app/components/Shadcn/input'
+import { Label } from '@/app/components/Shadcn/label'
+import { Switch } from '@/app/components/Shadcn/switch'
+import { Dispatch, SetStateAction } from 'react'
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
+import { RxCardStackPlus, RxPlus, RxTrash } from 'react-icons/rx'
+import { FormCreationData, FormQuestion } from '../page'
+import { ResponseType } from './response-type'
 
 interface ResponseCardProps {
-  questions: FormQuestion[];
-  setValue: UseFormSetValue<FormCreationData>;
-  getValues: any;
-  setQuestions: Dispatch<SetStateAction<FormQuestion[]>>;
-  index: number;
-  callback: () => any;
+  questions: FormQuestion[]
+  setValue: UseFormSetValue<FormCreationData>
+  getValues: any
+  setQuestions: Dispatch<SetStateAction<FormQuestion[]>>
+  index: number
+  callback: () => any
 }
 
 export default function ReponseCard({
@@ -33,30 +33,30 @@ export default function ReponseCard({
       const clone = {
         ...state[index],
         id: state[state.length - 1].id + 1 || 1,
-      };
-      const aux = [...state, clone];
-      setValue('perguntas', aux as any);
-      return aux;
-    });
-  };
+      }
+      const aux = [...state, clone]
+      setValue('perguntas', aux as any)
+      return aux
+    })
+  }
 
   const deleteCard = () => {
     setQuestions((state: FormQuestion[]) => {
       const aux = state.filter(
         (formQuestion: FormQuestion) => formQuestion.id !== state[index].id,
-      );
-      setValue('perguntas', aux as any);
-      return aux;
-    });
-  };
+      )
+      setValue('perguntas', aux as any)
+      return aux
+    })
+  }
 
   const changeObligatory = (checked: boolean) => {
     setQuestions((state: FormQuestion[]) => {
-      state[index].opcional = !checked;
-      setValue('perguntas', state as any);
-      return state;
-    });
-  };
+      state[index].opcional = !checked
+      setValue('perguntas', state as any)
+      return state
+    })
+  }
 
   return (
     <>
@@ -75,10 +75,10 @@ export default function ReponseCard({
                     : ''
                 }
                 onChange={(e: any) => {
-                  let perguntas = getValues('perguntas') as FormQuestion[];
-                  perguntas[index].descricao = e.target.value;
-                  setValue('perguntas', perguntas as any);
-                  setQuestions(perguntas);
+                  const perguntas = getValues('perguntas') as FormQuestion[]
+                  perguntas[index].descricao = e.target.value
+                  setValue('perguntas', perguntas as any)
+                  setQuestions(perguntas)
                 }}
               ></Input>
             </CardContent>
@@ -144,5 +144,5 @@ export default function ReponseCard({
         )}
       </div>
     </>
-  );
+  )
 }

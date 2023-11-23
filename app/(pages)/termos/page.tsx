@@ -1,6 +1,6 @@
-import BackButton from '@/app/components/BackButton';
-import Logo from '@/app/components/Logo';
-import Link from 'next/link';
+import BackButton from '@/app/components/BackButton'
+import Logo from '@/app/components/Logo'
+import Link from 'next/link'
 
 export default function Termos() {
   return (
@@ -57,5 +57,5 @@ export default function Termos() {
         </div>
       </div>
     </div>
-  );
+  )
 }

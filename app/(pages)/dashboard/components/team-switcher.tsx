@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import { RxCaretSort, RxCheck, RxPlusCircled } from 'react-icons/rx';
+import * as React from 'react'
+import { RxCaretSort, RxCheck, RxPlusCircled } from 'react-icons/rx'
 
-import { cn } from '@/app/utils/utils';
+import { cn } from '@/app/utils/utils'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@/app/components/Shadcn/avatar';
-import { Button } from '@/app/components/Shadcn/button';
+} from '@/app/components/Shadcn/avatar'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Command,
   CommandEmpty,
@@ -18,7 +18,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/app/components/Shadcn/command';
+} from '@/app/components/Shadcn/command'
 import {
   Dialog,
   DialogContent,
@@ -27,21 +27,21 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/components/Shadcn/dialog';
-import { Input } from '@/app/components/Shadcn/input';
-import { Label } from '@/app/components/Shadcn/label';
+} from '@/app/components/Shadcn/dialog'
+import { Input } from '@/app/components/Shadcn/input'
+import { Label } from '@/app/components/Shadcn/label'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/app/components/Shadcn/popover';
+} from '@/app/components/Shadcn/popover'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/app/components/Shadcn/select';
+} from '@/app/components/Shadcn/select'
 
 const groups = [
   {
@@ -62,22 +62,20 @@ const groups = [
       },
     ],
   },
-];
+]
 
-type Team = (typeof groups)[number]['teams'][number];
+type Team = (typeof groups)[number]['teams'][number]
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<
-  typeof PopoverTrigger
->;
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
 interface TeamSwitcherProps extends PopoverTriggerProps {}
 
 export default function TeamSwitcher({ className }: TeamSwitcherProps) {
-  const [open, setOpen] = React.useState(false);
-  const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
+  const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
     groups[0].teams[0],
-  );
+  )
 
   return (
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
@@ -112,8 +110,8 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                     <CommandItem
                       key={team.value}
                       onSelect={() => {
-                        setSelectedTeam(team);
-                        setOpen(false);
+                        setSelectedTeam(team)
+                        setOpen(false)
                       }}
                       className="text-sm"
                     >
@@ -145,8 +143,8 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                 <DialogTrigger asChild>
                   <CommandItem
                     onSelect={() => {
-                      setOpen(false);
-                      setShowNewTeamDialog(true);
+                      setOpen(false)
+                      setShowNewTeamDialog(true)
                     }}
                   >
                     <RxPlusCircled className="mr-2 h-5 w-5" />
@@ -203,5 +201,5 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

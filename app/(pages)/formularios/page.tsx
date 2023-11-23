@@ -1,17 +1,17 @@
-import { Button } from '@/app/components/Shadcn/button';
+import { Button } from '@/app/components/Shadcn/button'
 
-import { Metadata } from 'next';
-import Link from 'next/link';
+import { Metadata } from 'next'
+import Link from 'next/link'
 
-import { RxClipboard } from 'react-icons/rx';
+import { RxClipboard } from 'react-icons/rx'
 
-import { Root } from '../../components/Root';
-import FormTable from './components/form-table';
+import { Root } from '../../components/Root'
+import FormTable from './components/form-table'
 
 export const metadata: Metadata = {
   title: 'Formulários | Daily Manage',
   description: 'Lista de formulários criados.',
-};
+}
 
 export default function Formularios() {
   return (
@@ -28,5 +28,5 @@ export default function Formularios() {
       </Root.Header>
       <FormTable />
     </Root.Spacing>
-  );
+  )
 }

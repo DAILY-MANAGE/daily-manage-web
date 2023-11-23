@@ -3,5 +3,5 @@ export default function Usuario() {
     <>
       <h1>Informações</h1>
     </>
-  );
+  )
 }

@@ -1,32 +1,32 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { RxCaretSort, RxCheck } from 'react-icons/rx';
-import { PopoverProps } from '@radix-ui/react-popover';
+import * as React from 'react'
+import { useRouter } from 'next/navigation'
+import { RxCaretSort, RxCheck } from 'react-icons/rx'
+import { PopoverProps } from '@radix-ui/react-popover'
 
-import { cn } from '../../../../utils/utils';
-import { Button } from '@/app/components/Shadcn/button';
+import { cn } from '../../../../utils/utils'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/app/components/Shadcn/command';
+} from '@/app/components/Shadcn/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/app/components/Shadcn/popover';
-import { UseFormSetValue } from 'react-hook-form';
-import { FormCreationData, FormQuestion } from '../page';
-import { Dispatch, SetStateAction } from 'react';
+} from '@/app/components/Shadcn/popover'
+import { UseFormSetValue } from 'react-hook-form'
+import { FormCreationData, FormQuestion } from '../page'
+import { Dispatch, SetStateAction } from 'react'
 
 export interface Preset {
-  id: number;
-  name: string;
-  value: string;
+  id: number
+  name: string
+  value: string
 }
 
 const presets: Preset[] = [
@@ -75,15 +75,15 @@ const presets: Preset[] = [
     name: 'Litro',
     value: 'LITRO',
   },
-];
+]
 
 interface PresetSelectorProps extends PopoverProps {
-  presets?: Preset[];
-  getValues: any;
-  setValue: UseFormSetValue<FormCreationData>;
-  setQuestions: Dispatch<SetStateAction<FormQuestion[]>>;
-  index: number;
-  defaultPreset?: string;
+  presets?: Preset[]
+  getValues: any
+  setValue: UseFormSetValue<FormCreationData>
+  setQuestions: Dispatch<SetStateAction<FormQuestion[]>>
+  index: number
+  defaultPreset?: string
 }
 
 export function ResponseType({
@@ -96,24 +96,24 @@ export function ResponseType({
 }: PresetSelectorProps) {
   const getPresetFromDefaultPreset = () => {
     if (!defaultPreset) {
-      return presets[0];
+      return presets[0]
     }
     const filter = presets.filter((currentPreset: Preset) => {
       if (currentPreset.value === defaultPreset) {
-        return currentPreset;
+        return currentPreset
       }
-    });
+    })
     if (filter.length == 0) {
-      return presets[0];
+      return presets[0]
     }
-    return filter[0];
-  };
+    return filter[0]
+  }
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
-  const formattedPreset = getPresetFromDefaultPreset();
+  const formattedPreset = getPresetFromDefaultPreset()
   const [selectedPreset, setSelectedPreset] =
-    React.useState<Preset>(formattedPreset);
+    React.useState<Preset>(formattedPreset)
 
   return (
     <Popover open={open} onOpenChange={setOpen} {...props}>
@@ -140,12 +140,12 @@ export function ResponseType({
               <CommandItem
                 key={preset.id}
                 onSelect={() => {
-                  setSelectedPreset(preset);
-                  const perguntas = getValues('perguntas');
-                  console.log(perguntas, index);
-                  perguntas[index].tiporesposta = preset.value;
-                  setValue('perguntas', perguntas);
-                  setQuestions(perguntas as FormQuestion[]);
+                  setSelectedPreset(preset)
+                  const perguntas = getValues('perguntas')
+                  console.log(perguntas, index)
+                  perguntas[index].tiporesposta = preset.value
+                  setValue('perguntas', perguntas)
+                  setQuestions(perguntas as FormQuestion[])
                 }}
               >
                 {preset.name}
@@ -163,5 +163,5 @@ export function ResponseType({
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

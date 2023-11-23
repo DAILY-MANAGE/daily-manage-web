@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React from 'react'
 
 interface LoginValidationErrorProps {
-  message: string | undefined;
+  message: string | undefined
 }
 
 export default function PreFormError({ message }: LoginValidationErrorProps) {
@@ -13,5 +13,5 @@ export default function PreFormError({ message }: LoginValidationErrorProps) {
         {message}
       </small>
     )) || <></>
-  );
+  )
 }

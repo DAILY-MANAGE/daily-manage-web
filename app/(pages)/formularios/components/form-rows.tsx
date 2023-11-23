@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { Fragment } from 'react';
+import { Fragment } from 'react'
 
-import { Button } from '@/app/components/Shadcn/button';
-import { TableCell, TableRow } from '@/app/components/Shadcn/table';
+import { Button } from '@/app/components/Shadcn/button'
+import { TableCell, TableRow } from '@/app/components/Shadcn/table'
 
-import { FormData } from '@/app/interfaces/FormData';
+import { FormData } from '@/app/interfaces/FormData'
 import {
   RxCheckCircled,
   RxCrossCircled,
@@ -13,7 +13,7 @@ import {
   RxPencil1,
   RxPencil2,
   RxTrash,
-} from 'react-icons/rx';
+} from 'react-icons/rx'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,31 +21,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/components/Shadcn/dropdown-menu';
-import axios from 'axios';
-import { RequestType } from '@/app/interfaces/RequestType';
-import Link from 'next/link';
+} from '@/app/components/Shadcn/dropdown-menu'
+import axios from 'axios'
+import { RequestType } from '@/app/interfaces/RequestType'
+import Link from 'next/link'
 
 interface FormProps {
-  data: FormData[];
-  loading: boolean;
+  data: FormData[]
+  loading: boolean
 }
 
 export default function FormRows({ data, loading }: FormProps) {
-  const iconMap = new Map();
+  const iconMap = new Map()
   iconMap.set(
     'assinado',
     <RxCheckCircled className="w-5 h-5 my-auto text-green-900" />,
-  );
+  )
   iconMap.set(
     'não visto',
     <RxCrossCircled className="w-5 h-5 my-auto text-red-900" />,
-  );
+  )
 
   const timeConverter = (unixTimestamp: number) => {
-    const date = new Date(unixTimestamp * 1000);
-    return date.toLocaleString('pt-BR');
-  };
+    const date = new Date(unixTimestamp * 1000)
+    return date.toLocaleString('pt-BR')
+  }
 
   const deleteForm = (formData: FormData) => {
     axios
@@ -53,24 +53,24 @@ export default function FormRows({ data, loading }: FormProps) {
       .then((response: RequestType) => {
         if (response) {
           // response.request.status === 200
-          console.log(response);
+          console.log(response)
           data.forEach((form) => {
             if (form.id === formData.id) {
-              form.estado = 'Deletado';
-              console.log(form);
+              form.estado = 'Deletado'
+              console.log(form)
             }
-          });
+          })
         }
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   return (
     <>
       {data.map((formData: FormData) => {
-        if (loading) return <Fragment key={formData.id}></Fragment>;
+        if (loading) return <Fragment key={formData.id}></Fragment>
         return (
           <TableRow
             key={formData.id}
@@ -123,8 +123,8 @@ export default function FormRows({ data, loading }: FormProps) {
               </DropdownMenu>
             </TableCell>
           </TableRow>
-        );
+        )
       })}
     </>
-  );
+  )
 }

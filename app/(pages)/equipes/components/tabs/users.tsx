@@ -2,18 +2,18 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@/app/components/Shadcn/avatar';
-import { Button } from '@/app/components/Shadcn/button';
+} from '@/app/components/Shadcn/avatar'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card';
-import { useAuth } from '@/app/hooks/useAuth';
-import { User } from '@/app/interfaces/TeamData';
-import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter';
-import { getInitialLetter } from '@/app/utils/GetInitialLetter';
+} from '@/app/components/Shadcn/card'
+import { useAuth } from '@/app/hooks/useAuth'
+import { User } from '@/app/interfaces/TeamData'
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
+import { getInitialLetter } from '@/app/utils/GetInitialLetter'
 import {
   RxCrossCircled,
   RxAvatar,
@@ -23,28 +23,28 @@ import {
   RxChevronLeft,
   RxChevronRight,
   RxReload,
-} from 'react-icons/rx';
-import { Subtitle } from '../subtitle';
-import DeleteButton from './user-buttons/delete-button';
-import EditButton from './user-buttons/edit-button';
-import { Fragment, useEffect, useState } from 'react';
+} from 'react-icons/rx'
+import { Subtitle } from '../subtitle'
+import DeleteButton from './user-buttons/delete-button'
+import EditButton from './user-buttons/edit-button'
+import { Fragment, useEffect, useState } from 'react'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/app/components/Shadcn/tooltip';
-import LogsButton from './user-buttons/logs-button';
-import { Input } from '@/app/components/Shadcn/input';
-import { useFetch } from '@/app/hooks/useFetch';
-import { FILTRAR_USUARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage';
+} from '@/app/components/Shadcn/tooltip'
+import LogsButton from './user-buttons/logs-button'
+import { Input } from '@/app/components/Shadcn/input'
+import { useFetch } from '@/app/hooks/useFetch'
+import { FILTRAR_USUARIOS_DA_EQUIPE } from '@/app/utils/EndpointStorage'
 
 interface UsersProps {
-  userData: User[];
-  equipeId: number;
-  userPermissions: string[] | undefined;
-  refetchTeamData: any;
-  teamCreator: string;
+  userData: User[]
+  equipeId: number
+  userPermissions: string[] | undefined
+  refetchTeamData: any
+  teamCreator: string
 }
 
 export default function Users({
@@ -53,9 +53,9 @@ export default function Users({
   refetchTeamData,
   teamCreator,
 }: UsersProps) {
-  const [page, setPage] = useState(0);
-  const [search, setSearch] = useState('');
-  const { session } = useAuth();
+  const [page, setPage] = useState(0)
+  const [search, setSearch] = useState('')
+  const { session } = useAuth()
 
   const { data, loading, error, refetch } = useFetch({
     url: `${FILTRAR_USUARIOS_DA_EQUIPE}?page=${page}&size=5&nome=${search}`,
@@ -63,10 +63,10 @@ export default function Users({
     header: {
       Equipe: equipeId,
     },
-  });
+  })
 
-  const dataInner = data && data.data;
-  const content = dataInner && dataInner.content;
+  const dataInner = data && data.data
+  const content = dataInner && dataInner.content
 
   return (
     <>
@@ -178,7 +178,7 @@ export default function Users({
                   </div>
                 </CardHeader>
               </Card>
-            );
+            )
           })}
       </div>
       <div className="w-full min-h-10 flex gap-2 items-center">
@@ -195,12 +195,12 @@ export default function Users({
             disabled={dataInner && dataInner.first}
             onClick={() => {
               if (dataInner.first) {
-                return;
+                return
               }
               if (page - 1 < 0) {
-                return;
+                return
               }
-              setPage((state) => state - 1);
+              setPage((state) => state - 1)
             }}
           >
             <RxChevronLeft className="w-5 h-5" />
@@ -211,12 +211,12 @@ export default function Users({
             disabled={dataInner && dataInner.last}
             onClick={() => {
               if (dataInner.last) {
-                return;
+                return
               }
               if (page + 1 > dataInner.totalPages) {
-                return;
+                return
               }
-              setPage((state) => state + 1);
+              setPage((state) => state + 1)
             }}
           >
             <RxChevronRight className="w-5 h-5" />
@@ -224,5 +224,5 @@ export default function Users({
         </div>
       </div>
     </>
-  );
+  )
 }

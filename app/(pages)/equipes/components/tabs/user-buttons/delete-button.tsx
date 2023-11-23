@@ -1,14 +1,14 @@
-import { Button } from '@/app/components/Shadcn/button';
-import { useFetch } from '@/app/hooks/useFetch';
-import { ToastWrapper } from '@/app/utils/ToastWrapper';
-import { RxTrash } from 'react-icons/rx';
-import { REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO } from '@/app/utils/EndpointStorage';
-import { useRouter } from 'next/navigation';
+import { Button } from '@/app/components/Shadcn/button'
+import { useFetch } from '@/app/hooks/useFetch'
+import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import { RxTrash } from 'react-icons/rx'
+import { REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO } from '@/app/utils/EndpointStorage'
+import { useRouter } from 'next/navigation'
 
 interface DeleteButtonProps {
-  usuario: string;
-  equipeId: number;
-  refetch: any;
+  usuario: string
+  equipeId: number
+  refetch: any
 }
 
 export default function DeleteButton({
@@ -16,7 +16,7 @@ export default function DeleteButton({
   equipeId,
   refetch,
 }: DeleteButtonProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   const { handleDelete } = useFetch({
     url: REMOVER_USUARIO_DA_EQUIPE_POR_USUARIO,
@@ -25,26 +25,26 @@ export default function DeleteButton({
       Equipe: equipeId,
       Usuario: usuario,
     },
-  });
+  })
 
   const removeUser = async () => {
-    const res: any = await handleDelete(usuario);
+    const res: any = await handleDelete(usuario)
     if (!res) {
-      return;
+      return
     }
     switch ((res as any).status) {
       case 200:
-        ToastWrapper.success('Usuário removido da equipe com sucesso.');
-        break;
+        ToastWrapper.success('Usuário removido da equipe com sucesso.')
+        break
       case 404:
-        ToastWrapper.error('O usuário insirido não existe.');
-        break;
+        ToastWrapper.error('O usuário insirido não existe.')
+        break
       default:
-        ToastWrapper.error('Não foi possível deletar esse usuário.');
-        break;
+        ToastWrapper.error('Não foi possível deletar esse usuário.')
+        break
     }
-    refetch();
-  };
+    refetch()
+  }
 
   return (
     <Button
@@ -54,5 +54,5 @@ export default function DeleteButton({
     >
       <RxTrash className="w-6 h-6 my-auto text-white" />
     </Button>
-  );
+  )
 }

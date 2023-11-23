@@ -1,37 +1,37 @@
-'use client';
+'use client'
 
-import NotificationView from '@/app/components/Navbar/notification/notification-view';
-import Accept from '@/app/components/Navbar/notification/options/accept';
-import Deny from '@/app/components/Navbar/notification/options/deny';
-import { Button } from '@/app/components/Shadcn/button';
+import NotificationView from '@/app/components/Navbar/notification/notification-view'
+import Accept from '@/app/components/Navbar/notification/options/accept'
+import Deny from '@/app/components/Navbar/notification/options/deny'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/app/components/Shadcn/card';
-import { DropdownMenuSeparator } from '@/app/components/Shadcn/dropdown-menu';
-import { useFetch } from '@/app/hooks/useFetch';
-import { Notifications } from '@/app/interfaces/Notifications';
-import { VER_NOTIFICACOES } from '@/app/utils/EndpointStorage';
+} from '@/app/components/Shadcn/card'
+import { DropdownMenuSeparator } from '@/app/components/Shadcn/dropdown-menu'
+import { useFetch } from '@/app/hooks/useFetch'
+import { Notifications } from '@/app/interfaces/Notifications'
+import { VER_NOTIFICACOES } from '@/app/utils/EndpointStorage'
 
-import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
-import { Fragment, useState } from 'react';
-import { RxChevronLeft, RxChevronRight } from 'react-icons/rx';
+import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
+import { Fragment, useState } from 'react'
+import { RxChevronLeft, RxChevronRight } from 'react-icons/rx'
 
-import { format, register } from 'timeago.js';
-import ptbrLocale from 'timeago.js/lib/lang/pt_BR';
+import { format, register } from 'timeago.js'
+import ptbrLocale from 'timeago.js/lib/lang/pt_BR'
 
 export default function NotificationProvider() {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0)
 
   const { data, refetch } = useFetch({
     url: `${VER_NOTIFICACOES}?page=${page}&size=13`,
     isGet: true,
-  });
+  })
 
-  const dataInner = data && data.data;
-  const content = dataInner && dataInner.content;
+  const dataInner = data && data.data
+  const content = dataInner && dataInner.content
 
   return (
     <>
@@ -77,7 +77,7 @@ export default function NotificationProvider() {
                 </Card>
               </NotificationView>
             </Fragment>
-          );
+          )
         })}
       <div className="w-full min-h-10 flex gap-2 items-center">
         <div className="w-1/2 flex justify-start items-center">
@@ -93,12 +93,12 @@ export default function NotificationProvider() {
             disabled={dataInner && dataInner.first}
             onClick={() => {
               if (dataInner.first) {
-                return;
+                return
               }
               if (page - 1 < 0) {
-                return;
+                return
               }
-              setPage((state) => state - 1);
+              setPage((state) => state - 1)
             }}
           >
             <RxChevronLeft className="w-5 h-5" />
@@ -109,12 +109,12 @@ export default function NotificationProvider() {
             disabled={dataInner && dataInner.last}
             onClick={() => {
               if (dataInner.last) {
-                return;
+                return
               }
               if (page + 1 > dataInner.totalPages) {
-                return;
+                return
               }
-              setPage((state) => state + 1);
+              setPage((state) => state + 1)
             }}
           >
             <RxChevronRight className="w-5 h-5" />
@@ -122,5 +122,5 @@ export default function NotificationProvider() {
         </div>
       </div>
     </>
-  );
+  )
 }

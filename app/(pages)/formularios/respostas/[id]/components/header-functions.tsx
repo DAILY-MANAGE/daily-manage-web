@@ -1,46 +1,46 @@
-'use client';
+'use client'
 
-import { Button } from '@/app/components/Shadcn/button';
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/app/components/Shadcn/card';
-import { Label } from '@/app/components/Shadcn/label';
-import { useFetch } from '@/app/hooks/useFetch';
-import { VER_ESTATISTICA_FORMULARIO } from '@/app/utils/EndpointStorage';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, useState } from 'react';
-import { RxChevronLeft, RxChevronRight, RxReload } from 'react-icons/rx';
-import { SiGooglesheets } from 'react-icons/si';
-import AmountOfResponses from './amount-of-responses';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+} from '@/app/components/Shadcn/card'
+import { Label } from '@/app/components/Shadcn/label'
+import { useFetch } from '@/app/hooks/useFetch'
+import { VER_ESTATISTICA_FORMULARIO } from '@/app/utils/EndpointStorage'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Fragment, useState } from 'react'
+import { RxChevronLeft, RxChevronRight, RxReload } from 'react-icons/rx'
+import { SiGooglesheets } from 'react-icons/si'
+import AmountOfResponses from './amount-of-responses'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'react-chartjs-2'
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 interface PerguntaData {
-  id: number;
-  descricao: string;
-  tipoResposta: string;
-  opcional: boolean;
+  id: number
+  descricao: string
+  tipoResposta: string
+  opcional: boolean
 }
 
 interface FormStatsData {
-  pergunta: PerguntaData;
-  quantidade: number;
-  moda: string;
-  media: number;
-  ocorrencia: any;
+  pergunta: PerguntaData
+  quantidade: number
+  moda: string
+  media: number
+  ocorrencia: any
 }
 
 interface HeaderFunctionsProps {
-  formId: number;
+  formId: number
 }
 
 export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
   const { data } = useFetch({
     url: VER_ESTATISTICA_FORMULARIO.replace(
@@ -51,21 +51,21 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
     header: {
       Equipe: searchParams.get('equipeId'),
     },
-  });
+  })
 
-  const dataInner = data && data.data;
+  const dataInner = data && data.data
 
-  const [page, setPage] = useState(0);
-  const [generatingSheet, setGeneratingSheet] = useState(false);
+  const [page, setPage] = useState(0)
+  const [generatingSheet, setGeneratingSheet] = useState(false)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const generateSheet = () => {
-    setGeneratingSheet(true);
+    setGeneratingSheet(true)
     setTimeout(() => {
-      setGeneratingSheet(false);
-    }, 10000);
-  };
+      setGeneratingSheet(false)
+    }, 10000)
+  }
 
   return (
     <div className="w-full flex gap-3 flex-col">
@@ -108,12 +108,12 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
                     disabled={dataInner && dataInner.first}
                     onClick={() => {
                       if (dataInner.first) {
-                        return;
+                        return
                       }
                       if (page - 1 < 0) {
-                        return;
+                        return
                       }
-                      setPage((state) => state - 1);
+                      setPage((state) => state - 1)
                     }}
                   >
                     <RxChevronLeft className="w-5 h-5" />
@@ -124,12 +124,12 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
                     disabled={dataInner && dataInner.last}
                     onClick={() => {
                       if (dataInner.last) {
-                        return;
+                        return
                       }
                       if (page + 1 > dataInner.totalPages) {
-                        return;
+                        return
                       }
-                      setPage((state) => state + 1);
+                      setPage((state) => state + 1)
                     }}
                   >
                     <RxChevronRight className="w-5 h-5" />
@@ -145,7 +145,7 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
           {dataInner && (
             <Fragment>
               {dataInner.map((formStatsData: FormStatsData, index: number) => {
-                const occurencesToKey = Object.keys(formStatsData.ocorrencia);
+                const occurencesToKey = Object.keys(formStatsData.ocorrencia)
 
                 return (
                   <>
@@ -167,7 +167,7 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
                                       {
                                         label: 'Ocorrência',
                                         data: [
-                                          formStatsData.ocorrencia['sim'],
+                                          formStatsData.ocorrencia.sim,
                                           formStatsData.ocorrencia['não'],
                                         ],
                                         backgroundColor: [
@@ -202,7 +202,7 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
                                       onClick={() => {
                                         router.push(
                                           `/dashboard/${formStatsData.pergunta.id}`,
-                                        );
+                                        )
                                       }}
                                       className="cursor-pointer w-full min-h-5 bg-black/5 p-6 py-2"
                                     >
@@ -212,7 +212,7 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
                                         OCORRÊNCIAS
                                       </span>
                                     </div>
-                                  );
+                                  )
                                 })}
                               </Fragment>
                             )}
@@ -223,12 +223,12 @@ export default function HeaderFunctions({ formId }: HeaderFunctionsProps) {
                       </CardContent>
                     </Card>
                   </>
-                );
+                )
               })}
             </Fragment>
           )}
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

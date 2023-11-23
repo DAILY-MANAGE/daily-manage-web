@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import { RxBell, RxCheck, RxCross2 } from 'react-icons/rx';
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import { RxBell, RxCheck, RxCross2 } from 'react-icons/rx'
 
 import {
   DropdownMenu,
@@ -11,43 +11,43 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/components/Shadcn/dropdown-menu';
+} from '@/app/components/Shadcn/dropdown-menu'
 
-import { format, register } from 'timeago.js';
-import ptbrLocale from 'timeago.js/lib/lang/pt_BR';
+import { format, register } from 'timeago.js'
+import ptbrLocale from 'timeago.js/lib/lang/pt_BR'
 
-import { Button } from '../../Shadcn/button';
-import { Badge } from '../../Shadcn/badge';
-import { useFetch } from '@/app/hooks/useFetch';
-import { Notifications } from '@/app/interfaces/Notifications';
-import { VER_NOTIFICACOES } from '@/app/utils/EndpointStorage';
-import NotificationView from './notification-view';
-import Accept from './options/accept';
-import Deny from './options/deny';
-import Link from 'next/link';
+import { Button } from '../../Shadcn/button'
+import { Badge } from '../../Shadcn/badge'
+import { useFetch } from '@/app/hooks/useFetch'
+import { Notifications } from '@/app/interfaces/Notifications'
+import { VER_NOTIFICACOES } from '@/app/utils/EndpointStorage'
+import NotificationView from './notification-view'
+import Accept from './options/accept'
+import Deny from './options/deny'
+import Link from 'next/link'
 
-const notificationsToLoad = 5;
+const notificationsToLoad = 5
 
 export default function NavNotification() {
-  const [unreadMessages, setUnreadMessages] = useState(0);
+  const [unreadMessages, setUnreadMessages] = useState(0)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const { data, refetch } = useFetch({
     url: `${VER_NOTIFICACOES}?size=5`,
     isGet: true,
-  });
+  })
 
-  const content = data && data.data && data.data.content;
+  const content = data && data.data && data.data.content
 
   return (
     <DropdownMenu
       onOpenChange={(open: boolean) => {
         if (open) {
-          refetch();
+          refetch()
         }
-        if (!open) return;
-        setUnreadMessages(0);
+        if (!open) return
+        setUnreadMessages(0)
       }}
     >
       <DropdownMenuTrigger asChild className="group">
@@ -96,7 +96,7 @@ export default function NavNotification() {
                     >
                       <DropdownMenuItem
                         onSelect={(event: Event) => {
-                          event.preventDefault();
+                          event.preventDefault()
                         }}
                         className="flex items-center justify-start gap-2"
                       >
@@ -129,7 +129,7 @@ export default function NavNotification() {
                       (index < content.length - 1 && <DropdownMenuSeparator />)}
                   </div>
                 </Fragment>
-              );
+              )
             })}
           {content && content.length > 0 && (
             <div className="px-2 py-2">
@@ -143,5 +143,5 @@ export default function NavNotification() {
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

@@ -2,8 +2,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@/app/components/Shadcn/avatar';
-import { Button } from '@/app/components/Shadcn/button';
+} from '@/app/components/Shadcn/avatar'
+import { Button } from '@/app/components/Shadcn/button'
 
 export function RecentFills() {
   return (
@@ -22,5 +22,5 @@ export function RecentFills() {
         </div>
       </div>
     </div>
-  );
+  )
 }

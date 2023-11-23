@@ -1,39 +1,39 @@
-'use client';
+'use client'
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { RxCaretSort, RxCheck } from 'react-icons/rx';
-import { PopoverProps } from '@radix-ui/react-popover';
+import * as React from 'react'
+import { useRouter } from 'next/navigation'
+import { RxCaretSort, RxCheck } from 'react-icons/rx'
+import { PopoverProps } from '@radix-ui/react-popover'
 
-import { cn } from '../../../../utils/utils';
-import { Button } from '@/app/components/Shadcn/button';
+import { cn } from '../../../../utils/utils'
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/app/components/Shadcn/command';
+} from '@/app/components/Shadcn/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/app/components/Shadcn/popover';
-import { Dispatch, SetStateAction } from 'react';
-import { useFetch } from '@/app/hooks/useFetch';
-import { FILTRAR_USUARIOS } from '@/app/utils/EndpointStorage';
+} from '@/app/components/Shadcn/popover'
+import { Dispatch, SetStateAction } from 'react'
+import { useFetch } from '@/app/hooks/useFetch'
+import { FILTRAR_USUARIOS } from '@/app/utils/EndpointStorage'
 
 export interface Preset {
-  id: number;
-  usuario: string;
-  nome: string;
+  id: number
+  usuario: string
+  nome: string
 }
 
 interface PresetSelectorProps extends PopoverProps {
-  userId: number | undefined;
-  setUserId: Dispatch<SetStateAction<number | undefined>>;
-  equipeid: string | null;
-  presets?: Preset[];
+  userId: number | undefined
+  setUserId: Dispatch<SetStateAction<number | undefined>>
+  equipeid: string | null
+  presets?: Preset[]
 }
 
 export function AddUsers({
@@ -42,12 +42,12 @@ export function AddUsers({
   equipeid,
   ...props
 }: PresetSelectorProps) {
-  const [open, setOpen] = React.useState(false);
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset>();
+  const [open, setOpen] = React.useState(false)
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset>()
 
-  const [search, setSearch] = React.useState<string | null>();
+  const [search, setSearch] = React.useState<string | null>()
 
-  const auxPermitted1: any = [];
+  const auxPermitted1: any = []
 
   const { data, refetch } = useFetch({
     url: `${FILTRAR_USUARIOS}${search ? '?nome=' + search : ''}`,
@@ -60,14 +60,14 @@ export function AddUsers({
         content: auxPermitted1,
       },
     },
-  });
+  })
 
   const openChanged = (open: boolean) => {
-    setOpen(open);
+    setOpen(open)
     if (open) {
-      refetch();
+      refetch()
     }
-  };
+  }
 
   return (
     <>
@@ -90,12 +90,12 @@ export function AddUsers({
             <CommandInput
               placeholder="Pesquisar usuários..."
               onInput={(e: any) => {
-                let value = e.target.value;
+                let value = e.target.value
                 if (value === '') {
-                  value = null;
+                  value = null
                 }
-                setSearch(value);
-                refetch();
+                setSearch(value)
+                refetch()
               }}
             />
             <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
@@ -109,11 +109,11 @@ export function AddUsers({
                     key={preset.id}
                     onSelect={() => {
                       if (selectedPreset && selectedPreset.id === preset.id) {
-                        setSelectedPreset(undefined);
-                        setUserId(undefined);
+                        setSelectedPreset(undefined)
+                        setUserId(undefined)
                       } else {
-                        setSelectedPreset(preset);
-                        setUserId(preset.id);
+                        setSelectedPreset(preset)
+                        setUserId(preset.id)
                       }
                     }}
                   >
@@ -131,5 +131,5 @@ export function AddUsers({
         </PopoverContent>
       </Popover>
     </>
-  );
+  )
 }

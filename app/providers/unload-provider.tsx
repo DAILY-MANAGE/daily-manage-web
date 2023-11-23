@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import { useUnload } from '../hooks/useUnload';
+import { useUnload } from '../hooks/useUnload'
 
 export default function UnloadProvider() {
-  useUnload();
+  useUnload()
 
-  return <></>;
+  return <></>
 }

@@ -1,27 +1,27 @@
-import axios from 'axios';
+import axios from 'axios'
 
-import { Metadata } from 'next';
+import { Metadata } from 'next'
 
-import Header from '../components/header';
-import { ENDPOINT, VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage';
-import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter';
+import Header from '../components/header'
+import { ENDPOINT, VER_EQUIPE_POR_ID } from '@/app/utils/EndpointStorage'
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter'
 
 export async function generateMetadata({
   params,
   searchParams,
 }: any): Promise<Metadata> {
-  const id = params.id;
+  const id = params.id
   const defaultMetadata = {
     title: `${id} | Daily Manage`,
-  };
-
-  const token = searchParams.t;
-
-  if (!ENDPOINT || !token) {
-    return defaultMetadata;
   }
 
-  console.log(token);
+  const token = searchParams.t
+
+  if (!ENDPOINT || !token) {
+    return defaultMetadata
+  }
+
+  console.log(token)
 
   try {
     const product = await axios.get(
@@ -34,20 +34,20 @@ export async function generateMetadata({
         },
         data: {},
       },
-    );
+    )
 
     if (!product || !product.data || product.status === 403) {
-      return defaultMetadata;
+      return defaultMetadata
     }
 
     return {
       title: `${capitalizeFirstLetter(product.data.nome)} | Daily Manage`,
-    };
+    }
   } catch (e) {
-    return defaultMetadata;
+    return defaultMetadata
   }
 }
 
 export default function EquipeId() {
-  return <Header />;
+  return <Header />
 }

@@ -1,9 +1,9 @@
-import { FormData } from '@/app/interfaces/FormData';
-import { RxReload } from 'react-icons/rx';
+import { FormData } from '@/app/interfaces/FormData'
+import { RxReload } from 'react-icons/rx'
 
 interface DataCounterProps {
-  data: FormData[];
-  loading: boolean;
+  data: FormData[]
+  loading: boolean
 }
 
 export function DataCounter({ data, loading }: DataCounterProps) {
@@ -24,5 +24,5 @@ export function DataCounter({ data, loading }: DataCounterProps) {
         </div>
       )}
     </>
-  );
+  )
 }

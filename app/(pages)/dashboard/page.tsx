@@ -1,37 +1,37 @@
-import { Metadata } from 'next';
+import { Metadata } from 'next'
 
-import { Button } from '@/app/components/Shadcn/button';
+import { Button } from '@/app/components/Shadcn/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card';
+} from '@/app/components/Shadcn/card'
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@/app/components/Shadcn/tabs';
+} from '@/app/components/Shadcn/tabs'
 
-import { CalendarDateRangePicker } from './components/date-range-picker';
-import { Overview } from './components/overview';
-import { RecentFills } from './components/recent-fills';
+import { CalendarDateRangePicker } from './components/date-range-picker'
+import { Overview } from './components/overview'
+import { RecentFills } from './components/recent-fills'
 
-import { RxClipboard, RxDownload } from 'react-icons/rx';
+import { RxClipboard, RxDownload } from 'react-icons/rx'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/app/components/Shadcn/select';
+} from '@/app/components/Shadcn/select'
 
 export const metadata: Metadata = {
   title: 'Dashboard | Daily Manage',
   description: 'Dashboard com dados e estatisticas sobre os formulários.',
-};
+}
 
 export default function DashboardPage() {
   return (
@@ -164,5 +164,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </>
-  );
+  )
 }

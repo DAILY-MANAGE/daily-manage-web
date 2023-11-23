@@ -1,15 +1,15 @@
-import { Form } from '@/app/components/Form';
-import { useFetch } from '@/app/hooks/useFetch';
-import { usePermission } from '@/app/hooks/usePermission';
-import { useEffect } from 'react';
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-import { MultiPermissionSelector } from '../add-member/multi-permission-selector';
+import { Form } from '@/app/components/Form'
+import { useFetch } from '@/app/hooks/useFetch'
+import { usePermission } from '@/app/hooks/usePermission'
+import { useEffect } from 'react'
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
+import { MultiPermissionSelector } from '../add-member/multi-permission-selector'
 
 interface PermissionsProviderProps {
-  setValue: UseFormSetValue<any>;
-  getValues: UseFormGetValues<any>;
-  equipeid: string;
-  usuario: string;
+  setValue: UseFormSetValue<any>
+  getValues: UseFormGetValues<any>
+  equipeid: string
+  usuario: string
 }
 
 export default function PermissionsProvider({
@@ -22,16 +22,16 @@ export default function PermissionsProvider({
     undefined,
     parseInt(equipeid),
     usuario,
-  );
+  )
 
   useEffect(() => {
-    const currentPerms = getValues('permissoes');
-    console.log(currentPerms, permissions);
+    const currentPerms = getValues('permissoes')
+    console.log(currentPerms, permissions)
     if (currentPerms != permissions) {
-      setValue('permissoes', permissions);
+      setValue('permissoes', permissions)
     }
-    refetch();
-  }, []);
+    refetch()
+  }, [])
 
   return (
     <div className="grid gap-4 py-1 pt-0 mt-2">
@@ -88,5 +88,5 @@ export default function PermissionsProvider({
         <hr />
       </div>
     </div>
-  );
+  )
 }

@@ -1,26 +1,26 @@
-import { Form } from '@/app/components/Form';
-import { Button } from '@/app/components/Shadcn/button';
-import { Checkbox } from '@/app/components/Shadcn/checkbox';
-import { Input } from '@/app/components/Shadcn/input';
-import { Label } from '@/app/components/Shadcn/label';
+import { Form } from '@/app/components/Form'
+import { Button } from '@/app/components/Shadcn/button'
+import { Checkbox } from '@/app/components/Shadcn/checkbox'
+import { Input } from '@/app/components/Shadcn/input'
+import { Label } from '@/app/components/Shadcn/label'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/app/components/Shadcn/tooltip';
-import { Fragment, SyntheticEvent, useState } from 'react';
-import { UseFormRegister } from 'react-hook-form';
-import { FormQuestion } from '../../criar/page';
-import { FaPercentage } from 'react-icons/fa';
+} from '@/app/components/Shadcn/tooltip'
+import { Fragment, SyntheticEvent, useState } from 'react'
+import { UseFormRegister } from 'react-hook-form'
+import { FormQuestion } from '../../criar/page'
+import { FaPercentage } from 'react-icons/fa'
 
 interface FormQuestionProps {
-  formData: FormQuestion;
-  errors: any;
-  register: UseFormRegister<any>;
-  getValues: any;
-  setValue: any;
-  hasError: string | undefined;
+  formData: FormQuestion
+  errors: any
+  register: UseFormRegister<any>
+  getValues: any
+  setValue: any
+  hasError: string | undefined
 }
 
 //          {...register(`respostas.${formData.id.toString()}.resposta`, registerData)}
@@ -34,9 +34,9 @@ export default function FormResponse({
 }: FormQuestionProps) {
   const registerData = {
     required: !formData.opcional ? 'O campo é obrigatório' : false,
-  };
+  }
 
-  const [boolean, setBoolean] = useState<boolean | undefined>();
+  const [boolean, setBoolean] = useState<boolean | undefined>()
 
   return (
     <>
@@ -51,21 +51,21 @@ export default function FormResponse({
               error={errors[formData.id.toString()]}
               required={!formData.opcional}
               onChange={(e: any) => {
-                console.log(e.target.value.length);
+                console.log(e.target.value.length)
                 if (e.target.value.length < 5) {
-                  hasError = 'O tamanho mínimo é 5.';
+                  hasError = 'O tamanho mínimo é 5.'
                 }
                 if (e.target.value.length > 255) {
-                  hasError = 'O tamanho máximo é 255.';
+                  hasError = 'O tamanho máximo é 255.'
                 }
-                setValue(`respostas.${formData.id}.idpergunta`, formData.id);
-                setValue(`respostas.${formData.id}.resposta`, e.target.value);
+                setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                setValue(`respostas.${formData.id}.resposta`, e.target.value)
                 if (
                   (e.target.value === '' || e.target.value === null) &&
                   !formData.opcional
                 ) {
                   if (!errors.includes('O campo é obrigatório')) {
-                    errors.push('O campo é obrigatório');
+                    errors.push('O campo é obrigatório')
                   }
                 }
               }}
@@ -80,21 +80,21 @@ export default function FormResponse({
               error={errors[formData.id.toString()]}
               required={!formData.opcional}
               onChange={(e: any) => {
-                console.log(e.target.value.length);
+                console.log(e.target.value.length)
                 if (e.target.value.length < 5) {
-                  hasError = 'O tamanho mínimo é 5.';
+                  hasError = 'O tamanho mínimo é 5.'
                 }
                 if (e.target.value.length > 255) {
-                  hasError = 'O tamanho máximo é 255.';
+                  hasError = 'O tamanho máximo é 255.'
                 }
-                setValue(`respostas.${formData.id}.idpergunta`, formData.id);
-                setValue(`respostas.${formData.id}.resposta`, e.target.value);
+                setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                setValue(`respostas.${formData.id}.resposta`, e.target.value)
                 if (
                   (e.target.value === '' || e.target.value === null) &&
                   !formData.opcional
                 ) {
                   if (!errors.includes('O campo é obrigatório')) {
-                    errors.push('O campo é obrigatório');
+                    errors.push('O campo é obrigatório')
                   }
                 }
               }}
@@ -110,21 +110,21 @@ export default function FormResponse({
               required={!formData.opcional}
               step=".01"
               onChange={(e: any) => {
-                console.log(e.target.value.length);
+                console.log(e.target.value.length)
                 if (e.target.value.length < 5) {
-                  hasError = 'O tamanho mínimo é 5.';
+                  hasError = 'O tamanho mínimo é 5.'
                 }
                 if (e.target.value.length > 255) {
-                  hasError = 'O tamanho máximo é 255.';
+                  hasError = 'O tamanho máximo é 255.'
                 }
-                setValue(`respostas.${formData.id}.idpergunta`, formData.id);
-                setValue(`respostas.${formData.id}.resposta`, e.target.value);
+                setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                setValue(`respostas.${formData.id}.resposta`, e.target.value)
                 if (
                   (e.target.value === '' || e.target.value === null) &&
                   !formData.opcional
                 ) {
                   if (!errors.includes('O campo é obrigatório')) {
-                    errors.push('O campo é obrigatório');
+                    errors.push('O campo é obrigatório')
                   }
                 }
               }}
@@ -139,12 +139,12 @@ export default function FormResponse({
                     className="shadow-sm"
                     checked={boolean === true}
                     onCheckedChange={(checked: boolean) => {
-                      setBoolean(true);
+                      setBoolean(true)
                       setValue(
                         `respostas.${formData.id}.idpergunta`,
                         formData.id,
-                      );
-                      setValue(`respostas.${formData.id}.resposta`, 'Sim');
+                      )
+                      setValue(`respostas.${formData.id}.resposta`, 'Sim')
                     }}
                   />
                   <p>Sim</p>
@@ -154,12 +154,12 @@ export default function FormResponse({
                     className="shadow-sm"
                     checked={boolean === false}
                     onCheckedChange={(checked: boolean) => {
-                      setBoolean(false);
+                      setBoolean(false)
                       setValue(
                         `respostas.${formData.id}.idpergunta`,
                         formData.id,
-                      );
-                      setValue(`respostas.${formData.id}.resposta`, 'Não');
+                      )
+                      setValue(`respostas.${formData.id}.resposta`, 'Não')
                     }}
                   />
                   <p>Não</p>
@@ -194,21 +194,21 @@ export default function FormResponse({
                 error={errors[formData.id.toString()]}
                 required={!formData.opcional}
                 onChange={(e: any) => {
-                  console.log(e.target.value.length);
+                  console.log(e.target.value.length)
                   if (e.target.value.length < 5) {
-                    hasError = 'O tamanho mínimo é 5.';
+                    hasError = 'O tamanho mínimo é 5.'
                   }
                   if (e.target.value.length > 255) {
-                    hasError = 'O tamanho máximo é 255.';
+                    hasError = 'O tamanho máximo é 255.'
                   }
-                  setValue(`respostas.${formData.id}.idpergunta`, formData.id);
-                  setValue(`respostas.${formData.id}.resposta`, e.target.value);
+                  setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                  setValue(`respostas.${formData.id}.resposta`, e.target.value)
                   if (
                     (e.target.value === '' || e.target.value === null) &&
                     !formData.opcional
                   ) {
                     if (!errors.includes('O campo é obrigatório')) {
-                      errors.push('O campo é obrigatório');
+                      errors.push('O campo é obrigatório')
                     }
                   }
                 }}
@@ -242,21 +242,21 @@ export default function FormResponse({
                 error={errors[formData.id.toString()]}
                 required={!formData.opcional}
                 onChange={(e: any) => {
-                  console.log(e.target.value.length);
+                  console.log(e.target.value.length)
                   if (e.target.value.length < 5) {
-                    hasError = 'O tamanho mínimo é 5.';
+                    hasError = 'O tamanho mínimo é 5.'
                   }
                   if (e.target.value.length > 255) {
-                    hasError = 'O tamanho máximo é 255.';
+                    hasError = 'O tamanho máximo é 255.'
                   }
-                  setValue(`respostas.${formData.id}.idpergunta`, formData.id);
-                  setValue(`respostas.${formData.id}.resposta`, e.target.value);
+                  setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                  setValue(`respostas.${formData.id}.resposta`, e.target.value)
                   if (
                     (e.target.value === '' || e.target.value === null) &&
                     !formData.opcional
                   ) {
                     if (!errors.includes('O campo é obrigatório')) {
-                      errors.push('O campo é obrigatório');
+                      errors.push('O campo é obrigatório')
                     }
                   }
                 }}
@@ -290,21 +290,21 @@ export default function FormResponse({
                 error={errors[formData.id.toString()]}
                 required={!formData.opcional}
                 onChange={(e: any) => {
-                  console.log(e.target.value.length);
+                  console.log(e.target.value.length)
                   if (e.target.value.length < 5) {
-                    hasError = 'O tamanho mínimo é 5.';
+                    hasError = 'O tamanho mínimo é 5.'
                   }
                   if (e.target.value.length > 255) {
-                    hasError = 'O tamanho máximo é 255.';
+                    hasError = 'O tamanho máximo é 255.'
                   }
-                  setValue(`respostas.${formData.id}.idpergunta`, formData.id);
-                  setValue(`respostas.${formData.id}.resposta`, e.target.value);
+                  setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                  setValue(`respostas.${formData.id}.resposta`, e.target.value)
                   if (
                     (e.target.value === '' || e.target.value === null) &&
                     !formData.opcional
                   ) {
                     if (!errors.includes('O campo é obrigatório')) {
-                      errors.push('O campo é obrigatório');
+                      errors.push('O campo é obrigatório')
                     }
                   }
                 }}
@@ -338,21 +338,21 @@ export default function FormResponse({
                 error={errors[formData.id.toString()]}
                 required={!formData.opcional}
                 onChange={(e: any) => {
-                  console.log(e.target.value.length);
+                  console.log(e.target.value.length)
                   if (e.target.value.length < 5) {
-                    hasError = 'O tamanho mínimo é 5.';
+                    hasError = 'O tamanho mínimo é 5.'
                   }
                   if (e.target.value.length > 255) {
-                    hasError = 'O tamanho máximo é 255.';
+                    hasError = 'O tamanho máximo é 255.'
                   }
-                  setValue(`respostas.${formData.id}.idpergunta`, formData.id);
-                  setValue(`respostas.${formData.id}.resposta`, e.target.value);
+                  setValue(`respostas.${formData.id}.idpergunta`, formData.id)
+                  setValue(`respostas.${formData.id}.resposta`, e.target.value)
                   if (
                     (e.target.value === '' || e.target.value === null) &&
                     !formData.opcional
                   ) {
                     if (!errors.includes('O campo é obrigatório')) {
-                      errors.push('O campo é obrigatório');
+                      errors.push('O campo é obrigatório')
                     }
                   }
                 }}
@@ -364,5 +364,5 @@ export default function FormResponse({
         </Fragment>
       }
     </>
-  );
+  )
 }
