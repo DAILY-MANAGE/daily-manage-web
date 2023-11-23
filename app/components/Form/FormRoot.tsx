@@ -6,7 +6,7 @@ interface FormRootProps extends FormHTMLAttributes<HTMLFormElement> {
 
 function FormRoot(
   { children, ...props }: FormRootProps,
-  ref: ForwardedRef<HTMLFormElement>
+  ref: ForwardedRef<HTMLFormElement>,
 ) {
   return (
     <form className="mb-0.5" ref={ref} {...props}>

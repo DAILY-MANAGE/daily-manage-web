@@ -1,48 +1,48 @@
-'use client'
+'use client';
 
-import { ToastWrapper } from '../utils/ToastWrapper'
+import { ToastWrapper } from '../utils/ToastWrapper';
 
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
-import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useFetch } from './useFetch'
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useFetch } from './useFetch';
 
-import { AuthResponse } from '../interfaces/AuthResponse'
-import { RegisterData } from '../interfaces/RegisterData'
-import { LOGIN, REGISTRO, RENOVAR_TOKEN } from '../utils/EndpointStorage'
+import { AuthResponse } from '../interfaces/AuthResponse';
+import { RegisterData } from '../interfaces/RegisterData';
+import { LOGIN, REGISTRO, RENOVAR_TOKEN } from '../utils/EndpointStorage';
 
-export const cookieKey = 'auth_token_refresh'
-export const cookieKeyOriginal = 'auth_token'
-export const sessionKey = 'session_data'
-export const rememberSessionKey = 'remember_session'
+export const cookieKey = 'auth_token_refresh';
+export const cookieKeyOriginal = 'auth_token';
+export const sessionKey = 'session_data';
+export const rememberSessionKey = 'remember_session';
 
 interface LoginData {
-  usuario: string
-  senha: string
+  usuario: string;
+  senha: string;
 }
 
 export interface SigninData extends LoginData {
-  nome?: string
-  confirmarSenha?: string
-  lembrarSessao: boolean
+  nome?: string;
+  confirmarSenha?: string;
+  lembrarSessao: boolean;
 }
 
 interface SessionData {
-  id: number
-  usuario: string
-  email: string
-  nome: string
+  id: number;
+  usuario: string;
+  email: string;
+  nome: string;
 }
 
 export const useAuth = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const sessionData = localStorage.getItem(sessionKey) as string
+  const sessionData = localStorage.getItem(sessionKey) as string;
 
   const [session, setSession] = useState<SessionData | null>(
     sessionData ? JSON.parse(sessionData) : null,
-  )
+  );
 
   const {
     requestInstance,
@@ -52,20 +52,20 @@ export const useAuth = () => {
   } = useFetch({
     url: '',
     isGet: false,
-  })
+  });
 
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const isInInitialRoutes = () => {
-    console.log(pathname)
-    return pathname.includes("/login") || pathname.includes("/cadastro")
-  }
+    console.log(pathname);
+    return pathname.includes('/login') || pathname.includes('/cadastro');
+  };
 
   const leaveSessionIfActive = () => {
     if (session) {
-      signOut()
+      signOut();
     }
-  }
+  };
 
   const handleLogin = (
     responseData: AuthResponse,
@@ -76,95 +76,94 @@ export const useAuth = () => {
       id: responseData.usuario.id,
       usuario: responseData.usuario.usuario,
       email: responseData.usuario.email,
-      nome: responseData.usuario.nome
-    }
-    setSession(loginPayload)
-    localStorage.setItem(sessionKey, JSON.stringify(loginPayload))
-    localStorage.setItem(rememberSessionKey, rememberSession.toString())
-    Cookies.set(cookieKeyOriginal, responseData.token)
-    Cookies.set(cookieKey, responseData.refreshToken)
+      nome: responseData.usuario.nome,
+    };
+    setSession(loginPayload);
+    localStorage.setItem(sessionKey, JSON.stringify(loginPayload));
+    localStorage.setItem(rememberSessionKey, rememberSession.toString());
+    Cookies.set(cookieKeyOriginal, responseData.token);
+    Cookies.set(cookieKey, responseData.refreshToken);
     if (redirects) {
-      router.push('/equipes')
+      router.push('/equipes');
     }
-  }
+  };
 
   const signIn = async (signinData: RegisterData) => {
-    leaveSessionIfActive()
+    leaveSessionIfActive();
     const res = await handleRequest(
       requestInstance.post,
       [REGISTRO, signinData],
       true,
-    )
+    );
     if (!res) {
-      ToastWrapper.error('Não foi possível realizar o cadastro.')
-      return
+      ToastWrapper.error('Não foi possível realizar o cadastro.');
+      return;
     }
     switch (res.status) {
       case 201:
-        ToastWrapper.success('Cadastro realizado com sucesso!')
-        handleLogin(res.data, true, true)
+        ToastWrapper.success('Cadastro realizado com sucesso!');
+        handleLogin(res.data, true, true);
       default:
-        break
+        break;
     }
-  }
+  };
 
   const signOut = () => {
-    setSession(null)
-    Cookies.remove(cookieKey)
-    Cookies.remove(cookieKeyOriginal)
-    localStorage.removeItem(sessionKey)
-    router.push('/login')
-  }
+    setSession(null);
+    Cookies.remove(cookieKey);
+    Cookies.remove(cookieKeyOriginal);
+    localStorage.removeItem(sessionKey);
+    router.push('/login');
+  };
 
   const login = (loginData: SigninData) => {
     requestInstance
       .post(LOGIN, loginData)
       .then((res) => {
-        handleResponseErrors(res)
+        handleResponseErrors(res);
         if (res.status == 200) {
-          handleLogin(res.data, true, loginData.lembrarSessao)
+          handleLogin(res.data, true, loginData.lembrarSessao);
         } else {
-          Cookies.remove(cookieKey)
-          Cookies.remove(cookieKeyOriginal)
-          localStorage.removeItem(sessionKey)
-          ToastWrapper.error('Não foi possível realizar o login.')
+          Cookies.remove(cookieKey);
+          Cookies.remove(cookieKeyOriginal);
+          localStorage.removeItem(sessionKey);
+          ToastWrapper.error('Não foi possível realizar o login.');
         }
       })
-      .catch((error) => handleAxiosError(error))
-  }
+      .catch((error) => handleAxiosError(error));
+  };
 
   const loginWithToken = async (refreshToken: string) => {
     const refreshTokenPayload = {
       refreshToken,
-    }
+    };
     requestInstance
       .post(RENOVAR_TOKEN, refreshTokenPayload)
       .then((res) => {
         if (res.status == 200) {
-          handleLogin(res.data, false, true)
+          handleLogin(res.data, false, true);
         } else {
-          Cookies.remove(cookieKey)
-          Cookies.remove(cookieKeyOriginal)
-          localStorage.removeItem(sessionKey)
-          ToastWrapper.error('Login expirado, entre novamente.')
+          Cookies.remove(cookieKey);
+          Cookies.remove(cookieKeyOriginal);
+          localStorage.removeItem(sessionKey);
+          ToastWrapper.error('Login expirado, entre novamente.');
         }
       })
       .catch((error) => {
-        handleAxiosError(error)
-      })
-  }
+        handleAxiosError(error);
+      });
+  };
 
   useEffect(() => {
-
-    const token = Cookies.get(cookieKey)
-    if (!token) return
-    loginWithToken(token)
-  }, [])
+    const token = Cookies.get(cookieKey);
+    if (!token) return;
+    loginWithToken(token);
+  }, []);
 
   return {
     session,
     login,
     signIn,
     signOut,
-  }
-}
+  };
+};

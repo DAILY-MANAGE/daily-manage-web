@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { cn } from '@/app/utils/utils'
-import NavLink from './nav-link'
-import { usePathname, useRouter } from 'next/navigation'
+import { cn } from '@/app/utils/utils';
+import NavLink from './nav-link';
+import { usePathname, useRouter } from 'next/navigation';
 
 import {
   DropdownMenu,
@@ -11,27 +11,27 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/components/Shadcn/dropdown-menu'
-import { Button } from '@/app/components/Shadcn/button'
-import { RxClipboard, RxListBullet } from 'react-icons/rx'
-import Link from 'next/link'
-import { SyntheticEvent, useState } from 'react'
+} from '@/app/components/Shadcn/dropdown-menu';
+import { Button } from '@/app/components/Shadcn/button';
+import { RxClipboard, RxListBullet } from 'react-icons/rx';
+import Link from 'next/link';
+import { SyntheticEvent, useState } from 'react';
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const isCurrentlyInRoute = (route: string, exact?: boolean) => {
     if (exact) {
-      return pathname.toLowerCase() === route.toLowerCase()
+      return pathname.toLowerCase() === route.toLowerCase();
     }
-    return pathname.toLowerCase().includes(route.toLowerCase())
-  }
+    return pathname.toLowerCase().includes(route.toLowerCase());
+  };
 
   return (
     <nav className={cn('flex items-center gap-2', className)} {...props}>
@@ -40,11 +40,11 @@ export function MainNav({
           asChild
           className="group"
           onClick={() => {
-            router.push('/equipes')
+            router.push('/equipes');
           }}
           onContextMenu={(event: SyntheticEvent) => {
-            event.preventDefault()
-            setDropdownOpen(!dropdownOpen)
+            event.preventDefault();
+            setDropdownOpen(!dropdownOpen);
           }}
         >
           <Button
@@ -57,7 +57,7 @@ export function MainNav({
         </DropdownMenuTrigger>
         <DropdownMenuContent
           onPointerDownOutside={() => {
-            setDropdownOpen(false)
+            setDropdownOpen(false);
           }}
           className="w-56"
           align="start"
@@ -85,5 +85,5 @@ export function MainNav({
         </DropdownMenuContent>
       </DropdownMenu>
     </nav>
-  )
+  );
 }

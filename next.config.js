@@ -4,7 +4,7 @@ const nextConfig = {
     domains: ['source.unsplash.com'],
   },
   experimental: {
-    serverComponentsExternalPackages: []
+    serverComponentsExternalPackages: [],
   },
 };
 

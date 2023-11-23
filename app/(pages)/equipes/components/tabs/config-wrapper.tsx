@@ -1,32 +1,33 @@
-import { usePermission } from "@/app/hooks/usePermission"
-import { useEffect } from "react"
-import Config from "../config/config"
+import { usePermission } from '@/app/hooks/usePermission';
+import { useEffect } from 'react';
+import Config from '../config/config';
 
 interface TabContentWrapperProps {
-  equipeId: number | undefined
-  nomeEquipe: string
+  equipeId: number | undefined;
+  nomeEquipe: string;
 }
 
-export default function ConfigWrapper({ equipeId, nomeEquipe }: TabContentWrapperProps) {
-
+export default function ConfigWrapper({
+  equipeId,
+  nomeEquipe,
+}: TabContentWrapperProps) {
   if (!equipeId) {
-    return <></>
+    return <></>;
   }
 
-  const { permissions, refetch } = usePermission(undefined, equipeId)
+  const { permissions, refetch } = usePermission(undefined, equipeId);
 
   useEffect(() => {
-    refetch()
-  }, [])
+    refetch();
+  }, []);
 
-  return <>
-    {
-      (permissions && (permissions.includes("EDITAR_EQUIPE") || permissions.includes("ADMINISTRADOR"))) && (
-        <Config
-          nomeEquipe={nomeEquipe}
-          idEquipe={equipeId}
-        />
-      )
-    }
-  </>
+  return (
+    <>
+      {permissions &&
+        (permissions.includes('EDITAR_EQUIPE') ||
+          permissions.includes('ADMINISTRADOR')) && (
+          <Config nomeEquipe={nomeEquipe} idEquipe={equipeId} />
+        )}
+    </>
+  );
 }

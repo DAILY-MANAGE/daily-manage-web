@@ -1,3 +1,1 @@
-export default function MemberForm() {
-
-}
+export default function MemberForm() {}

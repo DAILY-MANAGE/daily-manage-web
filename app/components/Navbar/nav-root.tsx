@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import React from 'react'
+import React from 'react';
 
-import { MainNav } from './main-nav'
-import { UserNav } from './user-nav'
+import { MainNav } from './main-nav';
+import { UserNav } from './user-nav';
 
-import Logo from '../Logo'
+import Logo from '../Logo';
 
-import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation';
 
-import NavNotification from './notification/nav-notification'
+import NavNotification from './notification/nav-notification';
 
 export default function NavRoot() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const canShowNavbar = () =>
     pathname.includes('dashboard') ||
@@ -20,8 +20,7 @@ export default function NavRoot() {
     pathname.includes('configuracoes') ||
     pathname.includes('equipes') ||
     pathname.includes('notificacoes') ||
-    pathname.includes('registros')
-
+    pathname.includes('registros');
 
   return (
     (canShowNavbar() && (
@@ -36,5 +35,5 @@ export default function NavRoot() {
         </div>
       </div>
     )) || <></>
-  )
+  );
 }

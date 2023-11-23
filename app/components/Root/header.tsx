@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from 'react';
 
 interface HeaderProps {
-  title: string
-  children?: ReactNode
+  title: string;
+  children?: ReactNode;
 }
 
 export default function Header({ title, children }: HeaderProps) {
@@ -15,5 +15,5 @@ export default function Header({ title, children }: HeaderProps) {
         <div className="flex items-center gap-2">{children}</div>
       </div>
     </>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { TableCell, TableRow } from '@/app/components/Shadcn/table'
-import { tv } from 'tailwind-variants'
+import { TableCell, TableRow } from '@/app/components/Shadcn/table';
+import { tv } from 'tailwind-variants';
 
 const cell = tv({
   base: 'h-2 bg-slate-200 rounded col-span-2',
@@ -13,7 +13,7 @@ const cell = tv({
   defaultVariants: {
     size: 'default',
   },
-})
+});
 
 export default function SkeletonRows() {
   const getRandomSize = (): 'default' | 'half' | 'sixth' => {
@@ -21,9 +21,9 @@ export default function SkeletonRows() {
       'default',
       'half',
       'sixth',
-    ]
-    return options[Math.floor(Math.random() * options.length)]
-  }
+    ];
+    return options[Math.floor(Math.random() * options.length)];
+  };
 
   return (
     <>
@@ -47,9 +47,9 @@ export default function SkeletonRows() {
                 <div className={cell({ size: 'default' })}></div>
               </TableCell>
             </TableRow>
-          )
+          );
         },
       )}
     </>
-  )
+  );
 }

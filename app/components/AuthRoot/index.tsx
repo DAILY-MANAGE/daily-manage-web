@@ -1,11 +1,11 @@
-import { twMerge } from 'tailwind-merge'
-import Logo from '../Logo'
+import { twMerge } from 'tailwind-merge';
+import Logo from '../Logo';
 
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 interface AuthRootProps {
-  element: ReactNode
-  background?: 'login' | 'cadastro' | 'recuperarSenha'
+  element: ReactNode;
+  background?: 'login' | 'cadastro' | 'recuperarSenha';
 }
 
 export function AuthRoot({ element, background = 'login' }: AuthRootProps) {
@@ -26,5 +26,5 @@ export function AuthRoot({ element, background = 'login' }: AuthRootProps) {
         )}
       ></div>
     </div>
-  )
+  );
 }

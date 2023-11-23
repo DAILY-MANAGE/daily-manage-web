@@ -30,7 +30,6 @@ export default function RootLayout({
           <NavRoot />
           {children}
           <UnloadProvider />
-
         </QueryClientProviderHandler>
       </body>
     </html>

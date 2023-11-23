@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
 import { redirect } from 'next/navigation';
 import { useAuth } from './hooks/useAuth';
 
 export default function Page() {
-  const { session } = useAuth()
+  const { session } = useAuth();
 
   if (!session) {
-    redirect('/login')
+    redirect('/login');
   } else {
-    redirect('/equipes')
+    redirect('/equipes');
   }
 }

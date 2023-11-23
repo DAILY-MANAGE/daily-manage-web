@@ -1,107 +1,119 @@
-'use client'
+'use client';
 
-import * as React from 'react'
+import * as React from 'react';
 
-import { RxCaretSort, RxCheck } from 'react-icons/rx'
-import { PopoverProps } from '@radix-ui/react-popover'
+import { RxCaretSort, RxCheck } from 'react-icons/rx';
+import { PopoverProps } from '@radix-ui/react-popover';
 
-import { cn } from '../../../../../utils/utils'
-import { Button } from '@/app/components/Shadcn/button'
+import { cn } from '../../../../../utils/utils';
+import { Button } from '@/app/components/Shadcn/button';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/app/components/Shadcn/command'
+} from '@/app/components/Shadcn/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/app/components/Shadcn/popover'
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form'
+} from '@/app/components/Shadcn/popover';
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 export interface Preset {
-  id: number
-  nome: string
-  value: string
+  id: number;
+  nome: string;
+  value: string;
 }
 
 interface PresetSelectorProps extends PopoverProps {
-  setValue: UseFormSetValue<any>
-  getValues: UseFormGetValues<any>
-  equipeid: string | null
-  presets?: Preset[]
-  defaultValue?: string[]
-  callback?: any
+  setValue: UseFormSetValue<any>;
+  getValues: UseFormGetValues<any>;
+  equipeid: string | null;
+  presets?: Preset[];
+  defaultValue?: string[];
+  callback?: any;
 }
 
-export function MultiPermissionSelector({ setValue, getValues, equipeid, presets, defaultValue, callback, ...props }: PresetSelectorProps) {
+export function MultiPermissionSelector({
+  setValue,
+  getValues,
+  equipeid,
+  presets,
+  defaultValue,
+  callback,
+  ...props
+}: PresetSelectorProps) {
   const getDefaultValueFromPresets = () => {
     if (!presets) {
-      return []
+      return [];
     }
     if (defaultValue) {
-      const defaultValueFromPresets: Preset[] = []
+      const defaultValueFromPresets: Preset[] = [];
       defaultValue.map((permission: string) => {
-        const preset = presets.filter((userPreset: Preset) => userPreset.value === permission)
-        if (preset.length > 0 ){
-          defaultValueFromPresets.push(preset[0])
+        const preset = presets.filter(
+          (userPreset: Preset) => userPreset.value === permission,
+        );
+        if (preset.length > 0) {
+          defaultValueFromPresets.push(preset[0]);
         }
-      })
-      return defaultValueFromPresets
+      });
+      return defaultValueFromPresets;
     }
-    return []
-  }
+    return [];
+  };
 
-  const [open, setOpen] = React.useState(false)
-  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>(getDefaultValueFromPresets())
+  const [open, setOpen] = React.useState(false);
+  const [selectedPreset, setSelectedPreset] = React.useState<Preset[]>(
+    getDefaultValueFromPresets(),
+  );
 
   const formatUsers = () => {
-    let formattedUsers = ''
+    let formattedUsers = '';
     selectedPreset.forEach((userPreset: Preset, index: number) => {
       if (index === selectedPreset.length - 1) {
-        formattedUsers += userPreset.nome
+        formattedUsers += userPreset.nome;
       } else {
-        formattedUsers += `${userPreset.nome}, `
+        formattedUsers += `${userPreset.nome}, `;
       }
-    })
+    });
     if (formattedUsers === '') {
-      formattedUsers = 'Selecionar permissões'
+      formattedUsers = 'Selecionar permissões';
     }
-    return formattedUsers
-  }
+    return formattedUsers;
+  };
 
   const openChanged = (open: boolean) => {
     if (callback) {
-      callback()
+      callback();
     }
-    setOpen(open)
-  }
+    setOpen(open);
+  };
 
   const onCommandSelect = (preset: Preset) => {
-    const auxPermitted: any = getValues("permissoes")
+    const auxPermitted: any = getValues('permissoes');
     const isValid = selectedPreset.filter(
       (userPreset: Preset) => userPreset.id === preset.id,
-    )
+    );
 
     if (isValid.length > 0) {
       const removedUsers = selectedPreset.filter(
         (userPreset: Preset) => userPreset.id !== preset.id,
-      )
+      );
       const removedUsersWithValues = auxPermitted.filter(
-        (permission: string) => permission !== preset.value
-      )
-      setSelectedPreset(removedUsers)
-      setValue("permissoes", removedUsersWithValues)
+        (permission: string) => permission !== preset.value,
+      );
+      setSelectedPreset(removedUsers);
+      setValue('permissoes', removedUsersWithValues);
     } else {
-      const auxSelectedPreset = [...selectedPreset]
-      auxSelectedPreset.push(preset)
-      setSelectedPreset(auxSelectedPreset)
-      auxPermitted.push(preset.value)
-      setValue('permissoes', auxPermitted)
+      const auxSelectedPreset = [...selectedPreset];
+      auxSelectedPreset.push(preset);
+      setSelectedPreset(auxSelectedPreset);
+      auxPermitted.push(preset.value);
+      setValue('permissoes', auxPermitted);
     }
-  }
+  };
 
   return (
     <>
@@ -124,31 +136,32 @@ export function MultiPermissionSelector({ setValue, getValues, equipeid, presets
             <CommandInput placeholder="Pesquisar permissões..." />
             <CommandEmpty>Nenhuma permissão foi encontrada.</CommandEmpty>
             <CommandGroup heading="Permissões">
-              {presets && presets.map((preset: Preset) => (
-                <CommandItem
-                  value={preset.nome}
-                  key={preset.id}
-                  onSelect={() => {
-                    onCommandSelect(preset)
-                  }}
-                >
-                  {preset.nome}
-                  <RxCheck
-                    className={cn(
-                      'ml-auto h-4 w-4',
-                      selectedPreset.filter(
-                        (userPreset: Preset) => userPreset.id === preset.id,
-                      ).length === 0
-                        ? 'opacity-0'
-                        : 'opacity-100',
-                    )}
-                  />
-                </CommandItem>
-              ))}
+              {presets &&
+                presets.map((preset: Preset) => (
+                  <CommandItem
+                    value={preset.nome}
+                    key={preset.id}
+                    onSelect={() => {
+                      onCommandSelect(preset);
+                    }}
+                  >
+                    {preset.nome}
+                    <RxCheck
+                      className={cn(
+                        'ml-auto h-4 w-4',
+                        selectedPreset.filter(
+                          (userPreset: Preset) => userPreset.id === preset.id,
+                        ).length === 0
+                          ? 'opacity-0'
+                          : 'opacity-100',
+                      )}
+                    />
+                  </CommandItem>
+                ))}
             </CommandGroup>
           </Command>
         </PopoverContent>
       </Popover>
     </>
-  )
+  );
 }

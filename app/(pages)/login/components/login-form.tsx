@@ -1,27 +1,27 @@
-'use client'
+'use client';
 
-import { ToastWrapper } from '@/app/utils/ToastWrapper'
+import { ToastWrapper } from '@/app/utils/ToastWrapper';
 
-import { Checkbox } from '@/app/components/Shadcn/checkbox'
-import { Input } from '@/app/components/Shadcn/input'
-import { Form } from '@/app/components/Form'
+import { Checkbox } from '@/app/components/Shadcn/checkbox';
+import { Input } from '@/app/components/Shadcn/input';
+import { Form } from '@/app/components/Form';
 
-import { FiEyeOff, FiEye } from 'react-icons/fi'
-import { useForm } from 'react-hook-form'
-import { SyntheticEvent, useState } from 'react'
+import { FiEyeOff, FiEye } from 'react-icons/fi';
+import { useForm } from 'react-hook-form';
+import { SyntheticEvent, useState } from 'react';
 
-import { CheckedState } from '@radix-ui/react-checkbox'
-import { Button } from '@/app/components/Shadcn/button'
-import { SigninData, useAuth } from '@/app/hooks/useAuth'
+import { CheckedState } from '@radix-ui/react-checkbox';
+import { Button } from '@/app/components/Shadcn/button';
+import { SigninData, useAuth } from '@/app/hooks/useAuth';
 
 const loginFormValues: SigninData = {
   usuario: '',
   senha: '',
   lembrarSessao: false,
-}
+};
 
-const delayTillSubmit = 1000
-const delayTillResetDebounce = 5000
+const delayTillSubmit = 1000;
+const delayTillResetDebounce = 5000;
 
 export default function LoginForm() {
   const {
@@ -32,49 +32,49 @@ export default function LoginForm() {
   } = useForm({
     mode: 'onChange',
     defaultValues: loginFormValues,
-  })
+  });
 
-  const [loginAttempts, setLoginAttempts] = useState(0)
-  const [submitQueue, setSubmitQueue] = useState(0)
-  const [passwordHidden, setPasswordHidden] = useState(false)
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [submitQueue, setSubmitQueue] = useState(0);
+  const [passwordHidden, setPasswordHidden] = useState(false);
 
-  const { login } = useAuth()
+  const { login } = useAuth();
 
   const handleLoginAttemptsQueue = () => {
-    setSubmitQueue((state) => state + 1)
-    const savedQueue = submitQueue
+    setSubmitQueue((state) => state + 1);
+    const savedQueue = submitQueue;
     setTimeout(() => {
       if (submitQueue === savedQueue) {
-        setLoginAttempts(0)
+        setLoginAttempts(0);
       }
-    }, delayTillResetDebounce)
-  }
+    }, delayTillResetDebounce);
+  };
 
   const handleLogin = (data: SigninData) => {
     if (loginAttempts > 5) {
       ToastWrapper.warn(
         'Você tentou fazer login muitas vezes! Espere alguns segundos...',
-      )
-      return
+      );
+      return;
     }
-    login(data)
-  }
+    login(data);
+  };
 
   const onSubmit = (data: SigninData) => {
-    setLoginAttempts((state) => state + 1)
-    handleLoginAttemptsQueue()
+    setLoginAttempts((state) => state + 1);
+    handleLoginAttemptsQueue();
     setTimeout(() => {
-      handleLogin(data)
-    }, delayTillSubmit)
-  }
+      handleLogin(data);
+    }, delayTillSubmit);
+  };
 
   const hideShowPassword = () => {
-    setPasswordHidden(!passwordHidden)
-  }
+    setPasswordHidden(!passwordHidden);
+  };
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
-      <Form.Label label="Usuário" className='mt-4'/>
+      <Form.Label label="Usuário" className="mt-4" />
       <Input
         autoComplete="usuario"
         htmlFor="usuario"
@@ -83,7 +83,7 @@ export default function LoginForm() {
         aria-invalid={errors.usuario ? 'true' : 'false'}
         data-invalid={errors.usuario}
         onInvalid={(e: SyntheticEvent) => {
-          e.preventDefault()
+          e.preventDefault();
         }}
         {...register('usuario', {
           required: 'Usuário é obrigatório',
@@ -106,7 +106,7 @@ export default function LoginForm() {
           data-invalid={errors.senha}
           className="w-full"
           onInvalid={(e: SyntheticEvent) => {
-            e.preventDefault()
+            e.preventDefault();
           }}
           {...register('senha', {
             required: 'Senha é obrigatória',
@@ -130,8 +130,8 @@ export default function LoginForm() {
             className="border border-black/50 m-0 rounded my-auto shadow"
             {...register('lembrarSessao')}
             onCheckedChange={(checked: CheckedState) => {
-              if (typeof checked !== 'boolean') return
-              setValue('lembrarSessao', checked)
+              if (typeof checked !== 'boolean') return;
+              setValue('lembrarSessao', checked);
             }}
           />
           <span className="text-sm my-auto h-full leading-[1.1rem]">
@@ -148,5 +148,5 @@ export default function LoginForm() {
         <span>Entrar</span>
       </Button>
     </Form.Root>
-  )
+  );
 }

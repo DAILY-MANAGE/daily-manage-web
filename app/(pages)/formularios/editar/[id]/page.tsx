@@ -1,16 +1,16 @@
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
 
 type Props = {
-  params: { id: number }
-}
+  params: { id: number };
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
-  const id = params.id
+  const id = params.id;
 
   return {
     title: `Editar Formulário ${id} | Daily Manage`,
-  }
+  };
 }
 
 export default function IdFuncionario({ params }: Props) {
@@ -27,5 +27,5 @@ export default function IdFuncionario({ params }: Props) {
         </div>
       </div>
     </>
-  )
+  );
 }

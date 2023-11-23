@@ -1,5 +1,5 @@
-import GoToRegister from './go-to-register'
-import LoginForm from './login-form'
+import GoToRegister from './go-to-register';
+import LoginForm from './login-form';
 
 export function LoginWrapper() {
   return (
@@ -9,5 +9,5 @@ export function LoginWrapper() {
       <LoginForm />
       <GoToRegister />
     </>
-  )
+  );
 }

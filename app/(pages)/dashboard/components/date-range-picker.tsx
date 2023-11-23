@@ -32,7 +32,7 @@ export function CalendarDateRangePicker({
             variant={'outline'}
             className={cn(
               'w-max justify-start text-left font-normal border-black/20',
-              !date && 'text-muted-foreground'
+              !date && 'text-muted-foreground',
             )}
           >
             <RxCalendar className="mr-2 h-4 w-4" />

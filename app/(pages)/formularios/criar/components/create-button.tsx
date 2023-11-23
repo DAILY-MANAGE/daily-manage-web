@@ -1,5 +1,5 @@
-import { Button } from '@/app/components/Shadcn/button'
-import { RxPlus } from 'react-icons/rx'
+import { Button } from '@/app/components/Shadcn/button';
+import { RxPlus } from 'react-icons/rx';
 
 export default function CreateButton() {
   return (
@@ -9,5 +9,5 @@ export default function CreateButton() {
     >
       <RxPlus className="w-5 h-5" /> <span className="pr-2">Criar</span>
     </Button>
-  )
+  );
 }

@@ -11,7 +11,7 @@ export default function FormLabel({ ...props }: FormInputProps) {
       htmlFor={props.htmlFor}
       className={twMerge(
         'inline-block font-semibold text-medium mt-4 mb-1',
-        props.className
+        props.className,
       )}
     >
       {props.label}

@@ -1,5 +1,5 @@
-import { Button } from '@/app/components/Shadcn/button'
-import { RxPlus } from 'react-icons/rx'
+import { Button } from '@/app/components/Shadcn/button';
+import { RxPlus } from 'react-icons/rx';
 
 export default function CreateTeamButton() {
   return (
@@ -9,5 +9,5 @@ export default function CreateTeamButton() {
     >
       Criar Equipe <RxPlus className="w-4 h-4" />
     </Button>
-  )
+  );
 }

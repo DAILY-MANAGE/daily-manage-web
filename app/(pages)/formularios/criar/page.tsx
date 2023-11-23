@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import { Card, CardContent, CardFooter } from '@/app/components/Shadcn/card'
-import { Input } from '@/app/components/Shadcn/input'
-import { Label } from '@/app/components/Shadcn/label'
+import { Card, CardContent, CardFooter } from '@/app/components/Shadcn/card';
+import { Input } from '@/app/components/Shadcn/input';
+import { Label } from '@/app/components/Shadcn/label';
 
-import { PermittedUsers } from './components/permitted-users'
+import { PermittedUsers } from './components/permitted-users';
 
-import ResponseCard from './components/response-card'
-import { SyntheticEvent, useEffect, useState } from 'react'
-import CreateButton from './components/create-button'
-import { useForm } from 'react-hook-form'
-import { Form } from '@/app/components/Form'
-import { useFetch } from '@/app/hooks/useFetch'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { ToastWrapper } from '../../../utils/ToastWrapper'
-import { useAuth } from '@/app/hooks/useAuth'
-import { CRIAR_FORMULARIO } from '@/app/utils/EndpointStorage'
-import { Root } from '@/app/components/Root'
-import BackButton from '@/app/components/BackButton'
+import ResponseCard from './components/response-card';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import CreateButton from './components/create-button';
+import { useForm } from 'react-hook-form';
+import { Form } from '@/app/components/Form';
+import { useFetch } from '@/app/hooks/useFetch';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ToastWrapper } from '../../../utils/ToastWrapper';
+import { useAuth } from '@/app/hooks/useAuth';
+import { CRIAR_FORMULARIO } from '@/app/utils/EndpointStorage';
+import { Root } from '@/app/components/Root';
+import BackButton from '@/app/components/BackButton';
 
 export interface FormQuestion {
-  id: number
-  descricao: string
-  tiporesposta: string
-  tipoResposta?: string
-  opcional: boolean
+  id: number;
+  descricao: string;
+  tiporesposta: string;
+  tipoResposta?: string;
+  opcional: boolean;
 }
 
 export const defaultFormData: FormQuestion = {
@@ -32,23 +32,23 @@ export const defaultFormData: FormQuestion = {
   descricao: 'NÃO PREENCHIDO',
   tiporesposta: 'TEXTO',
   opcional: true,
-}
+};
 
-const defaultQuestions = [defaultFormData]
+const defaultQuestions = [defaultFormData];
 
 const defaultData = {
-  nome: "Formulário",
+  nome: 'Formulário',
   idusuariospermitidos: [],
-  descricao: "",
-  perguntas: []
-}
+  descricao: '',
+  perguntas: [],
+};
 
-export type FormCreationData = typeof defaultData
+export type FormCreationData = typeof defaultData;
 
 export default function Criar() {
-  const [questions, setQuestions] = useState<FormQuestion[]>(defaultQuestions)
+  const [questions, setQuestions] = useState<FormQuestion[]>(defaultQuestions);
 
-  const params = useSearchParams()
+  const params = useSearchParams();
 
   const {
     register,
@@ -59,56 +59,62 @@ export default function Criar() {
   } = useForm({
     mode: 'onChange',
     defaultValues: defaultData as FormCreationData,
-  })
+  });
 
-  const { session } = useAuth()
+  const { session } = useAuth();
 
   const { handlePost } = useFetch({
     url: CRIAR_FORMULARIO,
     isGet: false,
     header: {
-      Equipe: params.get('equipeid')
-    }
-  })
+      Equipe: params.get('equipeid'),
+    },
+  });
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    setValue('perguntas', questions as any)
-  }, [])
+    setValue('perguntas', questions as any);
+  }, []);
 
   const callback = () => {
     setQuestions((state: FormQuestion[]) => {
       const aux = {
         ...defaultFormData,
-        id: state[state.length - 1].id + 1 || 1
-      }
-      const final = [...state, aux]
-      setValue('perguntas', final as any)
-      return final
-    })
-  }
+        id: state[state.length - 1].id + 1 || 1,
+      };
+      const final = [...state, aux];
+      setValue('perguntas', final as any);
+      return final;
+    });
+  };
 
   const onSubmit = async (formData: typeof defaultData) => {
-    if (!session) return
+    if (!session) return;
     // criador ganha acesso ao form
     //formData.idusuariospermitidos.push(session?.id as never)
-    const filter = formData.perguntas.filter((formQuestion: FormQuestion) => formQuestion.descricao !== 'NÃO PREENCHIDO')
-    formData.perguntas = filter
-    const res = await handlePost(formData)
+    const filter = formData.perguntas.filter(
+      (formQuestion: FormQuestion) =>
+        formQuestion.descricao !== 'NÃO PREENCHIDO',
+    );
+    formData.perguntas = filter;
+    const res = await handlePost(formData);
     switch ((res as any).status) {
       case 201:
-        ToastWrapper.success('Formulário criado com sucesso.')
-        break
+        ToastWrapper.success('Formulário criado com sucesso.');
+        break;
       default:
-        ToastWrapper.warn('Algo deu errado na criação do formulário')
-        break
+        ToastWrapper.warn('Algo deu errado na criação do formulário');
+        break;
     }
-    router.back()
-  }
+    router.back();
+  };
 
   return (
-    <Form.Root onSubmit={handleSubmit(onSubmit)} className="md:px-64 bg-gradient-to-tr from-stone-800/60 via-sky-900/60 to-green-500/60 min-h-screen">
+    <Form.Root
+      onSubmit={handleSubmit(onSubmit)}
+      className="md:px-64 bg-gradient-to-tr from-stone-800/60 via-sky-900/60 to-green-500/60 min-h-screen"
+    >
       <CreateButton />
 
       <Root.Spacing>
@@ -128,7 +134,7 @@ export default function Criar() {
                   error={errors.nome}
                   aria-invalid={errors.nome ? 'true' : 'false'}
                   onInvalid={(e: SyntheticEvent) => {
-                    e.preventDefault()
+                    e.preventDefault();
                   }}
                   type="text"
                   id="bine"
@@ -156,7 +162,7 @@ export default function Criar() {
                   error={errors.descricao}
                   aria-invalid={errors.descricao ? 'true' : 'false'}
                   onInvalid={(e: SyntheticEvent) => {
-                    e.preventDefault()
+                    e.preventDefault();
                   }}
                   type="text"
                   id="bine"
@@ -198,5 +204,5 @@ export default function Criar() {
         </Root.Container>
       </Root.Spacing>
     </Form.Root>
-  )
+  );
 }

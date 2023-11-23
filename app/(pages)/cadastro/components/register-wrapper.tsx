@@ -1,4 +1,4 @@
-import RegisterForm from './register-form'
+import RegisterForm from './register-form';
 
 export function RegisterWrapper() {
   return (
@@ -10,5 +10,5 @@ export function RegisterWrapper() {
       </p>
       <RegisterForm />
     </>
-  )
+  );
 }

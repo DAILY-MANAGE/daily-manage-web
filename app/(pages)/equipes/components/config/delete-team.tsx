@@ -1,26 +1,26 @@
-import { Form } from '@/app/components/Form'
-import { Button } from '@/app/components/Shadcn/button'
-import { Input } from '@/app/components/Shadcn/input'
+import { Form } from '@/app/components/Form';
+import { Button } from '@/app/components/Shadcn/button';
+import { Input } from '@/app/components/Shadcn/input';
 
-import { useFetch } from '@/app/hooks/useFetch'
-import { EXCLUIR_EQUIPE } from '@/app/utils/EndpointStorage'
-import { ToastWrapper } from '@/app/utils/ToastWrapper'
-import { useRouter } from 'next/navigation'
-import { SyntheticEvent } from 'react'
-import { useForm } from 'react-hook-form'
+import { useFetch } from '@/app/hooks/useFetch';
+import { EXCLUIR_EQUIPE } from '@/app/utils/EndpointStorage';
+import { ToastWrapper } from '@/app/utils/ToastWrapper';
+import { useRouter } from 'next/navigation';
+import { SyntheticEvent } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { RxTrash } from 'react-icons/rx'
+import { RxTrash } from 'react-icons/rx';
 
-import { ConfigProps } from './config'
+import { ConfigProps } from './config';
 
 export default function DeleteTeam({ nomeEquipe, idEquipe }: ConfigProps) {
   const { handleDelete } = useFetch({
     url: EXCLUIR_EQUIPE,
     isGet: false,
     header: {
-      Equipe: idEquipe
-    }
-  })
+      Equipe: idEquipe,
+    },
+  });
 
   const {
     register,
@@ -31,24 +31,24 @@ export default function DeleteTeam({ nomeEquipe, idEquipe }: ConfigProps) {
     defaultValues: {
       nome: '',
     },
-  })
+  });
 
-  const router = useRouter()
+  const router = useRouter();
 
   const onSubmit = async () => {
-    const response = await handleDelete(idEquipe)
+    const response = await handleDelete(idEquipe);
     switch ((response as any).status) {
       case 201:
-        ToastWrapper.success('Equipe deletada com sucesso!')
-        break
+        ToastWrapper.success('Equipe deletada com sucesso!');
+        break;
       case 403:
-        ToastWrapper.warn('Você não tem permissão para excluir essa equipe.')
-        break
+        ToastWrapper.warn('Você não tem permissão para excluir essa equipe.');
+        break;
       default:
-        break
+        break;
     }
-    router.push('/equipes')
-  }
+    router.push('/equipes');
+  };
 
   return (
     <Form.Root onSubmit={handleSubmit(onSubmit)}>
@@ -61,14 +61,14 @@ export default function DeleteTeam({ nomeEquipe, idEquipe }: ConfigProps) {
         aria-invalid={errors.nome ? 'true' : 'false'}
         className="shadow border-black/20"
         onInvalid={(e: SyntheticEvent) => {
-          e.preventDefault()
+          e.preventDefault();
         }}
         {...register('nome', {
           required: 'Confirmar o Nome é obrigatório',
 
           validate: (val: string) => {
             if (nomeEquipe !== val) {
-              return 'O nome da equipe está incorreto.'
+              return 'O nome da equipe está incorreto.';
             }
           },
         })}
@@ -83,5 +83,5 @@ export default function DeleteTeam({ nomeEquipe, idEquipe }: ConfigProps) {
         <RxTrash className="w-4 h-4" /> Deletar Equipe
       </Button>
     </Form.Root>
-  )
+  );
 }

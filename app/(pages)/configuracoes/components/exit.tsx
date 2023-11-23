@@ -1,12 +1,11 @@
 'use client';
 
-import { Button } from "@/app/components/Shadcn/button";
-import { useAuth } from "@/app/hooks/useAuth";
-import { RxExit } from "react-icons/rx";
+import { Button } from '@/app/components/Shadcn/button';
+import { useAuth } from '@/app/hooks/useAuth';
+import { RxExit } from 'react-icons/rx';
 
 export default function Exit() {
-
-  const { signOut } = useAuth()
+  const { signOut } = useAuth();
 
   return (
     <Button

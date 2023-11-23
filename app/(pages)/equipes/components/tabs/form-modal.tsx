@@ -1,73 +1,96 @@
-import { Button } from "@/app/components/Shadcn/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/app/components/Shadcn/card";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/Shadcn/dialog";
-import { cookieKeyOriginal } from "@/app/hooks/useAuth";
-import { FormData } from "@/app/interfaces/FormData";
-import { capitalizeFirstLetter } from "@/app/utils/CapitalizeFirstLetter";
-import Cookies from "js-cookie";
-import Link from "next/link";
-import { useState } from "react";
-import { RxCheck, RxChevronRight, RxEyeOpen } from "react-icons/rx";
+import { Button } from '@/app/components/Shadcn/button';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/app/components/Shadcn/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/app/components/Shadcn/dialog';
+import { cookieKeyOriginal } from '@/app/hooks/useAuth';
+import { FormData } from '@/app/interfaces/FormData';
+import { capitalizeFirstLetter } from '@/app/utils/CapitalizeFirstLetter';
+import Cookies from 'js-cookie';
+import Link from 'next/link';
+import { useState } from 'react';
+import { RxCheck, RxChevronRight, RxEyeOpen } from 'react-icons/rx';
 
 interface FormModalProps {
-  id: string | string[]
-  teamData: FormData
+  id: string | string[];
+  teamData: FormData;
 }
 
 export default function FormModal({ id, teamData }: FormModalProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  return <>
-  <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Card
-          key={teamData.id}
-          className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
-        >
-          <CardHeader className="space-y-0 flex flex-row p-6 py-4">
-            <div className="w-1/2 flex justify-start align-center flex-col gap-1">
-              <CardTitle>
-                {`${capitalizeFirstLetter(teamData.nome)}` ||
-                  'Carregando...'}
-              </CardTitle>
-              <CardDescription className="leading-none">
-                {teamData.descricao || 'Não possui descrição'}
-              </CardDescription>
-            </div>
-            <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
-              <RxChevronRight className="w-6 h-full my-auto group-hover:animate-fade-right" />
-            </div>
-          </CardHeader>
-        </Card>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Opções de Formulário</DialogTitle>
-          <DialogDescription>
-            Ao ver as respostas, você terá acesso aos dados salvos e insights. Caso deseje preencher, será redirecionado para a página de preenchimento de formulário.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="flex gap-2">
-        <Link
-            href={`/formularios/${teamData.id}?t=${Cookies.get(
-              cookieKeyOriginal,
-            )}&equipeId=${id}`}
+  return (
+    <>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Card
             key={teamData.id}
-            className="w-full"
+            className="shadow w-full h-fit hover:bg-zinc-50 transition-colors cursor-pointer group animate-fade animate-once animate-duration-[2000ms] animate-ease-out animate-normal animate-fill-forwards"
           >
-              <Button type="button" className="w-full flex gap-2 pl-1"><RxCheck className="w-6 h-6"/> Responder</Button>
-          </Link>
-          <Link
-            href={`/formularios/respostas/${teamData.id}?t=${Cookies.get(
-              cookieKeyOriginal,
-            )}&equipeId=${id}`}
-            key={teamData.id}
-            className="w-full"
-          >
-              <Button type="button" className="w-full flex gap-2 pl-1 bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-900 flex gap-2 pl-1"><RxEyeOpen className="w-6 h-6"/> Ver Respostas</Button>
-          </Link>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  </>
+            <CardHeader className="space-y-0 flex flex-row p-6 py-4">
+              <div className="w-1/2 flex justify-start align-center flex-col gap-1">
+                <CardTitle>
+                  {`${capitalizeFirstLetter(teamData.nome)}` || 'Carregando...'}
+                </CardTitle>
+                <CardDescription className="leading-none">
+                  {teamData.descricao || 'Não possui descrição'}
+                </CardDescription>
+              </div>
+              <div className="w-1/2 flex align-center items-center justify-end m-0 p-0">
+                <RxChevronRight className="w-6 h-full my-auto group-hover:animate-fade-right" />
+              </div>
+            </CardHeader>
+          </Card>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Opções de Formulário</DialogTitle>
+            <DialogDescription>
+              Ao ver as respostas, você terá acesso aos dados salvos e insights.
+              Caso deseje preencher, será redirecionado para a página de
+              preenchimento de formulário.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2">
+            <Link
+              href={`/formularios/${teamData.id}?t=${Cookies.get(
+                cookieKeyOriginal,
+              )}&equipeId=${id}`}
+              key={teamData.id}
+              className="w-full"
+            >
+              <Button type="button" className="w-full flex gap-2 pl-1">
+                <RxCheck className="w-6 h-6" /> Responder
+              </Button>
+            </Link>
+            <Link
+              href={`/formularios/respostas/${teamData.id}?t=${Cookies.get(
+                cookieKeyOriginal,
+              )}&equipeId=${id}`}
+              key={teamData.id}
+              className="w-full"
+            >
+              <Button
+                type="button"
+                className="w-full flex gap-2 pl-1 bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-900 flex gap-2 pl-1"
+              >
+                <RxEyeOpen className="w-6 h-6" /> Ver Respostas
+              </Button>
+            </Link>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }

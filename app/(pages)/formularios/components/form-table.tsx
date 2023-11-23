@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Table,
@@ -6,24 +6,24 @@ import {
   TableRow,
   TableHead,
   TableBody,
-} from '@/app/components/Shadcn/table'
-import { useFetch } from '@/app/hooks/useFetch'
+} from '@/app/components/Shadcn/table';
+import { useFetch } from '@/app/hooks/useFetch';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/app/components/Shadcn/card'
-import { Label } from '@/app/components/Shadcn/label'
-import { FormData } from '../../../interfaces/FormData'
-import SkeletonRows from './skeleton-rows'
-import FormRows from './form-rows'
-import { RxCrossCircled } from 'react-icons/rx'
-import { Input } from '@/app/components/Shadcn/input'
-import { DataCounter } from './data-counter'
-import { Paginator } from './paginator'
-import { ChangeEvent, useEffect, useState } from 'react'
+} from '@/app/components/Shadcn/card';
+import { Label } from '@/app/components/Shadcn/label';
+import { FormData } from '../../../interfaces/FormData';
+import SkeletonRows from './skeleton-rows';
+import FormRows from './form-rows';
+import { RxCrossCircled } from 'react-icons/rx';
+import { Input } from '@/app/components/Shadcn/input';
+import { DataCounter } from './data-counter';
+import { Paginator } from './paginator';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 export default function FormTable() {
   const formulariosDefault: FormData[] = [
@@ -57,19 +57,19 @@ export default function FormTable() {
       estado: 'Não Visto',
       dataCriacao: 1694468062,
     },
-  ]
+  ];
 
   const filterForms = (event: ChangeEvent<HTMLInputElement>) =>
-    setFilter(event.target.value.toLowerCase())
+    setFilter(event.target.value.toLowerCase());
 
-  const [filter, setFilter] = useState<string>('')
-  const [filteredData, setFilteredData] = useState<FormData[] | undefined>()
-  const { data, error, loading } = useFetch({ url: '/equipes/todas' })
+  const [filter, setFilter] = useState<string>('');
+  const [filteredData, setFilteredData] = useState<FormData[] | undefined>();
+  const { data, error, loading } = useFetch({ url: '/equipes/todas' });
 
   useEffect(() => {
-    if (!Array.isArray(data)) return
-    setFilteredData(data)
-  }, [data, setFilteredData])
+    if (!Array.isArray(data)) return;
+    setFilteredData(data);
+  }, [data, setFilteredData]);
 
   return (
     <>
@@ -157,11 +157,11 @@ export default function FormTable() {
                 <Label key={index} className="block w-full h-6 mb-2">
                   {errorMessage}
                 </Label>
-              )
+              );
             })}
           </CardContent>
         </Card>
       )}
     </>
-  )
+  );
 }

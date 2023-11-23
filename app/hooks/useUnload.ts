@@ -1,16 +1,15 @@
-import { useEffect, Fragment } from "react";
-import { rememberSessionKey, useAuth } from "./useAuth";
+import { useEffect, Fragment } from 'react';
+import { rememberSessionKey, useAuth } from './useAuth';
 
 export const useUnload = () => {
-
-  const { signOut } = useAuth()
+  const { signOut } = useAuth();
 
   useEffect(() => {
     const signOutIfNotSaveSession = () => {
-      const savesSession = localStorage.getItem(rememberSessionKey) === 'true'
-      window.alert(savesSession)
+      const savesSession = localStorage.getItem(rememberSessionKey) === 'true';
+      window.alert(savesSession);
       if (!savesSession) {
-        signOut()
+        signOut();
       }
     };
     window.addEventListener('beforeunload', signOutIfNotSaveSession);
@@ -19,5 +18,5 @@ export const useUnload = () => {
     };
   }, []);
 
-  return
-}
+  return;
+};

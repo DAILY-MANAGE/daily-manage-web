@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
-import Logo from '../Logo'
-import NotFoundButton from './not-found-button'
+import Logo from '../Logo';
+import NotFoundButton from './not-found-button';
 
 export default function NotFoundRoot() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <>
@@ -27,5 +27,5 @@ export default function NotFoundRoot() {
         </div>
       </div>
     </>
-  )
+  );
 }

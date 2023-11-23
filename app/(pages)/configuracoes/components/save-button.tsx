@@ -1,5 +1,5 @@
-import { Button } from '@/app/components/Shadcn/button'
-import { VscSave } from 'react-icons/vsc'
+import { Button } from '@/app/components/Shadcn/button';
+import { VscSave } from 'react-icons/vsc';
 
 export default function SaveButton() {
   return (
@@ -9,5 +9,5 @@ export default function SaveButton() {
     >
       <VscSave className="w-5 h-5" /> <span className="pr-2">Salvar</span>
     </Button>
-  )
+  );
 }

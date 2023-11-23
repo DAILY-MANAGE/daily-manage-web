@@ -1,11 +1,11 @@
-import Link, { LinkProps } from 'next/link'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { twMerge } from 'tailwind-merge'
+import Link, { LinkProps } from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface NavLinkProps extends LinkProps {
-  children: any
-  className?: string
+  children: any;
+  className?: string;
 }
 
 export default function NavLink({
@@ -23,5 +23,5 @@ export default function NavLink({
     >
       {children}
     </Link>
-  )
+  );
 }
