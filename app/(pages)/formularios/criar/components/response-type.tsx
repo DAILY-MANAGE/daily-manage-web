@@ -50,11 +50,11 @@ const presets: Preset[] = [
     name: 'Número Decimal',
     value: 'DECIMAL',
   },
-  {
-    id: 5,
-    name: 'Múltipla Escolha',
-    value: 'MULTIPLA_ESCOLHA',
-  },
+//  {
+//    id: 5,
+//    name: 'Múltipla Escolha',
+//    value: 'MULTIPLA_ESCOLHA',
+//  },
   {
     id: 6,
     name: 'Celsius',
